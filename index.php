@@ -1,6 +1,6 @@
 <?php
-
-	require_once 'connectdb.php';
+	include 'connect.php';
+	include 'getcustomers.php';
 
 	if (isset($_POST["name"]) && isset($_POST["email"])){
 
@@ -13,36 +13,36 @@
 		if (!empty($_POST["formType"])) {
 
 			//insert customer's info 
-			$query = "INSERT INTO customers (name, email) VALUES ('$name', '$email')"; 
+			$stmt = $db->prepare("INSERT INTO customers (name, email) VALUES (:name, :email)");
 
-			if(!$db->query($query)){
-				die('There was an error running the query [' .$db->error .']');
-			}
+			$stmt->bindParam(':name', $name);
+			$stmt->bindParam(':email', $email);
+			$stmt->execute();
+
+			$id = $db->lastInsertId();
 
 			//insert customer into either samples or replacments table
 			if($_POST["formType"] == "Sample"){
-				insertLastValue("customers", "samples", "customer_ID");
+				$stmt = $db->prepare("INSERT INTO samples (customer_ID) VALUES (:id)");
+				$stmt->bindParam(':id', $id);
+				$stmt->execute();
 			} elseif ($_POST["formType"] == "Replacement") {
-				insertLastValue("customers", "replacements", "customer_ID");
+				$stmt = $db->prepare("INSERT INTO replacements (customer_ID) VALUES (:id)");
+				$stmt->bindParam(':id', $id);
+				$stmt->execute();
 			} else {
-				echo "check your formType values.";
+				echo "check your formType values";
 			}
 
 			//insert customer into early_ships table if checkbox is checked.
 			if(isset($_POST["earlyShip"])) {
-
-				$result = $db->query("SELECT id FROM customers ORDER BY id DESC LIMIT 1");
-				$lastID = mysqli_fetch_array($result);
-				
-				$insertQuery = "INSERT INTO early_ships (customer_ID) VALUES ('$lastID[0]')";
-
-				if(!$db->query($insertQuery)){
-					die('There was an error running the query [' .$db->error .']');
-				}
+				$stmt = $db->prepare("INSERT INTO early_ships (customer_ID) VALUES (:id)");
+				$stmt->bindParam(':id', $id);
+				$stmt->execute();
 			}
 
-			//redirect to print page after submit
-			header("Location:/website/projects/RMA_1/printform.php");
+			//redirect to clear _POST variables
+			header("Location:/website/projects/RMA_PDO/index.php");
 
 		} else {
 
@@ -50,46 +50,16 @@
 
 		} 
 	}
-
-	function insertLastValue($fromTable, $intoTable, $column) {
-
-		global $db;
-
-		$result = $db->query("SELECT id FROM $fromTable ORDER BY id DESC LIMIT 1");
-		$lastID = mysqli_fetch_array($result);
-
-		if(!$db->query("INSERT INTO $intoTable ($column) VALUES ('$lastID[0]')")){
-			die('There was an error running the query [' .$db->error .']');
-		}
-
-	}
-
-/*	echo "insertLastValue (samples table): " . insertLastValue("customers", "samples", "customer_ID") . "<br />";
-	echo "insertLastValue (replacements table): " . insertLastValue("customers", "replacements", "customer_ID") . "<br /><br />";*/
-
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="utf-8" />
-<title></title>
- 
-<!-- <link rel="stylesheet" href="css/main.css" type="text/css" /> -->
- 
-<!--[if IE]>
-	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-<!--[if lte IE 7]>
-	<script src="js/IE8.js" type="text/javascript"></script><![endif]-->
-<!--[if lt IE 7]>
- 
-	<link rel="stylesheet" type="text/css" media="all" href="css/ie6.css"/><![endif]-->
-
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
+	<title>Backgrid Test</title>
+	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/backgrid.js/0.3.5/backgrid.min.css">
+	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap.min.css">
 </head>
- 
-<body id="index" class="home">
+<body>
 
 	<form method="post">
 
@@ -111,6 +81,17 @@
 
 	</form>
 
+	<h1>Customers</h1>
+	<div id="table"></div>
 
+	<!-- Libraries -->
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  	<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+  	<script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+  	<script src="http://cdnjs.cloudflare.com/ajax/libs/backgrid.js/0.3.5/backgrid.min.js"></script>
+
+  	<script src="backgrid_table.js"></script>
+  
 </body>
+
 </html>
