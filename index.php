@@ -42,7 +42,7 @@
 			}
 
 			//redirect to clear _POST variables
-			header("Location:/website/projects/RMA_PDO/index.php");
+			header("Location:/website/projects/RMA_1/index.php");
 
 		} else {
 
