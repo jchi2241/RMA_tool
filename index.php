@@ -16,9 +16,7 @@
 <body>
 	<div class="container">
 		
-		<h1>New Request</h1>
-
-		<form method="post">
+		<!-- <form method="post">
 
 			<input type="checkbox" name="earlyShip" value="checked"> Early Ship<br />
 			<input type="radio" name="formType" value="Sample"> Sample<br />
@@ -46,10 +44,91 @@
 
 			<input id="submitForm" type="submit" name="submit" value="Submit"/>
 
+		</form> -->
+
+		<form method="post" class="form-horizontal">
+			<fieldset>
+
+			<!-- Form Name -->
+			<legend>New Request Form</legend>
+
+			<!-- Multiple Checkboxes -->
+			<div class="form-group">
+			  <label class="col-md-4 control-label" for="earlyShip">Waiting for customer's package?</label>
+			  <div class="col-md-4">
+			  <div class="checkbox">
+			    <label for="earlyShip-0">
+			      <input type="checkbox" name="earlyShip" value="checked">
+			      yes
+			    </label>
+				</div>
+			  </div>
+			</div>
+
+			<!-- Multiple Radios -->
+			<div class="form-group">
+			  <label class="col-md-4 control-label" for="formType">Request form</label>
+			  <div class="col-md-4">
+			  <div class="radio">
+			    <label for="formType-0">
+			      <input type="radio" name="formType" value="Sample" checked="checked">
+			      Sample
+			    </label>
+				</div>
+			  <div class="radio">
+			    <label for="formType-1">
+			      <input type="radio" name="formType" value="Replacement">
+			      Replacement
+			    </label>
+				</div>
+			  </div>
+			</div>
+
+			<!-- Text input-->
+			<div class="form-group">
+			  <label class="col-md-4 control-label" for="full_name">Name</label>  
+			  <div class="col-md-6">
+			  <input name="full_name" type="text" placeholder="Enter name here..." class="form-control input-md" required="">
+			    
+			  </div>
+			</div>
+
+			<!-- Text input-->
+			<div class="form-group">
+			  <label class="col-md-4 control-label" for="email">Email</label>  
+			  <div class="col-md-6">
+			  <input name="email" type="text" placeholder="Enter email here..." class="form-control input-md" required="">
+			    
+			  </div>
+			</div>
+
+			<!-- Textarea -->
+			<div class="form-group">
+			  <label class="col-md-4 control-label" for="address">Shipping address</label>
+			  <div class="col-md-4">                     
+			    <textarea class="form-control" name="address"></textarea>
+			  </div>
+			</div>
+
+			<!-- Text input-->
+			<div class="form-group">
+			  <label class="col-md-4 control-label" for="phone_number">Contact number</label>  
+			  <div class="col-md-4">
+			  <input name="phone_number" type="text" placeholder="Enter number here..." class="form-control input-md">
+			    
+			  </div>
+			</div>
+
+			<!-- Button -->
+			<div class="form-group">
+			  <label class="col-md-4 control-label" for="submit"></label>
+			  <div class="col-md-4">
+			    <button type="submit" id="submitForm" name="submit" class="btn btn-primary">Submit</button>
+			  </div>
+			</div>
+
+			</fieldset>
 		</form>
-
-
-	</div>
 
 	<div id="tables" class="row">
 		<ul class="nav nav-tabs nav-justified">
@@ -70,7 +149,8 @@
 		<!-- Paginator control -->
 		<div id="paginator"></div>
 	</div>
-
+	</div>
+	
 	<script src="js/editablegrid-2.1.0-b13.js"></script>   
 	<script src="js/jquery-1.11.1.min.js" ></script>
 	<!-- EditableGrid test if jQuery UI is present. If present, a datepicker is automatically used for date type -->
