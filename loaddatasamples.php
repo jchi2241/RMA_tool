@@ -22,7 +22,7 @@
 require_once('config.php');      
 require_once('EditableGrid.php');            
 
-/**
+/*
  * fetch_pairs is a simple method that transforms a mysqli_result object in an array.
  * It will be used to generate possible values for some columns.
 */
@@ -56,10 +56,13 @@ $grid = new EditableGrid();
 */
 
 $grid->addColumn('id', 'ID', 'integer', NULL, false); 
-$grid->addColumn('customer_id', 'Customer ID', 'integer', NULL, false);  
+$grid->addColumn('full_name', 'Name', 'string', NULL, false);  
+$grid->addColumn('email', 'Email', 'email', NULL, false);   
 $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');                                    
                                                                        
-$result = $mysqli->query('SELECT * FROM early_ships');
+$result = $mysqli->query(  'SELECT samples.id, customers.full_name, customers.email
+							FROM customers, samples
+							WHERE customers.id = samples.customer_id');
 $mysqli->close();
 
 // send data to the browser

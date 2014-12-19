@@ -56,7 +56,7 @@ $grid = new EditableGrid();
 */
 
 $grid->addColumn('id', 'ID', 'integer', NULL, false); 
-$grid->addColumn('name', 'Name', 'string');  
+$grid->addColumn('full_name', 'Name', 'string');  
 $grid->addColumn('email', 'Email', 'email');    
 $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');                                    
 
