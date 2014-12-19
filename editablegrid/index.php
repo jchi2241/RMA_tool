@@ -72,12 +72,12 @@
 
 	</div>
 
-	<div class="row">
+	<div id="tables" class="row">
 		<ul class="nav nav-tabs nav-justified">
-			<li role="presentation" class="active"><a href="index.php">Customers</a></li>
-			<li role="presentation"><a href="#">Samples</a></li>
-			<li role="presentation"><a href="#">Replacements</a></li>
-			<li role="presentation"><a href="early_ships.php">Early-Ships</a></li>
+			<li id="customers" role="presentation" class="active"><a href="#">Customers</a></li>
+			<li id="samples" role="presentation"><a href="#">Samples</a></li>
+			<li id="replacements" role="presentation"><a href="#">Replacements</a></li>
+			<li id="earlyShip" role="presentation"><a href="#">Early-Ships</a></li>
 		</ul>
 	</div>
 
@@ -86,7 +86,7 @@
 	      <input type="text" id="filter" name="filter" placeholder="Search"  />
 	    </div>
 		<!-- Grid contents -->
-		<div id="tablecontent"></div>
+		<div id="tablecontent"><h1>Loading...</h1></div>
 	
 		<!-- Paginator control -->
 		<div id="paginator"></div>
@@ -97,8 +97,11 @@
 	<!-- EditableGrid test if jQuery UI is present. If present, a datepicker is automatically used for date type -->
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 	<script src="js/customers.js" ></script>
+
 	<script type="text/javascript">
+		
 	    var datagrid = new DatabaseGrid();
+
 		window.onload = function() { 
 
 	        // key typed in the filter field
@@ -109,6 +112,43 @@
 	          //datagrid.editableGrid.filter( $(this).val(), [0,3,5]);
 	        });
 		}; 
+
+		$('#customers').on('click', function(){
+
+			$('#tablecontent').html('<h1>Loading...</h1>');
+			$('#tables').find('.active').toggleClass('active');
+			$(this).toggleClass('active');
+
+			DatabaseGrid.prototype.fetchGrid = function()  {
+				// call the PHP script to get the data
+				this.editableGrid.loadJSON("loaddatacustomers.php?db_tablename=customers");
+			};
+
+			var datagrid = new DatabaseGrid();
+
+			$("#filter").keyup(function() {
+	          datagrid.editableGrid.filter( $(this).val());
+	        });
+		});
+
+		$('#earlyShip').on('click', function(){
+
+			$('#tablecontent').html('<h1>Loading...</h1>');
+			$('#tables').find('.active').toggleClass('active');
+			$(this).toggleClass('active');
+
+			DatabaseGrid.prototype.fetchGrid = function()  {
+				// call the PHP script to get the data
+				this.editableGrid.loadJSON("loaddataearly_ships.php?db_tablename=early_ships");
+			};
+
+			var earlyShipGrid = new DatabaseGrid();
+
+			$("#filter").keyup(function() {
+	          earlyShipGrid.editableGrid.filter( $(this).val());
+	        });
+		});
+
 	</script>
 </body>
 
