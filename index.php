@@ -17,86 +17,149 @@
 	.close {
 		color: red;
 		float: left;
+		margin-right: 15px;
+	}
+
+	#tracking_number_group {
+		display: none;
+	}
+
+	#refund_amount_group {
+		display: none;
+	}
+
+	#product_list_header {
+		display: none;
 	}
 </style>
 
 <body>
 	<div class="container">
-		<div class="page-header"><h1>Request Form</h1></div>
+		<div class="page-header"><h1>Create a Request Form</h1></div>
 		<div class="row">
-			<div class="col-md-8 col-md-offset-1">
-				<form method="post" class="form-horizontal">
-					<fieldset>
-					<div class="form-group">
-					  <label class="col-md-4 control-label" for="earlyShip">Waiting for customer's package?</label>
-					  <div class="col-md-4">
-					  <div class="checkbox">
-					    <label for="earlyShip-0">
-					      <input type="checkbox" name="earlyShip" value="checked">
-					      yes
-					    </label>
-						</div>
-					  </div>
-					</div>
 
+			<form method="post" class="form-horizontal">
+				<fieldset>
+
+				<div class="col-md-5">
+					<div class="page-header"><h3>Step 1: <small>Choose a form</small></h3></div>
+					
 					<div class="form-group">
-					  <label class="col-md-4 control-label" for="formType">Request form</label>
+					  <label class="col-md-2 control-label" for="formType"></label>
 					  <div class="col-md-4">
 					  <div class="radio">
 					    <label for="formType-0">
-					      <input type="radio" name="formType" value="Sample" checked="checked">
+					      <input id="sample_btn" type="radio" name="formType" value="Sample" checked="checked">
 					      Sample
 					    </label>
 						</div>
 					  <div class="radio">
 					    <label for="formType-1">
-					      <input type="radio" name="formType" value="Replacement">
+					      <input id="replacement_btn" type="radio" name="formType" value="Replacement">
 					      Replacement
+					    </label>
+						</div>
+						<div class="radio">
+					    <label for="formType-1">
+					      <input id="return_btn" type="radio" name="formType" value="Return">
+					      Return
 					    </label>
 						</div>
 					  </div>
 					</div>
 
 					<div class="form-group">
-					  <label class="col-md-4 control-label" for="full_name">Name</label>  
+					  <label class="col-md-2 control-label" for="earlyShip"></label>
+					  <div class="col-md-10">
+					  <div class="checkbox">
+					    <label for="earlyShip-0">
+					      <input type="checkbox" name="earlyShip" value="checked">
+					      Are you waiting for the customer's package?
+					    </label>
+						</div>
+					  </div>
+					</div>
+				</div>
+
+				<div class="col-md-7">
+					<div class="page-header"><h3>Step 2: <small>Fill out the form</small></h3></div>
+					<div class="form-group">
+					  <label class="col-md-2 control-label" for="full_name">Name</label>  
+					  <div class="col-md-8">
+					  <input name="full_name" type="text" placeholder="Full name" class="form-control input-md" required="">
+					    
+					  </div>
+					</div>
+
+					<div class="form-group">
+					  <label class="col-md-2 control-label" for="email">Email</label>  
+					  <div class="col-md-8">
+					  <input name="email" type="text" placeholder="example@blahblah.com" class="form-control input-md" required="">
+					    
+					  </div>
+					</div>
+
+					<div class="form-group">
+					  <label class="col-md-2 control-label" for="shipping_address">Address</label>
+					  <div class="col-md-8">                     
+					    <textarea class="form-control" name="shipping_address" rows="3" placeholder="123 Example Rd.&#10;City, AB 98765"></textarea>
+					  </div>
+					</div>
+
+					<div class="form-group">
+					  <label class="col-md-2 control-label" for="phone_number">Phone</label>  
 					  <div class="col-md-6">
-					  <input name="full_name" type="text" placeholder="Enter name here..." class="form-control input-md" required="">
+					  <input name="phone_number" type="text" class="form-control input-md">
 					    
 					  </div>
 					</div>
 
+					<div id="product_group" class="form-group">
+						<label class="col-md-2 control-label">Product</label>
+					  	<div class="col-md-6">
+						    <div class="input-group">
+						        <div class="input-group-btn">
+							        <button id="product_type" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Contact Sensor <span class="caret"></span></button>
+							        <ul class="dropdown-menu" role="menu">
+							        	<li><a href="#">Contact Sensor</a></li>
+							        	<li><a href="#">Motion Sensor</a></li>
+							         	<li><a href="#">Remote Tag</a></li>
+							         	<li><a href="#">Smart Switch</a></li>
+							          	<li><a href="#">CubeOne</a></li>
+							          	<li><a href="#">iCamera (First Gen)</a></li>
+							          	<li><a href="#">iCamera KEEP</a></li>
+							          	<li class="divider"></li>
+							          	<li><a href="#">Preferred Package</a></li>
+							          	<li><a href="#">Premium Package</a></li>
+							          	<li><a href="#">Deluxe Package</a></li>
+							        </ul>
+						        </div>
+						        <input id="product_qty" type="number" min="1" value="1" class="form-control" placeholder="How many?" required>
+						        <div class="input-group-btn">
+							  		<button id="product_add_btn" class="btn btn-primary" type="button">Add</button>
+							  	</div>
+						    </div>
+					  	</div>
+					  	
+					</div>
+
+					<!-- selected products list -->
 					<div class="form-group">
-					  <label class="col-md-4 control-label" for="email">Email</label>  
-					  <div class="col-md-6">
-					  <input name="email" type="text" placeholder="Enter email here..." class="form-control input-md" required="">
-					    
-					  </div>
+						<label class="col-md-2 control-label"></label>
+						<div class="col-md-6">
+							<ul id="product_list" class="list-group"><li id="product_list_header" class="list-group-item active">Product List</li></ul>
+						</div>
 					</div>
 
 					<div class="form-group">
-					  <label class="col-md-4 control-label" for="shipping_address">Shipping address</label>
-					  <div class="col-md-4">                     
-					    <textarea class="form-control" name="shipping_address"></textarea>
+					  <label class="col-md-2 control-label" for="reason">Reason</label>
+					  <div class="col-md-6">                     
+					    <textarea class="form-control" name="reason" placeholder="Enter reason for RMA here..."></textarea>
 					  </div>
 					</div>
 
-					<div class="form-group">
-					  <label class="col-md-4 control-label" for="phone_number">Contact number</label>  
-					  <div class="col-md-4">
-					  <input name="phone_number" type="text" placeholder="Enter number here..." class="form-control input-md">
-					    
-					  </div>
-					</div>
-
-					<div class="form-group">
-					  <label class="col-md-4 control-label" for="reason">Reason</label>
-					  <div class="col-md-4">                     
-					    <textarea class="form-control" name="reason"></textarea>
-					  </div>
-					</div>
-
-					<div class="form-group">
-						<label class="col-md-4 control-label" for="refund_amount">Refund Total</label>
+					<div id="refund_amount_group" class="form-group">
+						<label class="col-md-2 control-label" for="refund_amount">Refund Total</label>
 						<div class="col-md-4">
 							<div class="input-group">
 							  <span class="input-group-addon">$</span>
@@ -105,8 +168,8 @@
 						</div>
 					</div>
 
-					<div class="form-group">
-					  	<label class="col-md-4 control-label" for="tracking_number">Tracking #</label>  
+					<div id="tracking_number_group" class="form-group">
+					  	<label class="col-md-2 control-label" for="tracking_number">Tracking #</label>  
 					  	<div class="col-md-6">
 					  		<div class="input-group">
 							  	<input name="tracking_number" type="text" placeholder="Enter tracking number here..." class="form-control input-md"> 
@@ -124,61 +187,21 @@
 					  	</div>
 					</div>
 
-					<div class="form-group">
-						<label class="col-md-4 control-label">Product</label>
-						<div class="row">
-						  	<div class="col-md-4">
-							    <div class="input-group">
-							        <input id="product_qty" type="text" class="form-control">
-							        <div class="input-group-btn">
-								        <button id="product_type" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Contact Sensor <span class="caret"></span></button>
-								        <ul class="dropdown-menu" role="menu">
-								        	<li><a href="#">Contact Sensor</a></li>
-								        	<li><a href="#">Motion Sensor</a></li>
-								         	<li><a href="#">Remote Tag</a></li>
-								         	<li><a href="#">Smart Switch</a></li>
-								          	<li><a href="#">CubeOne</a></li>
-								          	<li><a href="#">iCamera (1st Gen)</a></li>
-								          	<li><a href="#">iCamera KEEP</a></li>
-								          	<li class="divider"></li>
-								          	<li><a href="#">Preferred Package</a></li>
-								          	<li><a href="#">Premium Package</a></li>
-								          	<li><a href="#">Deluxe Package (Apple)</a></li>
-								        </ul>
-							        </div>
-							    </div>
-						  	</div>
-						  	<div class="col-md-1">
-						  		<button id="product_add_btn" class="btn btn-default" type="button">Add</button>
-						  	</div>
-					  	</div>
-					</div>
-
-					<!-- selected products list -->
-					<div class="form-group">
-						<label class="col-md-4 control-label"></label>
-						<div class="row">
-							<div class="col-md-4">
-								<ul id="product_selected" class="list-group"></ul>
-							</div>
-						</div>
-					</div>
-
 					<!-- Button -->
 					<div class="form-group">
-					  <label class="col-md-4 control-label" for="submit"></label>
+					  <label class="col-md-2 control-label" for="submit"></label>
 					  <div class="col-md-4">
 					    <button type="submit" id="submitForm" name="submit" class="btn btn-primary">Submit</button>
 					  </div>
 					</div>
-
-					</fieldset>
-				</form>
-			</div>
+				</div>
+				</fieldset>
+			</form>
 		</div>
 
 		<div class="row">
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
+				<div class="panel-heading"><h3>Tables</h3></div>
 				<div class="panel-body">
 					<ul id="tables" class="nav nav-tabs">
 						<li id="customers" role="presentation" class="active"><a href="#">Customers</a></li>
@@ -232,45 +255,73 @@
 			changeDropdownValue($('#product_type').next().find('a'), '#product_type');
 
 			//functionality for the add button for products
-			var productAdded = {};
+			var productList = {};
 
 			$('#product_add_btn').on('click', function(e) {
 
 				var qty = $('#product_qty').val().trim();
 				var productType = $('#product_type').text().trim();
 
-				if(qty !== '') {
+				if(qty !== '' && parseInt(qty) !== 0) {
 					
-					if(productAdded[productType] === undefined) {
-						productAdded[productType] = parseInt(qty);
-						$('#product_selected').append('<li class="list-group-item"><span class="badge">' + qty + '</span>' + productType + '<button type="button" class="close" aria-hidden="true">&times;</button></li>');
+					if(productList[productType] === undefined) {
+						productList[productType] = parseInt(qty);
+						$('#product_list').append('<li class="list-group-item"><span class="badge">' + qty + '</span>' + productType + '<button type="button" class="close" aria-hidden="true">&times;</button></li>');
 					}else {
-						productAdded[productType] += parseInt(qty);
-						$('#product_selected li:contains(' + productType + ')').find('span').html(productAdded[productType]);
+						productList[productType] += parseInt(qty);
+						$('#product_list li:contains(' + productType + ')').find('span').html(productList[productType]);
+					}
+
+					if(!$.isEmptyObject(productList)){
+						$('#product_list_header').show();
 					}
 
 				}else {
-					alert('Enter the # of products');
+					alert('Enter a number greater than 0');
 				}
 
-				console.log(productAdded);
+				console.log(productList);
 				e.preventDefault();
 			});
 
-			//functionality for the close button in #product_selected
-			$('#product_selected').on('click', '.close', function(e) {
+			//functionality for the close button in #product_list
+			$('#product_list').on('click', '.close', function(e) {
 
 				var productToRemove = $(this).parent().text().replace(/[0-9]/g, '').slice(0, -1);
 				console.log('productToRemove: ' + productToRemove);
 
 				//remove from Object
-				delete productAdded[productToRemove];
+				delete productList[productToRemove];
 
 				//remove from DOM
 				$(this).parent().remove();
-				console.log(productAdded);
+
+				if($.isEmptyObject(productList)){
+					$('#product_list_header').hide();
+				}
+
+				console.log(productList);
 
 				e.preventDefault;
+			});
+
+			$
+
+			//show certain inputs based on what formType is selected
+			$('input[name=formType]').on('click', function() {
+				var formType = $('input:checked').val();
+
+				switch(formType){
+					case "Sample":
+						$('#refund_amount_group').hide();
+						break;
+					case "Replacement":
+						$('#refund_amount_group').hide();
+						break;
+					case "Return":
+						$('#refund_amount_group').show();
+						break;
+				}
 			});
 		}; 
 

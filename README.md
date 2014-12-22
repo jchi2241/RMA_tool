@@ -1,5 +1,6 @@
 ## Things to Do
 
+- fix gap from product list element
 - get delete funtion to work
 - print page
 - validate form data client-side - via javascript & HTML5
@@ -8,6 +9,7 @@
 - bootstrap theme to the form
 - figure how to write tests so I don't unknowingly break stuff when refactoring
 - refactor. lots of repetition in PHP for inserting data
+- clean up and split javascript. make a separate validators section
 - change ALL server connections from mysqli to PDO
 - check if customer is in early_ship table before inserting into DB
 - login feature
