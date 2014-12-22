@@ -55,14 +55,14 @@ $grid = new EditableGrid();
 *  The second argument is the label that will be displayed in the header
 */
 
-$grid->addColumn('id', 'ID', 'integer', NULL, false); 
+$grid->addColumn('id', 'ID', 'integer', NULL, false);
 $grid->addColumn('full_name', 'Name', 'string');  
-$grid->addColumn('email', 'Email', 'email');    
+$grid->addColumn('email', 'Email', 'email'); 
+$grid->addColumn('shipping_address', 'Shipping Address', 'string');   
+$grid->addColumn('phone_number', 'Phone Number', 'string');   
 $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');                                    
-
-$mydb_tablename = $_GET['db_tablename'];
                                                                        
-$result = $mysqli->query('SELECT * FROM ' . $mydb_tablename);
+$result = $mysqli->query('SELECT * FROM customers');
 $mysqli->close();
 
 // send data to the browser

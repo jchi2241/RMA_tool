@@ -213,6 +213,7 @@ form input:hover, form textarea:hover, form input:focus, form textarea:focus {
 text-decoration: none;
 }
 
-
-
-
+.close {
+	color: red;
+	align: left;
+}

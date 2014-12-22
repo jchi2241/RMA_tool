@@ -55,13 +55,17 @@ $grid = new EditableGrid();
 *  The second argument is the label that will be displayed in the header
 */
 
-$grid->addColumn('id', 'ID', 'integer', NULL, false); 
-$grid->addColumn('created_at', 'Date', 'date', NULL, false); 
-$grid->addColumn('full_name', 'Name', 'string', NULL, false);  
-$grid->addColumn('email', 'Email', 'email', NULL, false);   
+$grid->addColumn('created_at', 'Date', 'date', NULL, false);  
+$grid->addColumn('full_name', 'Name', 'string', NULL, false);
+$grid->addColumn('devices', 'Devices', 'string');
+$grid->addColumn('reason', 'Reason', 'string');
+$grid->addColumn('rma_id', 'RMA #', 'string');
+$grid->addColumn('reference_id', 'Reference #', 'string');  
+$grid->addColumn('action', 'Action', 'html', NULL, false, 'id'); 
+
 $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');                                    
                                                                        
-$result = $mysqli->query(  'SELECT replacements.id, replacements.created_at, customers.full_name, customers.email
+$result = $mysqli->query(  'SELECT replacements.created_at, customers.full_name, replacements.devices, replacements.reason, replacements.rma_id, replacements.reference_id
 							FROM customers, replacements
 							WHERE customers.id = replacements.customer_id');
 $mysqli->close();

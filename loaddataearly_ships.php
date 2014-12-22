@@ -55,12 +55,14 @@ $grid = new EditableGrid();
 *  The second argument is the label that will be displayed in the header
 */
 
-$grid->addColumn('id', 'ID', 'integer', NULL, false); 
+$grid->addColumn('created_at', 'Date', 'string', NULL, false);  
 $grid->addColumn('full_name', 'Name', 'string', NULL, false);  
-$grid->addColumn('email', 'Email', 'email', NULL, false);   
+$grid->addColumn('rma_id', 'RMA #', 'string');
+$grid->addColumn('shipping_carrier', 'Shipping Carrier', 'string');
+$grid->addColumn('tracking_number', 'Tracking #', 'string');
 $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');                                    
                                                                        
-$result = $mysqli->query(  'SELECT early_ships.id, customers.full_name, customers.email
+$result = $mysqli->query(  'SELECT early_ships.created_at, customers.full_name, early_ships.rma_id, early_ships.shipping_carrier, early_ships.tracking_number
 							FROM customers, early_ships
 							WHERE customers.id = early_ships.customer_id');
 $mysqli->close();

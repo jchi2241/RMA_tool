@@ -111,48 +111,7 @@ DatabaseGrid.prototype.deleteRow = function(id)
         
   }
 			
-}; 
-
-
-DatabaseGrid.prototype.addRow = function(id) 
-{
-
-  var self = this;
-
-        $.ajax({
-		url: 'add.php',
-		type: 'POST',
-		dataType: "html",
-		data: {
-			tablename : editableGrid.name,
-			name:  $("#name").val(),
-			firstname:  $("#firstname").val()
-		},
-		success: function (response) 
-		{ 
-			if (response == "ok" ) {
-   
-                // hide form
-                showAddForm();   
-        		$("#name").val('');
-                $("#firstname").val('');
-			    
-                alert("Row added : reload model");
-                self.fetchGrid();
-           	}
-            else 
-              alert("error");
-		},
-		error: function(XMLHttpRequest, textStatus, exception) { alert("Ajax failure\n" + errortext); },
-		async: true
-	});
-
-        
-			
-}; 
-
-
-
+};
 
 function updatePaginator(grid, divId)
 {

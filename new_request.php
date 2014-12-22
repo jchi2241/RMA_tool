@@ -1,12 +1,13 @@
 <?php
 include 'configPDO.php';
 
-	if (isset($_POST["full_name"]) && isset($_POST["email"]) && isset($_POST["address"]) && isset($_POST["phone_number"])){
+	if (isset($_POST["full_name"]) && isset($_POST["email"]) && isset($_POST["shipping_address"]) && isset($_POST["phone_number"])){
 
 		$full_name = $_POST["full_name"];
 		$email = $_POST["email"];
-		$address = $_POST["address"];
+		$shipping_address = $_POST["shipping_address"];
 		$phone_number = $_POST["phone_number"];
+
 	}
 
 	if (isset($_POST["submit"])) {
@@ -14,12 +15,12 @@ include 'configPDO.php';
 		if (!empty($_POST["formType"])) {
 
 			//insert customer's info 
-			$stmt = $db->prepare(  "INSERT INTO customers (full_name, email, address, phone_number, created_at, updated_at) 
-									VALUES (:full_name, :email, :address, :phone_number, NULL, NULL)");
+			$stmt = $db->prepare(  "INSERT INTO customers (full_name, email, shipping_address, phone_number, created_at, updated_at) 
+									VALUES (:full_name, :email, :shipping_address, :phone_number, NULL, NULL)");
 
 			$stmt->bindParam(':full_name', $full_name);
 			$stmt->bindParam(':email', $email);
-			$stmt->bindParam(':address', $address);
+			$stmt->bindParam(':shipping_address', $shipping_address);
 			$stmt->bindParam(':phone_number', $phone_number);
 			$stmt->execute();
 
@@ -27,11 +28,11 @@ include 'configPDO.php';
 
 			//insert customer into either samples or replacments table
 			if($_POST["formType"] == "Sample"){
-				$stmt = $db->prepare("INSERT INTO samples (customer_id, created_at) VALUES (:id, NULL)");
+				$stmt = $db->prepare("INSERT INTO samples (customer_id, created_at, updated_at) VALUES (:id, NULL, NULL)");
 				$stmt->bindParam(':id', $id);
 				$stmt->execute();
 			} elseif ($_POST["formType"] == "Replacement") {
-				$stmt = $db->prepare("INSERT INTO replacements (customer_id, created_at) VALUES (:id, NULL)");
+				$stmt = $db->prepare("INSERT INTO replacements (customer_id, created_at, updated_at) VALUES (:id, NULL, NULL)");
 				$stmt->bindParam(':id', $id);
 				$stmt->execute();
 			} else {

@@ -1,18 +1,18 @@
 ## Things to Do
 
-- table for requests to be processed
-- the other tables
-- header navbar
-- filter to tables
-- add other attributes
-- figure out how to automatically create column attributes for grid based on mysql table columns
-- pagination
-- connect backgrid table to mysql using AJAX
-- bootstrap theme to the form
+- get delete funtion to work
 - print page
-- clean code. lots of repetition in PHP for inserting data
+- validate form data client-side - via javascript & HTML5
+- validate form data server-side
+- tracking page
+- bootstrap theme to the form
+- figure how to write tests so I don't unknowingly break stuff when refactoring
+- refactor. lots of repetition in PHP for inserting data
+- change ALL server connections from mysqli to PDO
 - check if customer is in early_ship table before inserting into DB
 - login feature
 - give certain members permission to sign document
-- column for signed papers
-- customer address autofill feature
+- figure how to display scanned/signed papers
+- figure how to display customer address in a neater way in editablegrid
+
+- throw this into a rails or node.js framework

@@ -55,17 +55,15 @@ $grid = new EditableGrid();
 *  The second argument is the label that will be displayed in the header
 */
 
-$grid->addColumn('created_at', 'Date', 'date', NULL, false);  
-$grid->addColumn('full_name', 'Name', 'string', NULL, false);
-$grid->addColumn('devices', 'Devices', 'string');
-$grid->addColumn('reason', 'Reason', 'string');
-$grid->addColumn('rma_id', 'RMA #', 'string');
-$grid->addColumn('reference_id', 'Reference #', 'string');  
+$grid->addColumn('created_at', 'Date', 'date', NULL, false); 
+$grid->addColumn('full_name', 'Name', 'string', NULL, false);  
+$grid->addColumn('refund_amount', 'Refund Total', 'string');
+$grid->addColumn('reference_id', 'Reference ID', 'string');  
 $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');                                    
                                                                        
-$result = $mysqli->query(  'SELECT samples.created_at, customers.full_name, samples.devices, samples.reason, samples.rma_id, samples.reference_id
-							FROM customers, samples
-							WHERE customers.id = samples.customer_id');
+$result = $mysqli->query(  'SELECT returns.created_at, customers.full_name, returns.refund_amount, returns.reference_id
+							FROM customers, returns
+							WHERE customers.id = returns.customer_id');
 $mysqli->close();
 
 // send data to the browser
