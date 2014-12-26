@@ -85,7 +85,7 @@
 					<div class="page-header"><h3>Step 2: <small>Fill out the form</small></h3></div>
 					<div class="form-group">
 					  <label class="col-md-2 control-label" for="full_name">Name</label>  
-					  <div class="col-md-8">
+					  <div class="col-md-7">
 					  <input name="full_name" type="text" placeholder="Full name" class="form-control input-md" required="">
 					    
 					  </div>
@@ -93,7 +93,7 @@
 
 					<div class="form-group">
 					  <label class="col-md-2 control-label" for="email">Email</label>  
-					  <div class="col-md-8">
+					  <div class="col-md-7">
 					  <input name="email" type="text" placeholder="example@blahblah.com" class="form-control input-md" required="">
 					    
 					  </div>
@@ -101,7 +101,7 @@
 
 					<div class="form-group">
 					  <label class="col-md-2 control-label" for="shipping_address">Address</label>
-					  <div class="col-md-8">                     
+					  <div class="col-md-7">                     
 					    <textarea class="form-control" name="shipping_address" rows="3" placeholder="123 Example Rd.&#10;City, AB 98765"></textarea>
 					  </div>
 					</div>
@@ -311,16 +311,10 @@
 			$('input[name=formType]').on('click', function() {
 				var formType = $('input:checked').val();
 
-				switch(formType){
-					case "Sample":
-						$('#refund_amount_group').hide();
-						break;
-					case "Replacement":
-						$('#refund_amount_group').hide();
-						break;
-					case "Return":
-						$('#refund_amount_group').show();
-						break;
+				if(formType === "Sample" || formType === "Replacement"){
+					$('#refund_amount_group').hide();
+				} else {
+					$('#refund_amount_group').show();
 				}
 			});
 		}; 
