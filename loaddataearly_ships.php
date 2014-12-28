@@ -64,7 +64,8 @@ $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');
                                                                        
 $result = $mysqli->query(  'SELECT early_ships.created_at, customers.full_name, early_ships.rma_id, early_ships.shipping_carrier, early_ships.tracking_number
 							FROM customers, early_ships
-							WHERE customers.id = early_ships.customer_id');
+							WHERE customers.id = early_ships.customer_id
+							ORDER BY early_ships.created_at DESC');
 $mysqli->close();
 
 // send data to the browser

@@ -63,7 +63,8 @@ $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');
                                                                        
 $result = $mysqli->query(  'SELECT returns.created_at, customers.full_name, returns.refund_amount, returns.reference_id
 							FROM customers, returns
-							WHERE customers.id = returns.customer_id');
+							WHERE customers.id = returns.customer_id
+							ORDER BY returns.created_at DESC');
 $mysqli->close();
 
 // send data to the browser

@@ -62,7 +62,7 @@ $grid->addColumn('shipping_address', 'Shipping Address', 'string');
 $grid->addColumn('phone_number', 'Phone Number', 'string');   
 $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');                                    
                                                                        
-$result = $mysqli->query('SELECT * FROM customers');
+$result = $mysqli->query('SELECT * FROM customers ORDER BY id DESC');
 $mysqli->close();
 
 // send data to the browser

@@ -65,7 +65,8 @@ $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');
                                                                        
 $result = $mysqli->query(  'SELECT samples.created_at, customers.full_name, samples.devices, samples.reason, samples.rma_id, samples.reference_id
 							FROM customers, samples
-							WHERE customers.id = samples.customer_id');
+							WHERE customers.id = samples.customer_id
+							ORDER BY samples.created_at DESC');
 $mysqli->close();
 
 // send data to the browser

@@ -1,5 +1,7 @@
 <?php include 'new_request.php'; ?>
 
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -73,7 +75,7 @@
 					  <div class="col-md-10">
 					  <div class="checkbox">
 					    <label for="earlyShip-0">
-					      <input type="checkbox" name="earlyShip" value="checked">
+					      <input id="earlyShip_btn" type="checkbox" name="earlyShip" value="checked">
 					      Are you waiting for the customer's package?
 					    </label>
 						</div>
@@ -305,10 +307,9 @@
 				e.preventDefault;
 			});
 
-			$
-
 			//show certain inputs based on what formType is selected
 			$('input[name=formType]').on('click', function() {
+				
 				var formType = $('input:checked').val();
 
 				if(formType === "Sample" || formType === "Replacement"){
@@ -316,6 +317,33 @@
 				} else {
 					$('#refund_amount_group').show();
 				}
+			});
+
+			$('#earlyShip_btn').on('click', function() {
+
+				if($(this).prop('checked') === true){
+					$('#tracking_number_group').show();
+				} else {
+					$('#tracking_number_group').hide();
+				}	
+			});
+
+			//grab shipping carrier info and throw into POST variable
+			$('#submitForm').on('click', function(e) {
+
+				$.ajax({
+					type: 'POST',
+					url: 'new_request.php',
+					data: { shipping_carrier: $('#shipping_carrier').text().trim() },
+					success: function(data) {
+						console.log(data);
+					},
+					error: function() {
+						alert('post FAILED');
+					}
+				});
+
+				
 			});
 		}; 
 
