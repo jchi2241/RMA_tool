@@ -58,10 +58,11 @@ $grid = new EditableGrid();
 $grid->addColumn('created_at', 'Date', 'date', NULL, false); 
 $grid->addColumn('full_name', 'Name', 'string', NULL, false);  
 $grid->addColumn('refund_amount', 'Refund Total', 'string');
-$grid->addColumn('reference_id', 'Reference ID', 'string');  
+$grid->addColumn('rma_id', 'RMA #', 'string');
+$grid->addColumn('reference_id', 'Reference #', 'string');  
 $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');                                    
                                                                        
-$result = $mysqli->query(  'SELECT returns.created_at, customers.full_name, returns.refund_amount, returns.reference_id
+$result = $mysqli->query(  'SELECT returns.created_at, customers.full_name, returns.refund_amount, returns.rma_id, returns.reference_id
 							FROM customers, returns
 							WHERE customers.id = returns.customer_id
 							ORDER BY returns.created_at DESC');

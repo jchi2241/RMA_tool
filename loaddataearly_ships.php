@@ -57,14 +57,15 @@ $grid = new EditableGrid();
 
 $grid->addColumn('created_at', 'Date', 'string', NULL, false);  
 $grid->addColumn('full_name', 'Name', 'string', NULL, false);  
-$grid->addColumn('rma_id', 'RMA #', 'string');
+$grid->addColumn('rma_id', 'RMA #', 'string', NULL, false);
 $grid->addColumn('shipping_carrier', 'Shipping Carrier', 'string');
 $grid->addColumn('tracking_number', 'Tracking #', 'string');
+$grid->addColumn('date_received', 'Date Received', 'date');
 $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');                                    
                                                                        
-$result = $mysqli->query(  'SELECT early_ships.created_at, customers.full_name, early_ships.rma_id, early_ships.shipping_carrier, early_ships.tracking_number
+$result = $mysqli->query(  'SELECT early_ships.created_at, customers.full_name, early_ships.shipping_carrier, early_ships.tracking_number, early_ships.date_received
 							FROM customers, early_ships
-							WHERE customers.id = early_ships.customer_id
+							WHERE customers.id = early_ships.customer_id 
 							ORDER BY early_ships.created_at DESC');
 $mysqli->close();
 

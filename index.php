@@ -1,7 +1,3 @@
-<?php include 'new_request.php'; ?>
-
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,9 +34,12 @@
 <body>
 	<div class="container">
 		<div class="page-header"><h1>Create a Request Form</h1></div>
+
+		<div id="message"></div>
+
 		<div class="row">
 
-			<form method="post" class="form-horizontal">
+			<form id="ajaxform" method="post" class="form-horizontal">
 				<fieldset>
 
 				<div class="col-md-5">
@@ -96,7 +95,7 @@
 					<div class="form-group">
 					  <label class="col-md-2 control-label" for="email">Email</label>  
 					  <div class="col-md-7">
-					  <input name="email" type="text" placeholder="example@blahblah.com" class="form-control input-md" required="">
+					  <input name="email" type="text" placeholder="example@example.com" class="form-control input-md" required="">
 					    
 					  </div>
 					</div>
@@ -113,6 +112,13 @@
 					  <div class="col-md-6">
 					  <input name="phone_number" type="text" class="form-control input-md">
 					    
+					  </div>
+					</div>
+
+					<div class="form-group">
+					  <label class="col-md-2 control-label" for="reason">Reason</label>
+					  <div class="col-md-6">                     
+					    <textarea class="form-control" name="reason" placeholder="Enter reason for RMA here..."></textarea>
 					  </div>
 					</div>
 
@@ -151,13 +157,6 @@
 						<div class="col-md-6">
 							<ul id="product_list" class="list-group"><li id="product_list_header" class="list-group-item active">Product List</li></ul>
 						</div>
-					</div>
-
-					<div class="form-group">
-					  <label class="col-md-2 control-label" for="reason">Reason</label>
-					  <div class="col-md-6">                     
-					    <textarea class="form-control" name="reason" placeholder="Enter reason for RMA here..."></textarea>
-					  </div>
 					</div>
 
 					<div id="refund_amount_group" class="form-group">
@@ -307,7 +306,7 @@
 				e.preventDefault;
 			});
 
-			//show certain inputs based on what formType is selected
+			//show appropriate inputs based on what formType is selected
 			$('input[name=formType]').on('click', function() {
 				
 				var formType = $('input:checked').val();
@@ -328,22 +327,37 @@
 				}	
 			});
 
-			//grab shipping carrier info and throw into POST variable
-			$('#submitForm').on('click', function(e) {
+			//AJAX Post form data to new_request.php
+			$('#ajaxform').submit(function(e) {
+
+				var postData = $(this).serializeArray();
 
 				$.ajax({
 					type: 'POST',
 					url: 'new_request.php',
-					data: { shipping_carrier: $('#shipping_carrier').text().trim() },
+					data: {
+						formType: $('input[name=formType]:checked').val(),
+						earlyShip: $('input[name=earlyShip]:checked').val(),
+						full_name: $('input[name=full_name]').val().trim(),
+						email: $('input[name=email]').val().trim(),
+						shipping_address: $('textarea[name=shipping_address]').val().trim(),
+						phone_number: $('input[name=phone_number]').val().trim(),
+						reason: $('textarea[name=reason]').val().trim(),
+						refund_amount: $('input[name=refund_amount]').val().trim(),
+						tracking_number: $('input[name=tracking_number]').val().trim(),
+						shipping_carrier: $('#shipping_carrier').text().trim()
+					},
 					success: function(data) {
 						console.log(data);
+						alert('successfully added, maybe popup a new window to print page');
+						location.reload();
 					},
 					error: function() {
 						alert('post FAILED');
 					}
 				});
 
-				
+				e.preventDefault();
 			});
 		}; 
 
