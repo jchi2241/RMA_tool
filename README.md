@@ -1,4 +1,4 @@
-## Things to Do
+# Things to Do
 
 ####Priority
 - ~~add RMA # function~~
@@ -9,10 +9,11 @@
 - get DELETE working
 - allow updating for all tables
 - print page
+- display RMA # in Early-Ships table
 - change white font when updating cell
+- check if customer is in early_ship table before inserting into DB
 - validate form data client-side 
 - validate form data server-side
-- check if customer is in early_ship table before inserting into DB
 
 ####Nice to have
 
