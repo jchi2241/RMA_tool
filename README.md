@@ -6,6 +6,7 @@
 - ~~allow RMA and references #'s to be posted~~
 - ~~post everything via ajax~~
 - allow devices to be posted
+- add sample type dropdown field, customers or media/retailers
 - get DELETE working
 - allow updating for all tables
 - print page
