@@ -4,6 +4,7 @@
 - ~~add RMA # function~~
 - ~~add reference # function~~
 - ~~allow RMA and references #'s to be posted~~
+- ~~post everything via ajax~~
 - allow devices to be posted
 - get DELETE working
 - allow updating for all tables
@@ -15,6 +16,7 @@
 
 ####Nice to have
 
+- make date look cleaner
 - re-organize website nav and layout
 - fix gap from product list element
 - tracking page
