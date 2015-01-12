@@ -14,6 +14,7 @@
 - check if customer is in early_ship table before inserting into DB
 - validate form data client-side 
 - validate form data server-side
+- GET devices from db for product list 
 
 ####Nice to have
 
