@@ -1,5 +1,6 @@
 ## Things to Do
 
+####Priority
 - add RMA # function
 - add reference # function
 - allow RMA and references #'s to be posted
@@ -8,6 +9,8 @@
 - allow updating for all tables
 - print page
 - change white font when updating cell
+
+####Nice to have
 - validate form data client-side 
 - validate form data server-side
 - check if customer is in early_ship table before inserting into DB
