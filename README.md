@@ -19,7 +19,7 @@
 
 - make date look cleaner
 - re-organize website nav and layout
-- fix gap from product list element
+- fix gap produced by product list element
 - tracking page
 - figure how to write tests so I don't break stuff when refactoring
 - refactor. lots of repetition in PHP for inserting data
