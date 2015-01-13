@@ -63,10 +63,10 @@ $grid->addColumn('tracking_number', 'Tracking #', 'string');
 $grid->addColumn('date_received', 'Date Received', 'date');
 $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');                                    
                                                                        
-$result = $mysqli->query(  'SELECT early_ships.created_at, customers.full_name, early_ships.shipping_carrier, early_ships.tracking_number, early_ships.date_received
-							FROM customers, early_ships
-							WHERE customers.id = early_ships.customer_id 
-							ORDER BY early_ships.created_at DESC');
+$result = $mysqli->query(  'SELECT s.rma_id, e.created_at, c.full_name, e.shipping_carrier, e.tracking_number, e.date_received
+							FROM customers c JOIN early_ships e ON c.id = e.customer_id
+							JOIN samples s ON e.sample_id = s.id
+							ORDER BY e.created_at DESC');
 $mysqli->close();
 
 // send data to the browser

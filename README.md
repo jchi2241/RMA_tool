@@ -6,11 +6,12 @@
 - ~~allow RMA and references #'s to be posted~~
 - ~~post everything via ajax~~
 - allow devices to be posted
+- set date_received through editablegrid
 - add sample type dropdown field, customers or media/retailers
 - get DELETE working
 - allow updating for all tables
 - print page
-- display RMA # in Early-Ships table
+- ~~display RMA # in Early-Ships table~~
 - change white font when updating cell
 - check if customer is in early_ship table before inserting into DB
 - validate form data client-side 
