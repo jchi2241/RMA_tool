@@ -1,6 +1,5 @@
 <?php     
 
-
 /*
  * examples/mysql/loaddata.php
  * 

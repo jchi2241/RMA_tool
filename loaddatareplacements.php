@@ -65,10 +65,10 @@ $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');
 
 $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');                                    
                                                                        
-$result = $mysqli->query(  'SELECT replacements.created_at, customers.full_name, replacements.devices, replacements.reason, replacements.rma_id, replacements.reference_id
-							FROM customers, replacements
-							WHERE customers.id = replacements.customer_id
-							ORDER BY replacements.created_at DESC');
+$result = $mysqli->query(  'SELECT r.created_at, c.full_name, r.devices, r.reason, r.rma_id, r.reference_id
+							FROM customers c, replacements r
+							WHERE c.id = r.customer_id
+							ORDER BY r.created_at DESC');
 $mysqli->close();
 
 // send data to the browser

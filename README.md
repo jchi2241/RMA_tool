@@ -12,6 +12,7 @@
 - allow updating for all tables
 - print page
 - ~~display RMA # in Early-Ships table~~
+- ~~display RMA in returns and replacements~~
 - change white font when updating cell
 - check if customer is in early_ship table before inserting into DB
 - validate form data client-side 

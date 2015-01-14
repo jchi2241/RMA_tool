@@ -62,10 +62,10 @@ $grid->addColumn('rma_id', 'RMA #', 'string');
 $grid->addColumn('reference_id', 'Reference #', 'string');  
 $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');                                    
                                                                        
-$result = $mysqli->query(  'SELECT returns.created_at, customers.full_name, returns.refund_amount, returns.rma_id, returns.reference_id
-							FROM customers, returns
-							WHERE customers.id = returns.customer_id
-							ORDER BY returns.created_at DESC');
+$result = $mysqli->query(  'SELECT r.created_at, c.full_name, r.refund_amount, r.rma_id, r.reference_id
+							FROM customers c, returns r
+							WHERE c.id = r.customer_id
+							ORDER BY r.created_at DESC');
 $mysqli->close();
 
 // send data to the browser
