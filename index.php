@@ -233,12 +233,21 @@
 	<!-- EditableGrid test if jQuery UI is present. If present, a datepicker is automatically used for date type -->
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-	<script src="js/customers.js" ></script>
+	<script src="js/databasegrid.js" ></script>
 	<script src="js/loadgrids.js" ></script>
 
 	<script type="text/javascript">
 
-		var datagrid = new DatabaseGrid();
+		DatabaseGrid.prototype.fetchGrid = function()  {
+			// call the PHP script to get the data
+			this.editableGrid.loadJSON("loaddatacustomers.php?db_tablename=customers");
+		};
+
+		var datagrid = new DatabaseGrid('customers');
+
+		$("#filter").keyup(function() {
+	      datagrid.editableGrid.filter( $(this).val());
+	    });
 
 		window.onload = function() { 
 			

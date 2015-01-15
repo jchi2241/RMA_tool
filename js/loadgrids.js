@@ -12,7 +12,7 @@ $('#customers').on('click', function(e){
 		this.editableGrid.loadJSON("loaddatacustomers.php?db_tablename=customers");
 	};
 
-	var datagrid = new DatabaseGrid();
+	var datagrid = new DatabaseGrid('customers');
 
 	$("#filter").keyup(function() {
       datagrid.editableGrid.filter( $(this).val());
@@ -32,7 +32,7 @@ $('#samples').on('click', function(e){
 		this.editableGrid.loadJSON("loaddatasamples.php?db_tablename=samples");
 	};
 
-	var samplesGrid = new DatabaseGrid();
+	var samplesGrid = new DatabaseGrid('samples');
 
 	$("#filter").keyup(function() {
       samplesGrid.editableGrid.filter( $(this).val());
@@ -52,7 +52,7 @@ $('#replacements').on('click', function(e){
 		this.editableGrid.loadJSON("loaddatareplacements.php?db_tablename=replacements");
 	};
 
-	var replacementsGrid = new DatabaseGrid();
+	var replacementsGrid = new DatabaseGrid('replacements');
 
 	$("#filter").keyup(function() {
       replacementsGrid.editableGrid.filter( $(this).val());
@@ -72,7 +72,7 @@ $('#early_ships').on('click', function(e){
 		this.editableGrid.loadJSON("loaddataearly_ships.php?db_tablename=early_ships");
 	};
 
-	var earlyShipGrid = new DatabaseGrid();
+	var earlyShipGrid = new DatabaseGrid('early_ships');
 
 	$("#filter").keyup(function() {
       earlyShipGrid.editableGrid.filter( $(this).val());
@@ -92,7 +92,7 @@ $('#returns').on('click', function(e){
 		this.editableGrid.loadJSON("loaddatareturns.php?db_tablename=returns");
 	};
 
-	var returnsGrid = new DatabaseGrid();
+	var returnsGrid = new DatabaseGrid('returns');
 
 	$("#filter").keyup(function() {
       returnsGrid.editableGrid.filter( $(this).val());

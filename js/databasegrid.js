@@ -47,9 +47,9 @@ function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue
    
 
 
-function DatabaseGrid() 
+function DatabaseGrid(table) 
 { 
-	this.editableGrid = new EditableGrid("customers", {
+	this.editableGrid = new EditableGrid(table, {
 		enableSort: true,
 	    // define the number of row visible by page
       	pageSize: 10,
