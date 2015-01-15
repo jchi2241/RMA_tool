@@ -30,7 +30,7 @@
 - refactor. lots of repetition in PHP for inserting data
 - clean up and split javascript. make a separate validators file
 - change ALL server connections from mysqli to PDO
-- login feature
+- login system
 - give certain members permission to sign document
 - figure how to store and display scanned/signed papers
 - figure how to display customer address in a neater way in editablegrid
