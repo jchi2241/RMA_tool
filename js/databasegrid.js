@@ -96,7 +96,6 @@ DatabaseGrid.prototype.deleteRow = function(id)
 DatabaseGrid.prototype.fetchGrid = function(table)  {
 	// call a PHP script to get the data
 	this.editableGrid.loadJSON("loaddata" + table + ".php?db_tablename=" + table);
-	console.log(this.editableGrid);
 };
 
 function updatePaginator(grid, divId)
