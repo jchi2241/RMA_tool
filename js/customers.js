@@ -96,7 +96,7 @@ DatabaseGrid.prototype.deleteRow = function(id)
 		type: 'POST',
 		dataType: "html",
 		data: {
-			tablename : editableGrid.name,
+			tablename : self.editableGrid.name,
 			id: id 
 		},
 		success: function (response) 
