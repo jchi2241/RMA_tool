@@ -50,14 +50,16 @@ DatabaseGrid.prototype.initializeGrid = function(grid) {
 };   
 
 function DatabaseGrid(table) 
-{ 
+{
+	var self = this;
+
 	this.editableGrid = new EditableGrid(table, {
 		enableSort: true,
 	    // define the number of row visible by page
       	pageSize: 10,
       // Once the table is displayed, we update the paginator state
         tableRendered:  function() {  updatePaginator(this); },
-   	    tableLoaded: function() { datagrid.initializeGrid(this); },
+   	    tableLoaded: function() { self.initializeGrid(this); },
 		modelChanged: function(rowIndex, columnIndex, oldValue, newValue, row) {
    	    	updateCellValue(this, rowIndex, columnIndex, oldValue, newValue, row);
        	}
@@ -65,21 +67,11 @@ function DatabaseGrid(table)
 	this.fetchGrid(table); 
 }
 
-DatabaseGrid.prototype.fetchGrid = function(table)  {
-	// call a PHP script to get the data
-	this.editableGrid.loadJSON("loaddata" + table + ".php?db_tablename=" + table);
-};
-
-DatabaseGrid.prototype.initializeGrid = function(grid) {
-	grid.renderGrid("tablecontent", "testgrid");
-};    
-
 DatabaseGrid.prototype.deleteRow = function(id) 
 {
-
   var self = this;
 
-  if ( confirm('Are you sure you want to delete the row id: ' + id )  ) {
+  if ( confirm('Are you sure you want to delete ' + id )  ) {
 
         $.ajax({
 		url: 'delete.php',
@@ -91,16 +83,20 @@ DatabaseGrid.prototype.deleteRow = function(id)
 		},
 		success: function (response) 
 		{ 
-			if (response == "ok" )
+			if (response == "ok" ) {
 		        self.editableGrid.removeRow(id);
+			}
 		},
 		error: function(XMLHttpRequest, textStatus, exception) { alert("Ajax failure\n" + errortext); },
 		async: true
 	});
-
-        
   }
-			
+};
+
+DatabaseGrid.prototype.fetchGrid = function(table)  {
+	// call a PHP script to get the data
+	this.editableGrid.loadJSON("loaddata" + table + ".php?db_tablename=" + table);
+	console.log(this.editableGrid);
 };
 
 function updatePaginator(grid, divId)

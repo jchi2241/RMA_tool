@@ -27,10 +27,15 @@ $('#samples').on('click', function(e){
 	$(this).toggleClass('active');
 
 	DatabaseGrid.prototype.initializeGrid = function(grid) {
+
+		var self = this;
 		// render for the action column
 		grid.setCellRenderer("action", new CellRenderer({ 
 			render: function(cell, id) {                 
-			      cell.innerHTML+= "<i onclick=\"datagrid.deleteRow("+id+");\" class='fa fa-trash-o' ></i>";
+			    var i = document.createElement('i');
+				i.className = 'fa fa-trash-o';
+				i.onclick = self.deleteRow.bind(self, id);
+				cell.appendChild(i);
 			}
 		}));
 
@@ -53,10 +58,15 @@ $('#replacements').on('click', function(e){
 	$(this).toggleClass('active');
 
 	DatabaseGrid.prototype.initializeGrid = function(grid) {
+
+		var self = this;
 		// render for the action column
 		grid.setCellRenderer("action", new CellRenderer({ 
 			render: function(cell, id) {                 
-			      cell.innerHTML+= "<i onclick=\"datagrid.deleteRow("+id+");\" class='fa fa-trash-o' ></i>";
+			    var i = document.createElement('i');
+				i.className = 'fa fa-trash-o';
+				i.onclick = self.deleteRow.bind(self, id);
+				cell.appendChild(i);
 			}
 		}));
 
@@ -79,15 +89,21 @@ $('#early_ships').on('click', function(e){
 	$(this).toggleClass('active');
 
 	DatabaseGrid.prototype.initializeGrid = function(grid) {
+
+		var self = this;
 		// render for the action column
 		grid.setCellRenderer("action", new CellRenderer({ 
 			render: function(cell, id) {                 
-			      cell.innerHTML+= "<i onclick=\"datagrid.deleteRow("+id+");\" class='fa fa-trash-o' ></i>";
+			    var i = document.createElement('i');
+				i.className = 'fa fa-trash-o';
+				i.onclick = self.deleteRow.bind(self, id);
+				cell.appendChild(i);
 			}
 		}));
 
 		grid.renderGrid("tablecontent", "testgrid");
 	};    
+    
 
 	var earlyShipGrid = new DatabaseGrid('early_ships');
 
@@ -105,15 +121,20 @@ $('#returns').on('click', function(e){
 	$(this).toggleClass('active');
 
 	DatabaseGrid.prototype.initializeGrid = function(grid) {
+
+		var self = this;
 		// render for the action column
 		grid.setCellRenderer("action", new CellRenderer({ 
 			render: function(cell, id) {                 
-			      cell.innerHTML+= "<i onclick=\"datagrid.deleteRow("+id+");\" class='fa fa-trash-o' ></i>";
+			    var i = document.createElement('i');
+				i.className = 'fa fa-trash-o';
+				i.onclick = self.deleteRow.bind(self, id);
+				cell.appendChild(i);
 			}
 		}));
 
 		grid.renderGrid("tablecontent", "testgrid");
-	};    
+	};        
 
 	var returnsGrid = new DatabaseGrid('returns');
 

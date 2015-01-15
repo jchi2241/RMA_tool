@@ -8,8 +8,8 @@
 - allow devices to be posted
 - set date_received through editablegrid
 - add sample type dropdown field, customers or media/retailers
-- get DELETE working
-- allow updating for all tables
+- ~~get DELETE working~~
+- ~~allow updating for all tables~~
 - print page
 - ~~display RMA # in Early-Ships table~~
 - ~~display RMA in returns and replacements~~
