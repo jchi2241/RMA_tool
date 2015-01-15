@@ -25,6 +25,7 @@
 - re-organize website nav and layout
 - fix gap produced by product list element
 - tracking page
+- validate address with google maps API
 - figure how to write tests so I don't break stuff when refactoring
 - refactor. lots of repetition in PHP for inserting data
 - clean up and split javascript. make a separate validators section
