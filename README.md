@@ -6,7 +6,7 @@
 - ~~allow RMA and references #'s to be posted~~
 - ~~post everything via ajax~~
 - allow devices to be posted
-- set date_received through editablegrid
+- ~~set date_received through editablegrid~~
 - add sample type dropdown field, customers or media/retailers
 - ~~get DELETE working~~
 - ~~allow updating for all tables~~
