@@ -62,7 +62,7 @@ $grid->addColumn('rma_id', 'RMA #', 'string');
 $grid->addColumn('reference_id', 'Reference #', 'string');  
 $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');                                    
                                                                        
-$result = $mysqli->query(  'SELECT r.created_at, c.full_name, r.refund_amount, r.rma_id, r.reference_id
+$result = $mysqli->query(  'SELECT r.id, r.created_at, c.full_name, r.refund_amount, r.rma_id, r.reference_id
 							FROM returns r
 							LEFT JOIN customers c ON c.id = r.customer_id
 							ORDER BY r.created_at DESC');

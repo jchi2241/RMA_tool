@@ -44,8 +44,10 @@ function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue
 	});
    
 }
-   
 
+DatabaseGrid.prototype.initializeGrid = function(grid) {
+	grid.renderGrid("tablecontent", "testgrid");
+};   
 
 function DatabaseGrid(table) 
 { 
@@ -60,27 +62,15 @@ function DatabaseGrid(table)
    	    	updateCellValue(this, rowIndex, columnIndex, oldValue, newValue, row);
        	}
  	});
-	this.fetchGrid(); 
-	
+	this.fetchGrid(table); 
 }
 
-DatabaseGrid.prototype.fetchGrid = function()  {
+DatabaseGrid.prototype.fetchGrid = function(table)  {
 	// call a PHP script to get the data
-	this.editableGrid.loadJSON("loaddatacustomers.php?db_tablename=customers");
+	this.editableGrid.loadJSON("loaddata" + table + ".php?db_tablename=" + table);
 };
 
 DatabaseGrid.prototype.initializeGrid = function(grid) {
-
-  var self = this;
-
-// render for the action column
-	grid.setCellRenderer("action", new CellRenderer({ 
-		render: function(cell, id) {                 
-		      cell.innerHTML+= "<i onclick=\"datagrid.deleteRow("+id+");\" class='fa fa-trash-o' ></i>";
-		}
-	})); 
-
-
 	grid.renderGrid("tablecontent", "testgrid");
 };    
 

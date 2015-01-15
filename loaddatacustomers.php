@@ -58,8 +58,7 @@ $grid->addColumn('id', 'ID', 'integer', NULL, false);
 $grid->addColumn('full_name', 'Name', 'string');  
 $grid->addColumn('email', 'Email', 'email'); 
 $grid->addColumn('shipping_address', 'Shipping Address', 'string');   
-$grid->addColumn('phone_number', 'Phone Number', 'string');   
-$grid->addColumn('action', 'Action', 'html', NULL, false, 'id');                                    
+$grid->addColumn('phone_number', 'Phone Number', 'string');                                     
                                                                        
 $result = $mysqli->query('SELECT * FROM customers ORDER BY id DESC');
 $mysqli->close();

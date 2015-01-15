@@ -7,10 +7,9 @@ $('#customers').on('click', function(e){
 	$('#tables').find('.active').toggleClass('active');
 	$(this).toggleClass('active');
 
-	DatabaseGrid.prototype.fetchGrid = function()  {
-		// call the PHP script to get the data
-		this.editableGrid.loadJSON("loaddatacustomers.php?db_tablename=customers");
-	};
+	DatabaseGrid.prototype.initializeGrid = function(grid) {
+		grid.renderGrid("tablecontent", "testgrid");
+	};    
 
 	var datagrid = new DatabaseGrid('customers');
 
@@ -27,10 +26,16 @@ $('#samples').on('click', function(e){
 	$('#tables').find('.active').toggleClass('active');
 	$(this).toggleClass('active');
 
-	DatabaseGrid.prototype.fetchGrid = function()  {
-		// call the PHP script to get the data
-		this.editableGrid.loadJSON("loaddatasamples.php?db_tablename=samples");
-	};
+	DatabaseGrid.prototype.initializeGrid = function(grid) {
+		// render for the action column
+		grid.setCellRenderer("action", new CellRenderer({ 
+			render: function(cell, id) {                 
+			      cell.innerHTML+= "<i onclick=\"datagrid.deleteRow("+id+");\" class='fa fa-trash-o' ></i>";
+			}
+		}));
+
+		grid.renderGrid("tablecontent", "testgrid");
+	};    
 
 	var samplesGrid = new DatabaseGrid('samples');
 
@@ -47,10 +52,16 @@ $('#replacements').on('click', function(e){
 	$('#tables').find('.active').toggleClass('active');
 	$(this).toggleClass('active');
 
-	DatabaseGrid.prototype.fetchGrid = function()  {
-		// call the PHP script to get the data
-		this.editableGrid.loadJSON("loaddatareplacements.php?db_tablename=replacements");
-	};
+	DatabaseGrid.prototype.initializeGrid = function(grid) {
+		// render for the action column
+		grid.setCellRenderer("action", new CellRenderer({ 
+			render: function(cell, id) {                 
+			      cell.innerHTML+= "<i onclick=\"datagrid.deleteRow("+id+");\" class='fa fa-trash-o' ></i>";
+			}
+		}));
+
+		grid.renderGrid("tablecontent", "testgrid");
+	};    
 
 	var replacementsGrid = new DatabaseGrid('replacements');
 
@@ -67,10 +78,16 @@ $('#early_ships').on('click', function(e){
 	$('#tables').find('.active').toggleClass('active');
 	$(this).toggleClass('active');
 
-	DatabaseGrid.prototype.fetchGrid = function()  {
-		// call the PHP script to get the data
-		this.editableGrid.loadJSON("loaddataearly_ships.php?db_tablename=early_ships");
-	};
+	DatabaseGrid.prototype.initializeGrid = function(grid) {
+		// render for the action column
+		grid.setCellRenderer("action", new CellRenderer({ 
+			render: function(cell, id) {                 
+			      cell.innerHTML+= "<i onclick=\"datagrid.deleteRow("+id+");\" class='fa fa-trash-o' ></i>";
+			}
+		}));
+
+		grid.renderGrid("tablecontent", "testgrid");
+	};    
 
 	var earlyShipGrid = new DatabaseGrid('early_ships');
 
@@ -87,10 +104,16 @@ $('#returns').on('click', function(e){
 	$('#tables').find('.active').toggleClass('active');
 	$(this).toggleClass('active');
 
-	DatabaseGrid.prototype.fetchGrid = function()  {
-		// call the PHP script to get the data
-		this.editableGrid.loadJSON("loaddatareturns.php?db_tablename=returns");
-	};
+	DatabaseGrid.prototype.initializeGrid = function(grid) {
+		// render for the action column
+		grid.setCellRenderer("action", new CellRenderer({ 
+			render: function(cell, id) {                 
+			      cell.innerHTML+= "<i onclick=\"datagrid.deleteRow("+id+");\" class='fa fa-trash-o' ></i>";
+			}
+		}));
+
+		grid.renderGrid("tablecontent", "testgrid");
+	};    
 
 	var returnsGrid = new DatabaseGrid('returns');
 

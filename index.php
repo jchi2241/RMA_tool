@@ -238,11 +238,6 @@
 
 	<script type="text/javascript">
 
-		DatabaseGrid.prototype.fetchGrid = function()  {
-			// call the PHP script to get the data
-			this.editableGrid.loadJSON("loaddatacustomers.php?db_tablename=customers");
-		};
-
 		var datagrid = new DatabaseGrid('customers');
 
 		$("#filter").keyup(function() {
