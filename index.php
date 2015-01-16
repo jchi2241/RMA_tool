@@ -127,20 +127,8 @@
 					  	<div class="col-md-6">
 						    <div class="input-group">
 						        <div class="input-group-btn">
-							        <button id="product_type" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Contact Sensor <span class="caret"></span></button>
-							        <ul class="dropdown-menu" role="menu">
-							        	<li><a href="#">Contact Sensor</a></li>
-							        	<li><a href="#">Motion Sensor</a></li>
-							         	<li><a href="#">Remote Tag</a></li>
-							         	<li><a href="#">Smart Switch</a></li>
-							          	<li><a href="#">CubeOne</a></li>
-							          	<li><a href="#">iCamera (First Gen)</a></li>
-							          	<li><a href="#">iCamera KEEP</a></li>
-							          	<li class="divider"></li>
-							          	<li><a href="#">Preferred Package</a></li>
-							          	<li><a href="#">Premium Package</a></li>
-							          	<li><a href="#">Deluxe Package</a></li>
-							        </ul>
+							        <button id="product_type" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+							        <ul id="product_group_list" class="dropdown-menu" role="menu"></ul>
 						        </div>
 						        <input id="product_qty" type="number" min="1" value="1" class="form-control" placeholder="How many?" required>
 						        <div class="input-group-btn">
@@ -178,8 +166,8 @@
 									<button id="shipping_carrier" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 										FedEx <span class="caret"></span>
 									</button>
-									<ul class="dropdown-menu" role="menu">
-										<li><a href="#" style="display:none;">FedEx</a></li>
+									<ul id="shipping_carrier_list" class="dropdown-menu" role="menu">
+										<li><a href="#">FedEx</a></li>
 										<li><a href="#">UPS</a></li>
 										<li><a href="#">USPS</a></li>
 									</ul>
@@ -247,18 +235,12 @@
 			
 	      	$("#filter").keyup(function() {
 	          datagrid.editableGrid.filter( $(this).val());
-
-	          // To filter on some columns, you can set an array of column index 
-	          //datagrid.editableGrid.filter( $(this).val(), [0,3,5]);
 	        });
 
-			//change dropdown button values for shipping_carrier button
-			changeDropdownValue($('#shipping_carrier').next().find('a'), '#shipping_carrier');
+			changeDropdownValue('#tracking_number_group', '#shipping_carrier');
+			changeDropdownValue('#product_group', '#product_type');
 
-			//change dropdown button values for product_type button
-			changeDropdownValue($('#product_type').next().find('a'), '#product_type');
-
-			//functionality for the add button for products
+			//adding products into for #product_list
 			var productList = {};
 
 			$('#product_add_btn').on('click', function(e) {
@@ -266,21 +248,21 @@
 				var qty = $('#product_qty').val().trim();
 				var productType = $('#product_type').text().trim();
 
-				if(qty !== '' && parseInt(qty) !== 0) {
+				if (qty !== '' && parseInt(qty) !== 0) {
 					
-					if(productList[productType] === undefined) {
+					if (productList[productType] === undefined) {
 						productList[productType] = parseInt(qty);
 						$('#product_list').append('<li class="list-group-item"><span class="badge">' + qty + '</span>' + productType + '<button type="button" class="close" aria-hidden="true">&times;</button></li>');
-					}else {
+					} else {
 						productList[productType] += parseInt(qty);
 						$('#product_list li:contains(' + productType + ')').find('span').html(productList[productType]);
 					}
 
-					if(!$.isEmptyObject(productList)){
+					if (!$.isEmptyObject(productList)){
 						$('#product_list_header').show();
 					}
 
-				}else {
+				} else {
 					alert('Enter a number greater than 0');
 				}
 
@@ -288,7 +270,7 @@
 				e.preventDefault();
 			});
 
-			//functionality for the close button in #product_list
+			//removing products from #product_list
 			$('#product_list').on('click', '.close', function(e) {
 
 				var productToRemove = $(this).parent().text().replace(/[0-9]/g, '').slice(0, -1);
@@ -348,11 +330,13 @@
 						reason: $('textarea[name=reason]').val().trim(),
 						refund_amount: $('input[name=refund_amount]').val().trim(),
 						tracking_number: $('input[name=tracking_number]').val().trim(),
-						shipping_carrier: $('#shipping_carrier').text().trim()
+						shipping_carrier: $('#shipping_carrier').text().trim(),
+						devices: JSON.stringify(productList)
 					},
 					success: function(data) {
 						console.log(data);
-						alert('successfully added, maybe popup a new window to print page');
+						alert(data);
+						//alert('successfully added, maybe popup a new window to print page');
 						location.reload();
 					},
 					error: function() {
@@ -364,9 +348,26 @@
 			});
 		}; 
 
-		var changeDropdownValue = function(optionsList, button) {
-			optionsList.on('click', function(e) {
-				optionsList.show();
+		//fill up #product_list with devices from table 'devices'
+		$.get('get_devices.php', function (data) {
+			var devices = $.parseJSON(data);
+		
+			$('#product_type').text(devices[0]);
+
+			var product_group_list = '<li><a href="#" style="display:none;">' + devices[0] + '</a></li>';
+
+			for (var index in devices) {
+				if (index !== '0' && devices.hasOwnProperty(index)) {
+					product_group_list += '<li><a href="#">' + devices[index] + '</a></li>';
+					$('#product_group_list').html(product_group_list);
+				}
+			}
+		});
+
+		var changeDropdownValue = function(parentElement, button) {
+
+			$(parentElement).on('click', 'a', function(e) {
+				$(parentElement).find('a').show();
 				$(button).html($(this).html() + ' <span class="caret"></span>');
 				$(this).hide();
 				e.preventDefault();
