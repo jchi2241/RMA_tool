@@ -86,7 +86,7 @@
 					<div class="page-header"><h3>Step 2: <small>Fill out the form</small></h3></div>
 					<div class="form-group">
 					  <label class="col-md-2 control-label" for="full_name">Name</label>  
-					  <div class="col-md-7">
+					  <div class="col-md-6">
 					  <input name="full_name" type="text" placeholder="Full name" class="form-control input-md" required="">
 					    
 					  </div>
@@ -94,7 +94,7 @@
 
 					<div class="form-group">
 					  <label class="col-md-2 control-label" for="email">Email</label>  
-					  <div class="col-md-7">
+					  <div class="col-md-6">
 					  <input name="email" type="text" placeholder="example@example.com" class="form-control input-md" required="">
 					    
 					  </div>
@@ -102,7 +102,7 @@
 
 					<div class="form-group">
 					  <label class="col-md-2 control-label" for="shipping_address">Address</label>
-					  <div class="col-md-7">                     
+					  <div class="col-md-6">                     
 					    <textarea class="form-control" name="shipping_address" rows="3" placeholder="123 Example Rd.&#10;City, AB 98765"></textarea>
 					  </div>
 					</div>
@@ -143,7 +143,7 @@
 					<div class="form-group">
 						<label class="col-md-2 control-label"></label>
 						<div class="col-md-6">
-							<ul id="product_list" class="list-group"><li id="product_list_header" class="list-group-item active">Product List</li></ul>
+							<ul id="product_list" class="list-group"></ul>
 						</div>
 					</div>
 

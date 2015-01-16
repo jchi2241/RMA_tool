@@ -5,7 +5,7 @@
 - ~~add reference # function~~
 - ~~allow RMA and references #'s to be posted~~
 - ~~post everything via ajax~~
-- allow devices to be posted
+- ~~allow devices to be posted~~
 - ~~set date_received through editablegrid~~
 - add sample type dropdown field, customers or media/retailers
 - ~~get DELETE working~~
@@ -17,18 +17,18 @@
 - check if customer is in early_ship table before inserting into DB
 - validate form data client-side 
 - validate form data server-side
-- GET devices from db for product list 
+- ~~GET devices from db for product list~~
 
 ####Nice to have
 
-- make date look cleaner
+- remove time from date?
 - re-organize website nav and layout
 - fix gap produced by product list element
 - tracking page
 - validate address with google maps API
 - figure how to write tests so I don't break stuff when refactoring
 - refactor. lots of repetition in PHP for inserting data
-- clean up and split javascript. make a separate validators file
+- clean up and split javascript into multiple files. make a separate validators file
 - change ALL server connections from mysqli to PDO
 - login system
 - give certain members permission to sign document
