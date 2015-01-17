@@ -18,6 +18,8 @@
 - validate form data client-side 
 - validate form data server-side
 - ~~GET devices from db for product list~~
+- make a device_requests table
+- deleted
 
 ####Nice to have
 
@@ -35,4 +37,4 @@
 - figure how to store and display scanned/signed papers
 - figure how to display customer address in a neater way in editablegrid
 
-- redo this in a rails or node.js 
+- redo this in a CMS, drupal?
