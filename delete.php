@@ -22,7 +22,7 @@ $tablename = $mysqli->real_escape_string(strip_tags($_POST['tablename']));
 
 // This very generic. So this script can be used to update several tables.
 $return=false;
-if ( $stmt = $mysqli->prepare("DELETE FROM ".$tablename."  WHERE id = ?")) {
+if ( $stmt = $mysqli->prepare("UPDATE ".$tablename." SET deleted = 1 WHERE id = ?")) {
 	$stmt->bind_param("i", $id);
 	$return = $stmt->execute();
 	$stmt->close();
@@ -32,4 +32,3 @@ $mysqli->close();
 echo $return ? "ok" : "error";
 
       
-

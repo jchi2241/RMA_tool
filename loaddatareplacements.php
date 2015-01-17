@@ -68,6 +68,7 @@ $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');
 $result = $mysqli->query(  'SELECT r.id, r.created_at, c.full_name, r.devices, r.reason, r.rma_id, r.reference_id
 							FROM replacements r
 							LEFT JOIN customers c ON c.id = r.customer_id
+							WHERE r.deleted = 0
 							ORDER BY r.created_at DESC');
 $mysqli->close();
 

@@ -54,13 +54,15 @@ $grid = new EditableGrid();
 *  The second argument is the label that will be displayed in the header
 */
 
-$grid->addColumn('id', 'ID', 'integer', NULL, false);
 $grid->addColumn('full_name', 'Name', 'string');  
 $grid->addColumn('email', 'Email', 'email'); 
 $grid->addColumn('shipping_address', 'Shipping Address', 'string');   
 $grid->addColumn('phone_number', 'Phone Number', 'string');                                     
                                                                        
-$result = $mysqli->query('SELECT * FROM customers ORDER BY id DESC');
+$result = $mysqli->query('	SELECT * 
+							FROM customers
+							WHERE customers.deleted = 0
+							ORDER BY id DESC');
 $mysqli->close();
 
 // send data to the browser

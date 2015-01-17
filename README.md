@@ -18,10 +18,10 @@
 - validate form data client-side 
 - validate form data server-side
 - ~~GET devices from db for product list~~
-- make a device_requests table
-- deleted
-- edit delete query to not delete table
-- edit all queries to only select rows where deleted = 0
+- ~~make a device_requests table~~
+- ~~get device_requests table working with rest of system~~
+- ~~edit delete query to not delete table~~
+- ~~edit all queries to only select rows where deleted = 0~~
 
 ####Nice to have
 
