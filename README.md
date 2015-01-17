@@ -20,6 +20,8 @@
 - ~~GET devices from db for product list~~
 - make a device_requests table
 - deleted
+- edit delete query to not delete table
+- edit all queries to only select rows where deleted = 0
 
 ####Nice to have
 
