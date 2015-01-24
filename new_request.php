@@ -16,29 +16,29 @@
 		$shipping_carrier = $_POST["shipping_carrier"];
 
 		$devices_data = json_decode($_POST["devices"], true);
-		$device_string_arr = array();
 
-		foreach ($devices_data as $device => $quantity) {
-		    $device_string_arr[] = $quantity . ' ' . $device;
-		}
 
-		$_POST["devices"] = implode(",", $device_string_arr);
-		$devices = $_POST["devices"];
+		// foreach ($devices_data as $device => $quantity) {
+		//     $device_string_arr[] = $quantity . ' ' . $device;
+		// }
 
-		print_r($devices);
+		// $_POST["devices"] = implode(",", $device_string_arr);
+		// $devices = $_POST["devices"];
+
+		// print_r($devices_data);
 	}
 
 	if (!empty($_POST["formType"])) {
 
-		$stmt = $db->prepare("	INSERT INTO customers (full_name, email, shipping_address, phone_number, created_at, updated_at) 
+		$customer_result = $db->prepare("	INSERT INTO customers (full_name, email, shipping_address, phone_number, created_at, updated_at) 
 								VALUES (:full_name, :email, :shipping_address, :phone_number, NULL, NULL)");
 
-		$stmt->bindParam(':full_name', $full_name);
-		$stmt->bindParam(':email', $email);
-		$stmt->bindParam(':shipping_address', $shipping_address);
-		$stmt->bindParam(':phone_number', $phone_number);
+		$customer_result->bindParam(':full_name', $full_name);
+		$customer_result->bindParam(':email', $email);
+		$customer_result->bindParam(':shipping_address', $shipping_address);
+		$customer_result->bindParam(':phone_number', $phone_number);
 		
-		$stmt->execute();
+		$customer_result->execute();
 
 		$customer_id = $db->lastInsertId();
 
@@ -47,29 +47,65 @@
 			$rma_id = newRMAId('samples');
 			$reference_id = newRefId('samples');
 
-			$stmt = $db->prepare("	INSERT INTO samples (customer_id, reason, rma_id, reference_id, devices, created_at, updated_at) 
-									VALUES (:customer_id, :reason, :rma_id, :reference_id, :devices, NULL, NULL)");
-			$stmt->bindParam(':customer_id', $customer_id);
-			$stmt->bindParam(':reason', $reason);
-			$stmt->bindParam(':rma_id', $rma_id);
-			$stmt->bindParam(':reference_id', $reference_id);
-			$stmt->bindParam(':devices', $devices);
-			$stmt->execute();
+			$sample_result = $db->prepare("	INSERT INTO samples (customer_id, reason, rma_id, reference_id, created_at, updated_at) 
+											VALUES (:customer_id, :reason, :rma_id, :reference_id, NULL, NULL)");
+			$sample_result->bindParam(':customer_id', $customer_id);
+			$sample_result->bindParam(':reason', $reason);
+			$sample_result->bindParam(':rma_id', $rma_id);
+			$sample_result->bindParam(':reference_id', $reference_id);
+			$sample_result->execute();
 
 			$sample_id = $db->lastInsertId();
+
+			//insert devices into requested_devices
+			foreach ($devices_data as $device => $qty ) {
+				$device_id = getDeviceId($device);
+				$requested_devices_result = $db->prepare("	INSERT INTO requested_devices (qty, device_id, sample_id, customer_id)
+															VALUES (:qty, :device_id, :sample_id, :customer_id)");
+				$requested_devices_result->bindParam(':qty', $qty);
+				$requested_devices_result->bindParam(':device_id', $device_id);
+				$requested_devices_result->bindParam(':sample_id', $sample_id);
+				$requested_devices_result->bindParam(':customer_id', $customer_id);
+				$requested_devices_result->execute();
+			}
+
+			//retrieve devices from requested_devices 
+			$retreived_devices_result = $db->prepare("	SELECT r.qty, d.name
+														FROM requested_devices r
+														JOIN devices d ON r.device_id = d.id
+														WHERE sample_id = ".$sample_id);
+			$retreived_devices_result->execute();
+
+			//display retrieved devices
+			$retreived_devices = $retreived_devices_result->fetchAll(PDO::FETCH_ASSOC);
+
+			$device_arr = array();
+			foreach ($retreived_devices as $device) {
+				$device_arr[] = $device['qty'] . ' ' . $device['name'];
+			}
+
+			$devices = implode(", ", $device_arr);
+
+			print_r($devices);
+			
+			$sample_devices_result = $db->prepare("	UPDATE samples 
+													SET devices = :devices
+													WHERE id = :sample_id");
+			$sample_devices_result->bindParam(':devices', $devices);
+			$sample_devices_result->bindParam(':sample_id', $sample_id);
+			$sample_devices_result->execute();
 
 		} elseif ($_POST["formType"] == "Replacement") {
 
 			$rma_id = newRMAId('replacements');
 			$reference_id = newRefId('replacements');
 
-			$stmt = $db->prepare("	INSERT INTO replacements (customer_id, reason, rma_id, reference_id, devices, created_at, updated_at) 
-									VALUES (:customer_id, :reason, :rma_id, :reference_id, :devices, NULL, NULL)");
+			$stmt = $db->prepare("	INSERT INTO replacements (customer_id, reason, rma_id, reference_id, created_at, updated_at) 
+									VALUES (:customer_id, :reason, :rma_id, :reference_id, NULL, NULL)");
 			$stmt->bindParam(':customer_id', $customer_id);
 			$stmt->bindParam(':reason', $reason);
 			$stmt->bindParam(':rma_id', $rma_id);
 			$stmt->bindParam(':reference_id', $reference_id);
-			$stmt->bindParam(':devices', $devices);
 			$stmt->execute();
 
 		} elseif ($_POST["formType"] == "Return") {
@@ -77,14 +113,13 @@
 			$rma_id = newRMAId('returns');
 			$reference_id = newRefId('returns');
 
-			$stmt = $db->prepare("	INSERT INTO returns (customer_id, reason, refund_amount, rma_id, reference_id, devices, created_at, updated_at) 
-									VALUES (:customer_id, :reason, :refund_amount, :rma_id, :reference_id, :devices, NULL, NULL)");
+			$stmt = $db->prepare("	INSERT INTO returns (customer_id, reason, refund_amount, rma_id, reference_id, created_at, updated_at) 
+									VALUES (:customer_id, :reason, :refund_amount, :rma_id, :reference_id, NULL, NULL)");
 			$stmt->bindParam(':customer_id', $customer_id);
 			$stmt->bindParam(':reason', $reason);
 			$stmt->bindParam(':refund_amount', $refund_amount);
 			$stmt->bindParam(':rma_id', $rma_id);
 			$stmt->bindParam(':reference_id', $reference_id);
-			$stmt->bindParam(':devices', $devices);
 			$stmt->execute();
 
 		} else {
@@ -111,4 +146,24 @@
 
 	//redirect to clear $_POST variables
 	//header("Location:./index.php");
+
+	function getDeviceId($device_name) {
+
+		include 'configPDO.php';
+
+		$stmt = $db->prepare("SELECT id, name FROM devices");
+		$stmt->execute();
+
+		$device_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		foreach ($device_list as $device) {
+		   if ($device['name'] == $device_name) {
+		   		$device_id = $device['id'];
+		   		break;
+		   } 
+		}
+
+		return $device_id;
+	}
+
 ?>

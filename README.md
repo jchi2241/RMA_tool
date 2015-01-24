@@ -19,9 +19,11 @@
 - validate form data server-side
 - ~~GET devices from db for product list~~
 - ~~make a device_requests table~~
-- ~~get device_requests table working with rest of system~~
+- ~~get device_requests table working~~
 - ~~edit delete query to not delete table~~
 - ~~edit all queries to only select rows where deleted = 0~~
+- pop-up enter reason for deletion
+- figure how to allow update devices. maybe use modal and existing javascript product CRUD build?
 
 ####Nice to have
 
@@ -39,4 +41,4 @@
 - figure how to store and display scanned/signed papers
 - figure how to display customer address in a neater way in editablegrid
 
-- redo this in a CMS, drupal?
+- put this in a CMS, drupal?

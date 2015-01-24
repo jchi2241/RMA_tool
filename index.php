@@ -32,6 +32,25 @@
 </style>
 
 <body>
+
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+	      </div>
+	      <div class="modal-body">
+	        ...
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary">Save changes</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
 	<div class="container">
 		<div class="page-header"><h1>Create a Request Form</h1></div>
 
@@ -216,7 +235,7 @@
 		</div>
 	</div>
 	
-	<script src="js/editablegrid-2.1.0-b13.js"></script>   
+	<script src="js/editablegrid.js"></script>  
 	<script src="js/jquery-1.11.1.min.js" ></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
@@ -225,10 +244,10 @@
 
 	<script type="text/javascript">
 
-		var datagrid = new DatabaseGrid('customers');
+		var customersGrid = new DatabaseGrid('customers');
 
 		$("#filter").keyup(function() {
-	      datagrid.editableGrid.filter( $(this).val());
+	      customersGrid.editableGrid.filter( $(this).val());
 	    });
 
 		window.onload = function() { 
@@ -282,10 +301,6 @@
 				//remove from DOM
 				$(this).parent().remove();
 
-				if($.isEmptyObject(productList)){
-					$('#product_list_header').hide();
-				}
-
 				console.log(productList);
 
 				e.preventDefault;
@@ -314,8 +329,6 @@
 
 			//AJAX Post form data to new_request.php
 			$('#ajaxform').submit(function(e) {
-
-				var postData = $(this).serializeArray();
 
 				$.ajax({
 					type: 'POST',
@@ -373,6 +386,7 @@
 				e.preventDefault();
 			});
 		};
+
 	</script>
 </body>
 

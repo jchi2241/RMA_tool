@@ -57,7 +57,7 @@ $grid = new EditableGrid();
 
 $grid->addColumn('created_at', 'Date', 'date', NULL, false);  
 $grid->addColumn('full_name', 'Name', 'string', NULL, false);
-$grid->addColumn('devices', 'Devices', 'string');
+$grid->addColumn('devices', 'Devices', 'string', NULL, false);
 $grid->addColumn('reason', 'Reason', 'string');
 $grid->addColumn('rma_id', 'RMA #', 'string');
 $grid->addColumn('reference_id', 'Reference #', 'string');  

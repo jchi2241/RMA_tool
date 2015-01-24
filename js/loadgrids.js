@@ -11,10 +11,10 @@ $('#customers').on('click', function(e){
 		grid.renderGrid("tablecontent", "testgrid");
 	};    
 
-	var datagrid = new DatabaseGrid('customers');
+	var customersGrid = new DatabaseGrid('customers');
 
 	$("#filter").keyup(function() {
-      datagrid.editableGrid.filter( $(this).val());
+      customersGrid.editableGrid.filter( $(this).val());
     });
 
     e.preventDefault();

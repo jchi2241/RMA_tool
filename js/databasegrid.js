@@ -20,7 +20,11 @@ function highlight(div_id, style) {
    updateCellValue calls the PHP script that will update the database. 
  */
 function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue, row, onResponse)
-{      
+{   
+	if (editableGrid.getColumnName(columnIndex) == 'devices') {
+		alert('devices!');
+	}
+
 	$.ajax({
 		url: 'update.php',
 		type: 'POST',
@@ -142,10 +146,210 @@ function updatePaginator(grid, divId)
 	paginator.append(link);
 }; 
 
+//EditableGrid prototype modifications for this project
+
+EditableGrid.prototype.mouseClicked = function(e) {
+
+    e = e || window.event;
+    with(this) {
+        var target = e.target || e.srcElement;
+        while (target) {
+            if (target.tagName == "A" || target.tagName == "TD" || target.tagName == "TH") {
+                break
+            } else {
+                target = target.parentNode
+            }
+        }
+        if (!target || !target.parentNode || !target.parentNode.parentNode || (target.parentNode.parentNode.tagName != "TBODY" && target.parentNode.parentNode.tagName != "THEAD") || target.isEditing) {
+            return
+        }
+        if (target.tagName == "A") {
+            return
+        }
+        var rowIndex = getRowIndex(target.parentNode);
+        var columnIndex = target.cellIndex;
+        var column = columns[columnIndex];
+
+        var getColumnID = function(columnName) {
+        	for (var i in columns) {
+        		if (columns[i].name == columnName) {
+        			return columns[i].columnIndex;
+        		}
+        	}
+        }
+
+        if (this.getColumnName(columnIndex) == 'devices') {
+
+        	$.ajax({
+			  	url: 'get_requested_devices.php',
+			  	data: {
+
+			  	},
+			  	success: function(response) {
+			  	}
+			});
+
+        	$('#myModalLabel').html("Edit devices for " + getValueAt(rowIndex, getColumnID('full_name')) + ", Ref #: " + getValueAt(rowIndex, getColumnID('reference_id')));
+        	$('.modal-body').html("<ul id='edit_product_list' class='list-group'></ul>");
+        	$('#edit_product_list').html();
+        }
+
+        if (column) {
+            if (rowIndex > -1 && rowIndex != lastSelectedRowIndex) {
+                rowSelected(lastSelectedRowIndex, rowIndex);
+                lastSelectedRowIndex = rowIndex;
+            }
+            if (!column.editable) {
+                readonlyWarning(column)
+            } else {
+                if (rowIndex < 0) {
+                    if (column.headerEditor && isHeaderEditable(rowIndex, columnIndex)) {
+                        column.headerEditor.edit(rowIndex, columnIndex, target, column.label)
+                    }
+                } else {
+                    if (column.cellEditor && isEditable(rowIndex, columnIndex)) {
+                        column.cellEditor.edit(rowIndex, columnIndex, target, getValueAt(rowIndex, columnIndex));
+                    }
+                }
+            }
+        }
+    }
+};
         
-
+EditableGrid.prototype._rendergrid = function(containerid, className, tableid) {
+    with(this) {
+        lastSelectedRowIndex = -1;
+        _currentPageIndex = getCurrentPageIndex();
+        if (typeof table != "undefined" && table != null) {
+            var _data = dataUnfiltered == null ? data : dataUnfiltered;
+            _renderHeaders();
+            var rows = tBody.rows;
+            var skipped = 0;
+            var displayed = 0;
+            var rowIndex = 0;
+            for (var i = 0; i < rows.length; i++) {
+                if (!_data[i].visible || (pageSize > 0 && displayed >= pageSize)) {
+                    if (rows[i].style.display != "none") {
+                        rows[i].style.display = "none";
+                        rows[i].hidden_by_editablegrid = true
+                    }
+                } else {
+                    if (skipped < pageSize * _currentPageIndex) {
+                        skipped++;
+                        if (rows[i].style.display != "none") {
+                            rows[i].style.display = "none";
+                            rows[i].hidden_by_editablegrid = true
+                        }
+                    } else {
+                        displayed++;
+                        var cols = rows[i].cells;
+                        if (typeof rows[i].hidden_by_editablegrid != "undefined" && rows[i].hidden_by_editablegrid) {
+                            rows[i].style.display = "";
+                            rows[i].hidden_by_editablegrid = false
+                        }
+                        rows[i].rowId = getRowId(rowIndex);
+                        rows[i].id = _getRowDOMId(rows[i].rowId);
+                        for (var j = 0; j < cols.length && j < columns.length; j++) {
+                            if (columns[j].renderable) {
+                                columns[j].cellRenderer._render(rowIndex, j, cols[j], getValueAt(rowIndex, j))
+                            }
+                        }
+                    }
+                    rowIndex++
+                }
+            }
+            table.editablegrid = this;
+            if (doubleclick) {
+                table.ondblclick = function(e) {
+                    this.editablegrid.mouseClicked(e)
+                }
+            } else {
+                table.onclick = function(e) {
+                    this.editablegrid.mouseClicked(e)
+                }
+            }
+        } else {
+            if (!_$(containerid)) {
+                return alert("Unable to get element [" + containerid + "]")
+            }
+            currentContainerid = containerid;
+            currentClassName = className;
+            currentTableid = tableid;
+            var startRowIndex = 0;
+            var endRowIndex = getRowCount();
+            if (pageSize > 0) {
+                startRowIndex = _currentPageIndex * pageSize;
+                endRowIndex = Math.min(getRowCount(), startRowIndex + pageSize)
+            }
+            this.table = document.createElement("table");
+            table.className = className || "editablegrid";
+            if (typeof tableid != "undefined") {
+                table.id = tableid
+            }
+            while (_$(containerid).hasChildNodes()) {
+                _$(containerid).removeChild(_$(containerid).firstChild)
+            }
+            _$(containerid).appendChild(table);
+            if (caption) {
+                var captionElement = document.createElement("CAPTION");
+                captionElement.innerHTML = this.caption;
+                table.appendChild(captionElement)
+            }
+            this.tHead = document.createElement("THEAD");
+            table.appendChild(tHead);
+            var trHeader = tHead.insertRow(0);
+            var columnCount = getColumnCount();
+            for (var c = 0; c < columnCount; c++) {
+                var headerCell = document.createElement("TH");
+                var td = trHeader.appendChild(headerCell);
+                columns[c].headerRenderer._render(-1, c, td, columns[c].label);
+            }
+            this.tBody = document.createElement("TBODY");
+            table.appendChild(tBody);
+            var insertRowIndex = 0;
+            for (var i = startRowIndex; i < endRowIndex; i++) {
+                var tr = tBody.insertRow(insertRowIndex++);
+                tr.rowId = data[i]["id"];
+                tr.id = this._getRowDOMId(data[i]["id"]);
+                for (j = 0; j < columnCount; j++) {
+                    var td = tr.insertCell(j);
+                    columns[j].cellRenderer._render(i, j, td, getValueAt(i, j))
+                }
+            }
+            _$(containerid).editablegrid = this;
+            if (doubleclick) {
+                _$(containerid).ondblclick = function(e) {
+                    this.editablegrid.mouseClicked(e)
+                }
+            } else {
+                _$(containerid).onclick = function(e) {
+                    this.editablegrid.mouseClicked(e)
+                }
+            }
+        }
+        tableRendered(containerid, className, tableid)
+    }
+};
    
-
+CellRenderer.prototype._render = function(d, b, a, c) {
+    a.rowIndex = d;
+    a.columnIndex = b;
+    while (a.hasChildNodes()) {
+        a.removeChild(a.firstChild)
+    }
+    a.isEditing = false;
+    if (this.column.isNumerical()) {
+        EditableGrid.prototype.addClassName(a, "number")
+    }
+    if (this.column.datatype == "boolean") {
+        EditableGrid.prototype.addClassName(a, "boolean")
+    }
+    if (this.column.name == 'devices') {
+    	a.setAttribute("data-toggle", "modal");
+    	a.setAttribute("data-target", "#myModal");
+	}
+    return this.render(a, typeof c == "string" && this.column.datatype != "html" ? htmlspecialchars(c, "ENT_NOQUOTES").replace(/\s\s/g, "&nbsp; ") : c)
+};
 
 
 
