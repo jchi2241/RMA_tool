@@ -1,53 +1,6 @@
-/**
- *  highlightRow and highlight are used to show a visual feedback. If the row has been successfully modified, it will be highlighted in green. Otherwise, in red
- */
-function highlightRow(rowId, bgColor, after)
-{
-	var rowSelector = $("#" + rowId);
-	rowSelector.css("background-color", bgColor);
-	rowSelector.fadeTo("normal", 0.5, function() { 
-		rowSelector.fadeTo("fast", 1, function() { 
-			rowSelector.css("background-color", '');
-		});
-	});
-}
-
-function highlight(div_id, style) {
-	highlightRow(div_id, style == "error" ? "#e5afaf" : style == "warning" ? "#ffcc00" : "#8dc70a");
-}
-        
-/**
-   updateCellValue calls the PHP script that will update the database. 
- */
-function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue, row, onResponse)
-{   
-	if (editableGrid.getColumnName(columnIndex) == 'devices') {
-		alert('devices!');
-	}
-
-	$.ajax({
-		url: 'update.php',
-		type: 'POST',
-		dataType: "html",
-		data: {
-			tablename : editableGrid.name,
-			id: editableGrid.getRowId(rowIndex), 
-			newvalue: editableGrid.getColumnType(columnIndex) == "boolean" ? (newValue ? 1 : 0) : newValue, 
-			colname: editableGrid.getColumnName(columnIndex),
-			coltype: editableGrid.getColumnType(columnIndex)			
-		},
-		success: function (response) 
-		{ 
-			// reset old value if failed then highlight row
-			var success = onResponse ? onResponse(response) : (response == "ok" || !isNaN(parseInt(response))); // by default, a sucessfull reponse can be "ok" or a database id 
-			if (!success) editableGrid.setValueAt(rowIndex, columnIndex, oldValue);
-		    highlight(row.id, success ? "ok" : "error"); 
-		},
-		error: function(XMLHttpRequest, textStatus, exception) { alert("Ajax failure\n" + errortext); },
-		async: true
-	});
-   
-}
+$.getScript("js/helpers.js", function(){
+	console.log('helpers.js successfully loaded in databasegrid.js');
+});
 
 DatabaseGrid.prototype.initializeGrid = function(grid) {
 	grid.renderGrid("tablecontent", "testgrid");
@@ -178,20 +131,128 @@ EditableGrid.prototype.mouseClicked = function(e) {
         	}
         }
 
+        //if column 'Devices' is clicked, get devices for specific sample request from DB
         if (this.getColumnName(columnIndex) == 'devices') {
 
-        	$.ajax({
-			  	url: 'get_requested_devices.php',
-			  	data: {
+        	var self = this;
 
-			  	},
-			  	success: function(response) {
-			  	}
+        	$('#edit_product_list').empty();
+
+        	//fill up edit_product_type with devices from devices table in DB
+        	$.get('get_devices.php', function (data) {
+				var devices = $.parseJSON(data);
+			
+				$('#edit_product_type').text(devices[0]);
+
+				var edit_product_group_list = '<li><a href="#" style="display:none;">' + devices[0] + '</a></li>';
+
+				for (var index in devices) {
+					if (index !== '0' && devices.hasOwnProperty(index)) {
+						edit_product_group_list += '<li><a href="#">' + devices[index] + '</a></li>';
+						$('#edit_product_group_list').html(edit_product_group_list);
+					}
+				}
 			});
 
-        	$('#myModalLabel').html("Edit devices for " + getValueAt(rowIndex, getColumnID('full_name')) + ", Ref #: " + getValueAt(rowIndex, getColumnID('reference_id')));
-        	$('.modal-body').html("<ul id='edit_product_list' class='list-group'></ul>");
-        	$('#edit_product_list').html();
+        	$.ajax({
+        		type: 'POST',
+			  	url: 'get_requested_devices.php',
+			  	data: {
+			  		table: this.name,
+			  		request_id: self.getRowId(rowIndex)
+			  	},
+			  	success: function(response) {
+			  		var editProductList = JSON.parse(response);
+			  		console.log('editProductList direct from DB: ', editProductList);
+
+			  		for (var product in editProductList) {
+			  			if (editProductList.hasOwnProperty(product)) {
+			  				$('#edit_product_list').append('<li class="list-group-item"><span class="badge">' 
+														+ editProductList[product].qty + '</span>' 
+														+ editProductList[product].name 
+														+ '<button type="button" class="close" aria-hidden="true">&times;</button></li>');
+			  			}
+					}
+
+					//adding products into editProductList
+					$('#edit_product_add_btn').on('click', function(e) {
+
+						var qty = $('#edit_product_qty').val().trim();
+						var productType = $('#edit_product_type').text().trim();
+						var in_editProductList = false;
+
+						if (qty !== '' && parseInt(qty) !== 0) {
+
+							for (var product in editProductList) {
+								if (editProductList.hasOwnProperty(product)) {
+									if (editProductList[product].name === productType) {
+										editProductList[product].qty = (parseInt(editProductList[product].qty) + parseInt(qty)).toString() ;
+										console.log('product name, qty: ', editProductList[product].name, editProductList[product].qty);
+										$('#edit_product_list li:contains(' + productType + ')').find('span').html(editProductList[product].qty);
+
+										in_editProductList = true;
+										break;
+									}
+								}
+							}
+							
+							if (in_editProductList === false) {
+								if (editProductList.hasOwnProperty(product)) {
+
+									//add into DOM
+									$('#edit_product_list').append('<li class="list-group-item"><span class="badge">' 
+														+ qty + '</span>' 
+														+ productType 
+														+ '<button type="button" class="close" aria-hidden="true">&times;</button></li>');
+
+									in_editProductList = true;
+								}
+
+								//add into object
+								var new_product_obj = { name: productType, qty: qty };
+								editProductList[Object.size(editProductList)] = new_product_obj;
+							}
+							
+						} else {
+							alert('Enter a number greater than 0');
+						}
+
+						console.log('editProductList after adding product: ', editProductList);
+						e.preventDefault();
+					});
+
+					//removing products from editProductList
+					$('#edit_product_list').on('click', '.close', function(e) {
+
+						var productToRemove = $(this).parent().text().replace(/[0-9]/g, '').slice(0, -1);
+						console.log('productToRemove: ' + productToRemove);
+
+						//remove from object
+						for (var product in editProductList) {
+							if (editProductList.hasOwnProperty(product)) {
+								if (editProductList[product].name == productToRemove) {
+									delete editProductList[product];
+								}
+							}
+						}
+
+						//remove from DOM
+						$(this).parent().remove();
+
+						console.log(editProductList);
+
+						e.preventDefault();
+					});
+				}
+			});
+
+			$('#edit_product_add_btn').unbind();
+			$('#edit_product_list').unbind();
+			$('#edit_product_qty').unbind();
+			$('#edit_product_type').unbind();
+
+        	$('#editDevicesModal_Label').html("Devices for " 	+ getValueAt(rowIndex, getColumnID('full_name')) 
+        											+ "<h5>(" + getValueAt(rowIndex, getColumnID('reference_id')) + ")</h5>");
         }
 
         if (column) {
@@ -215,121 +276,6 @@ EditableGrid.prototype.mouseClicked = function(e) {
         }
     }
 };
-        
-EditableGrid.prototype._rendergrid = function(containerid, className, tableid) {
-    with(this) {
-        lastSelectedRowIndex = -1;
-        _currentPageIndex = getCurrentPageIndex();
-        if (typeof table != "undefined" && table != null) {
-            var _data = dataUnfiltered == null ? data : dataUnfiltered;
-            _renderHeaders();
-            var rows = tBody.rows;
-            var skipped = 0;
-            var displayed = 0;
-            var rowIndex = 0;
-            for (var i = 0; i < rows.length; i++) {
-                if (!_data[i].visible || (pageSize > 0 && displayed >= pageSize)) {
-                    if (rows[i].style.display != "none") {
-                        rows[i].style.display = "none";
-                        rows[i].hidden_by_editablegrid = true
-                    }
-                } else {
-                    if (skipped < pageSize * _currentPageIndex) {
-                        skipped++;
-                        if (rows[i].style.display != "none") {
-                            rows[i].style.display = "none";
-                            rows[i].hidden_by_editablegrid = true
-                        }
-                    } else {
-                        displayed++;
-                        var cols = rows[i].cells;
-                        if (typeof rows[i].hidden_by_editablegrid != "undefined" && rows[i].hidden_by_editablegrid) {
-                            rows[i].style.display = "";
-                            rows[i].hidden_by_editablegrid = false
-                        }
-                        rows[i].rowId = getRowId(rowIndex);
-                        rows[i].id = _getRowDOMId(rows[i].rowId);
-                        for (var j = 0; j < cols.length && j < columns.length; j++) {
-                            if (columns[j].renderable) {
-                                columns[j].cellRenderer._render(rowIndex, j, cols[j], getValueAt(rowIndex, j))
-                            }
-                        }
-                    }
-                    rowIndex++
-                }
-            }
-            table.editablegrid = this;
-            if (doubleclick) {
-                table.ondblclick = function(e) {
-                    this.editablegrid.mouseClicked(e)
-                }
-            } else {
-                table.onclick = function(e) {
-                    this.editablegrid.mouseClicked(e)
-                }
-            }
-        } else {
-            if (!_$(containerid)) {
-                return alert("Unable to get element [" + containerid + "]")
-            }
-            currentContainerid = containerid;
-            currentClassName = className;
-            currentTableid = tableid;
-            var startRowIndex = 0;
-            var endRowIndex = getRowCount();
-            if (pageSize > 0) {
-                startRowIndex = _currentPageIndex * pageSize;
-                endRowIndex = Math.min(getRowCount(), startRowIndex + pageSize)
-            }
-            this.table = document.createElement("table");
-            table.className = className || "editablegrid";
-            if (typeof tableid != "undefined") {
-                table.id = tableid
-            }
-            while (_$(containerid).hasChildNodes()) {
-                _$(containerid).removeChild(_$(containerid).firstChild)
-            }
-            _$(containerid).appendChild(table);
-            if (caption) {
-                var captionElement = document.createElement("CAPTION");
-                captionElement.innerHTML = this.caption;
-                table.appendChild(captionElement)
-            }
-            this.tHead = document.createElement("THEAD");
-            table.appendChild(tHead);
-            var trHeader = tHead.insertRow(0);
-            var columnCount = getColumnCount();
-            for (var c = 0; c < columnCount; c++) {
-                var headerCell = document.createElement("TH");
-                var td = trHeader.appendChild(headerCell);
-                columns[c].headerRenderer._render(-1, c, td, columns[c].label);
-            }
-            this.tBody = document.createElement("TBODY");
-            table.appendChild(tBody);
-            var insertRowIndex = 0;
-            for (var i = startRowIndex; i < endRowIndex; i++) {
-                var tr = tBody.insertRow(insertRowIndex++);
-                tr.rowId = data[i]["id"];
-                tr.id = this._getRowDOMId(data[i]["id"]);
-                for (j = 0; j < columnCount; j++) {
-                    var td = tr.insertCell(j);
-                    columns[j].cellRenderer._render(i, j, td, getValueAt(i, j))
-                }
-            }
-            _$(containerid).editablegrid = this;
-            if (doubleclick) {
-                _$(containerid).ondblclick = function(e) {
-                    this.editablegrid.mouseClicked(e)
-                }
-            } else {
-                _$(containerid).onclick = function(e) {
-                    this.editablegrid.mouseClicked(e)
-                }
-            }
-        }
-        tableRendered(containerid, className, tableid)
-    }
-};
    
 CellRenderer.prototype._render = function(d, b, a, c) {
     a.rowIndex = d;
@@ -346,7 +292,7 @@ CellRenderer.prototype._render = function(d, b, a, c) {
     }
     if (this.column.name == 'devices') {
     	a.setAttribute("data-toggle", "modal");
-    	a.setAttribute("data-target", "#myModal");
+    	a.setAttribute("data-target", "#editDevicesModal");
 	}
     return this.render(a, typeof c == "string" && this.column.datatype != "html" ? htmlspecialchars(c, "ENT_NOQUOTES").replace(/\s\s/g, "&nbsp; ") : c)
 };

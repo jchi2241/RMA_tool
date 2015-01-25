@@ -1,6 +1,6 @@
 <?php
 	include 'configPDO.php';
-	include 'rma_id_functions.php';
+	include 'helpers.php';
 
 	if (isset($_POST["full_name"]) && isset($_POST["email"]) && isset($_POST["shipping_address"]) && 
 		isset($_POST["phone_number"]) && isset($_POST["reason"]) && isset($_POST["shipping_carrier"]) &&
@@ -73,7 +73,8 @@
 			$retreived_devices_result = $db->prepare("	SELECT r.qty, d.name
 														FROM requested_devices r
 														JOIN devices d ON r.device_id = d.id
-														WHERE sample_id = ".$sample_id);
+														WHERE sample_id = :sample_id");
+			$retreived_devices_result->bindParam(':sample_id', $sample_id);
 			$retreived_devices_result->execute();
 
 			//display retrieved devices
@@ -108,6 +109,47 @@
 			$stmt->bindParam(':reference_id', $reference_id);
 			$stmt->execute();
 
+			$replacement_id = $db->lastInsertId();
+
+			//insert devices into requested_devices
+			foreach ($devices_data as $device => $qty ) {
+				$device_id = getDeviceId($device);
+				$requested_devices_result = $db->prepare("	INSERT INTO requested_devices (qty, device_id, replacement_id, customer_id)
+															VALUES (:qty, :device_id, :replacement_id, :customer_id)");
+				$requested_devices_result->bindParam(':qty', $qty);
+				$requested_devices_result->bindParam(':device_id', $device_id);
+				$requested_devices_result->bindParam(':replacement_id', $replacement_id);
+				$requested_devices_result->bindParam(':customer_id', $customer_id);
+				$requested_devices_result->execute();
+			}
+
+			//retrieve devices from requested_devices 
+			$retreived_devices_result = $db->prepare("	SELECT r.qty, d.name
+														FROM requested_devices r
+														JOIN devices d ON r.device_id = d.id
+														WHERE replacement_id = :replacement_id");
+			$retreived_devices_result->bindParam(':replacement_id', $replacement_id);
+			$retreived_devices_result->execute();
+
+			//display retrieved devices
+			$retreived_devices = $retreived_devices_result->fetchAll(PDO::FETCH_ASSOC);
+
+			$device_arr = array();
+			foreach ($retreived_devices as $device) {
+				$device_arr[] = $device['qty'] . ' ' . $device['name'];
+			}
+
+			$devices = implode(", ", $device_arr);
+
+			print_r($devices);
+			
+			$sample_devices_result = $db->prepare("	UPDATE replacements 
+													SET devices = :devices
+													WHERE id = :replacement_id");
+			$sample_devices_result->bindParam(':devices', $devices);
+			$sample_devices_result->bindParam(':replacement_id', $replacement_id);
+			$sample_devices_result->execute();
+
 		} elseif ($_POST["formType"] == "Return") {
 
 			$rma_id = newRMAId('returns');
@@ -121,6 +163,47 @@
 			$stmt->bindParam(':rma_id', $rma_id);
 			$stmt->bindParam(':reference_id', $reference_id);
 			$stmt->execute();
+
+			$return_id = $db->lastInsertId();
+
+			//insert devices into requested_devices
+			foreach ($devices_data as $device => $qty ) {
+				$device_id = getDeviceId($device);
+				$requested_devices_result = $db->prepare("	INSERT INTO requested_devices (qty, device_id, return_id, customer_id)
+															VALUES (:qty, :device_id, :return_id, :customer_id)");
+				$requested_devices_result->bindParam(':qty', $qty);
+				$requested_devices_result->bindParam(':device_id', $device_id);
+				$requested_devices_result->bindParam(':return_id', $return_id);
+				$requested_devices_result->bindParam(':customer_id', $customer_id);
+				$requested_devices_result->execute();
+			}
+
+			//retrieve devices from requested_devices 
+			$retreived_devices_result = $db->prepare("	SELECT r.qty, d.name
+														FROM requested_devices r
+														JOIN devices d ON r.device_id = d.id
+														WHERE return_id = :return_id");
+			$retreived_devices_result->bindParam(':return_id', $return_id);
+			$retreived_devices_result->execute();
+
+			//display retrieved devices
+			$retreived_devices = $retreived_devices_result->fetchAll(PDO::FETCH_ASSOC);
+
+			$device_arr = array();
+			foreach ($retreived_devices as $device) {
+				$device_arr[] = $device['qty'] . ' ' . $device['name'];
+			}
+
+			$devices = implode(", ", $device_arr);
+
+			print_r($devices);
+			
+			$sample_devices_result = $db->prepare("	UPDATE returns 
+													SET devices = :devices
+													WHERE id = :return_id");
+			$sample_devices_result->bindParam(':devices', $devices);
+			$sample_devices_result->bindParam(':return_id', $return_id);
+			$sample_devices_result->execute();
 
 		} else {
 			echo "check your formTypes";

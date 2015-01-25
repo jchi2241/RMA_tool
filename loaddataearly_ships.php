@@ -68,7 +68,7 @@ $result = $mysqli->query(  'SELECT e.id, s.rma_id, s.devices, e.created_at, c.fu
 							FROM customers c RIGHT JOIN early_ships e ON c.id = e.customer_id
 							JOIN samples s ON e.sample_id = s.id
 							WHERE e.deleted = 0
-							ORDER BY e.created_at DESC');
+							ORDER BY e.id DESC');
 $mysqli->close();
 
 // send data to the browser

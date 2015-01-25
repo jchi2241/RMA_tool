@@ -29,19 +29,46 @@
 	#product_list_header {
 		display: none;
 	}
+
+	#editDevicesModal .modal-dialog {
+		width: 350px;
+	}
+
+	#editDevicesModal .modal-body {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		width: 317px;
+	}
 </style>
 
 <body>
 
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal fade" id="editDevicesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+	        <h3 class="modal-title" id="editDevicesModal_Label"></h3>
 	      </div>
 	      <div class="modal-body">
-	        ...
+        	<div id='edit_product_container' class='row'>
+        		<div class="input-group">
+					<div class="input-group-btn">
+						<button id="edit_product_type" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+							<span class="caret"></span>
+						</button>
+						<ul id="edit_product_group_list" class="dropdown-menu" role="menu"></ul>
+					</div>
+					<input id="edit_product_qty" type="number" min="1" value="1" class="form-control" required>
+					<div class="input-group-btn">
+						<button id="edit_product_add_btn" class="btn btn-primary" type="button">Add</button>
+					</div>
+				</div>
+        	</div>
+        	</br>
+        	<div id='edit_product_list_container' class='row'>
+        		<ul id='edit_product_list' class='list-group'></ul>
+        	</div>
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -149,7 +176,7 @@
 							        <button id="product_type" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
 							        <ul id="product_group_list" class="dropdown-menu" role="menu"></ul>
 						        </div>
-						        <input id="product_qty" type="number" min="1" value="1" class="form-control" placeholder="How many?" required>
+						        <input id="product_qty" type="number" min="1" value="1" class="form-control" required>
 						        <div class="input-group-btn">
 							  		<button id="product_add_btn" class="btn btn-primary" type="button">Add</button>
 							  	</div>
@@ -241,6 +268,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	<script src="js/databasegrid.js" ></script>
 	<script src="js/loadgrids.js" ></script>
+	<script src="js/helpers.js"></script>
 
 	<script type="text/javascript">
 
@@ -253,11 +281,12 @@
 		window.onload = function() { 
 			
 	      	$("#filter").keyup(function() {
-	          datagrid.editableGrid.filter( $(this).val());
+	          customersGrid.editableGrid.filter( $(this).val());
 	        });
 
 			changeDropdownValue('#tracking_number_group', '#shipping_carrier');
 			changeDropdownValue('#product_group', '#product_type');
+			changeDropdownValue('#editDevicesModal', '#edit_product_type');
 
 			//adding products into for #product_list
 			var productList = {};
@@ -271,7 +300,10 @@
 					
 					if (productList[productType] === undefined) {
 						productList[productType] = parseInt(qty);
-						$('#product_list').append('<li class="list-group-item"><span class="badge">' + qty + '</span>' + productType + '<button type="button" class="close" aria-hidden="true">&times;</button></li>');
+						$('#product_list').append('<li class="list-group-item"><span class="badge">' 
+													+ qty + '</span>' 
+													+ productType 
+													+ '<button type="button" class="close" aria-hidden="true">&times;</button></li>');
 					} else {
 						productList[productType] += parseInt(qty);
 						$('#product_list li:contains(' + productType + ')').find('span').html(productList[productType]);
@@ -303,7 +335,7 @@
 
 				console.log(productList);
 
-				e.preventDefault;
+				e.preventDefault();
 			});
 
 			//show appropriate inputs based on what formType is selected
@@ -361,7 +393,7 @@
 			});
 		}; 
 
-		//fill up #product_list with devices from table 'devices'
+		//fill up #product_group_list with devices from table 'devices'
 		$.get('get_devices.php', function (data) {
 			var devices = $.parseJSON(data);
 		
@@ -376,16 +408,6 @@
 				}
 			}
 		});
-
-		var changeDropdownValue = function(parentElement, button) {
-
-			$(parentElement).on('click', 'a', function(e) {
-				$(parentElement).find('a').show();
-				$(button).html($(this).html() + ' <span class="caret"></span>');
-				$(this).hide();
-				e.preventDefault();
-			});
-		};
 
 	</script>
 </body>

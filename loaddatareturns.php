@@ -67,7 +67,7 @@ $result = $mysqli->query(  'SELECT r.id, r.created_at, r.devices, c.full_name, r
 							FROM returns r
 							LEFT JOIN customers c ON c.id = r.customer_id
 							WHERE r.deleted = 0
-							ORDER BY r.created_at DESC');
+							ORDER BY r.id DESC');
 $mysqli->close();
 
 // send data to the browser

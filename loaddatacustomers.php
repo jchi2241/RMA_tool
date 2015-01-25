@@ -60,8 +60,8 @@ $grid->addColumn('shipping_address', 'Shipping Address', 'string');
 $grid->addColumn('phone_number', 'Phone Number', 'string');                                     
                                                                        
 $result = $mysqli->query('	SELECT * 
-							FROM customers
-							WHERE customers.deleted = 0
+							FROM customers c
+							WHERE c.deleted = 0
 							ORDER BY id DESC');
 $mysqli->close();
 
