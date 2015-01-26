@@ -104,6 +104,7 @@ function updatePaginator(grid, divId)
 EditableGrid.prototype.mouseClicked = function(e) {
 
     e = e || window.event;
+
     with(this) {
         var target = e.target || e.srcElement;
         while (target) {
@@ -135,6 +136,8 @@ EditableGrid.prototype.mouseClicked = function(e) {
         if (this.getColumnName(columnIndex) == 'devices') {
 
         	var self = this;
+        	var editProductList;
+        	console.log('after init: ', editProductList);
 
         	$('#edit_product_list').empty();
 
@@ -162,8 +165,8 @@ EditableGrid.prototype.mouseClicked = function(e) {
 			  		request_id: self.getRowId(rowIndex)
 			  	},
 			  	success: function(response) {
-			  		var editProductList = JSON.parse(response);
-			  		console.log('editProductList direct from DB: ', editProductList);
+			  		editProductList = JSON.parse(response);
+			  		console.log('from DB: ', editProductList);
 
 			  		for (var product in editProductList) {
 			  			if (editProductList.hasOwnProperty(product)) {
@@ -246,10 +249,21 @@ EditableGrid.prototype.mouseClicked = function(e) {
 				}
 			});
 
-			$('#edit_product_add_btn').unbind();
-			$('#edit_product_list').unbind();
-			$('#edit_product_qty').unbind();
-			$('#edit_product_type').unbind();
+			$('#editDevicesModal *').off();
+
+			$('#editDevicesModal_Save').on('click', function (e) {
+
+				$.ajax({
+					type: 'POST',
+					url: 'save_edited_devices.php',
+					data: JSON.stringify(editProductList),
+					success: function (response) {
+						console.log(response);
+					}
+				});
+
+				e.preventDefault();
+			});
 
         	$('#editDevicesModal_Label').html("Devices for " 	+ getValueAt(rowIndex, getColumnID('full_name')) 
         											+ "<h5>(" + getValueAt(rowIndex, getColumnID('reference_id')) + ")</h5>");
