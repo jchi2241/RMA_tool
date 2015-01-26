@@ -137,7 +137,6 @@ EditableGrid.prototype.mouseClicked = function(e) {
 
         	var self = this;
         	var editProductList;
-        	console.log('after init: ', editProductList);
 
         	$('#edit_product_list').empty();
 
@@ -220,7 +219,7 @@ EditableGrid.prototype.mouseClicked = function(e) {
 							alert('Enter a number greater than 0');
 						}
 
-						console.log('editProductList after adding product: ', editProductList);
+						console.log('after adding product: ', editProductList);
 						e.preventDefault();
 					});
 
@@ -249,6 +248,7 @@ EditableGrid.prototype.mouseClicked = function(e) {
 				}
 			});
 
+			//unbind all events
 			$('#editDevicesModal *').off();
 
 			$('#editDevicesModal_Save').on('click', function (e) {

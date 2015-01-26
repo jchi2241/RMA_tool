@@ -31,14 +31,14 @@
 	}
 
 	#editDevicesModal .modal-dialog {
-		width: 350px;
+		width: 375px;
 	}
 
 	#editDevicesModal .modal-body {
 		display: block;
 		margin-left: auto;
 		margin-right: auto;
-		width: 317px;
+		width: 342px;
 	}
 </style>
 
