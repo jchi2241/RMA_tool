@@ -229,24 +229,4 @@
 
 	//redirect to clear $_POST variables
 	//header("Location:./index.php");
-
-	function getDeviceId($device_name) {
-
-		include 'configPDO.php';
-
-		$stmt = $db->prepare("SELECT id, name FROM devices");
-		$stmt->execute();
-
-		$device_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-		foreach ($device_list as $device) {
-		   if ($device['name'] == $device_name) {
-		   		$device_id = $device['id'];
-		   		break;
-		   } 
-		}
-
-		return $device_id;
-	}
-
 ?>

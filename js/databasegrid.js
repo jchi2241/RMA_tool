@@ -1,3 +1,4 @@
+
 $.getScript("js/helpers.js", function(){
 	console.log('helpers.js successfully loaded in databasegrid.js');
 });
@@ -135,8 +136,13 @@ EditableGrid.prototype.mouseClicked = function(e) {
         //if column 'Devices' is clicked, get devices for specific sample request from DB
         if (this.getColumnName(columnIndex) == 'devices') {
 
+        	//unbind all events
+			$('#editDevicesModal *').off();
+
         	var self = this;
         	var editProductList;
+        	var tableName = this.name;
+        	var request_id = this.getRowId(rowIndex);
 
         	$('#edit_product_list').empty();
 
@@ -160,8 +166,8 @@ EditableGrid.prototype.mouseClicked = function(e) {
         		type: 'POST',
 			  	url: 'get_requested_devices.php',
 			  	data: {
-			  		table: this.name,
-			  		request_id: self.getRowId(rowIndex)
+			  		table: tableName,
+			  		request_id: request_id
 			  	},
 			  	success: function(response) {
 			  		editProductList = JSON.parse(response);
@@ -199,16 +205,11 @@ EditableGrid.prototype.mouseClicked = function(e) {
 							}
 							
 							if (in_editProductList === false) {
-								if (editProductList.hasOwnProperty(product)) {
-
-									//add into DOM
-									$('#edit_product_list').append('<li class="list-group-item"><span class="badge">' 
-														+ qty + '</span>' 
-														+ productType 
-														+ '<button type="button" class="close" aria-hidden="true">&times;</button></li>');
-
-									in_editProductList = true;
-								}
+								//add into DOM
+								$('#edit_product_list').append('<li class="list-group-item"><span class="badge">' 
+													+ qty + '</span>' 
+													+ productType 
+													+ '<button type="button" class="close" aria-hidden="true">&times;</button></li>');
 
 								//add into object
 								var new_product_obj = { name: productType, qty: qty };
@@ -248,17 +249,29 @@ EditableGrid.prototype.mouseClicked = function(e) {
 				}
 			});
 
-			//unbind all events
-			$('#editDevicesModal *').off();
-
 			$('#editDevicesModal_Save').on('click', function (e) {
 
 				$.ajax({
 					type: 'POST',
 					url: 'save_edited_devices.php',
-					data: JSON.stringify(editProductList),
+					data: {
+						table: tableName,
+						request_id: request_id,
+						devices: JSON.stringify(editProductList)
+					},
 					success: function (response) {
 						console.log(response);
+
+						if (tableName === 'samples') {
+							$('#samples').trigger('click');
+						} else if (tableName === 'replacements') {
+							$('#replacements').trigger('click');
+						} else if (tableName === 'returns') {
+							$('#returns').trigger('click');
+						} else {
+							console.log('no table by ' + tableName + 'exists');
+						}
+						
 					}
 				});
 
