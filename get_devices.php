@@ -2,7 +2,7 @@
 
 	include 'configPDO.php';
 
-	$stmt = $db->prepare('SELECT name FROM devices ORDER BY id');
+	$stmt = $db->prepare('SELECT name FROM devices ORDER BY id ASC');
 	$stmt->execute();
 
 	$array = [];

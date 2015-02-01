@@ -170,6 +170,7 @@ EditableGrid.prototype.mouseClicked = function(e) {
 			  		request_id: request_id
 			  	},
 			  	success: function(response) {
+
 			  		editProductList = JSON.parse(response);
 			  		console.log('from DB: ', editProductList);
 
@@ -194,7 +195,7 @@ EditableGrid.prototype.mouseClicked = function(e) {
 							for (var product in editProductList) {
 								if (editProductList.hasOwnProperty(product)) {
 									if (editProductList[product].name === productType) {
-										editProductList[product].qty = (parseInt(editProductList[product].qty) + parseInt(qty)).toString() ;
+										editProductList[product].qty = parseInt(editProductList[product].qty) + parseInt(qty);
 										console.log('product name, qty: ', editProductList[product].name, editProductList[product].qty);
 										$('#edit_product_list li:contains(' + productType + ')').find('span').html(editProductList[product].qty);
 
@@ -212,8 +213,7 @@ EditableGrid.prototype.mouseClicked = function(e) {
 													+ '<button type="button" class="close" aria-hidden="true">&times;</button></li>');
 
 								//add into object
-								var new_product_obj = { name: productType, qty: qty };
-								editProductList[Object.size(editProductList)] = new_product_obj;
+								editProductList.push({ name: productType, qty: parseInt(qty) });
 							}
 							
 						} else {
@@ -231,11 +231,9 @@ EditableGrid.prototype.mouseClicked = function(e) {
 						console.log('productToRemove: ' + productToRemove);
 
 						//remove from object
-						for (var product in editProductList) {
-							if (editProductList.hasOwnProperty(product)) {
-								if (editProductList[product].name == productToRemove) {
-									delete editProductList[product];
-								}
+						for (var i = 0; i < editProductList.length; i++) {
+							if (editProductList[i].name == productToRemove) {
+								editProductList.splice(i, 1);
 							}
 						}
 
@@ -243,7 +241,6 @@ EditableGrid.prototype.mouseClicked = function(e) {
 						$(this).parent().remove();
 
 						console.log(editProductList);
-
 						e.preventDefault();
 					});
 				}
@@ -262,6 +259,7 @@ EditableGrid.prototype.mouseClicked = function(e) {
 					success: function (response) {
 						console.log(response);
 
+						//update tables after saving edited devices
 						if (tableName === 'samples') {
 							$('#samples').trigger('click');
 						} else if (tableName === 'replacements') {

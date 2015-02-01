@@ -1,11 +1,3 @@
-//determine size of object
-Object.size = function(obj) {
-    var size = 0, key;
-    for (key in obj) {
-        if (obj.hasOwnProperty(key)) size++;
-    }
-    return size;
-};
 
 //change button's text value to selected value from dropdown menu
 function changeDropdownValue(parentElement, button) {

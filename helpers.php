@@ -53,12 +53,41 @@ function getDeviceId($device_name) {
 
 	foreach ($device_list as $device) {
 	   if ($device['name'] == $device_name) {
-	   		$device_id = $device['id'];
-	   		break;
+	   		return $device['id'];
 	   } 
 	}
 
-	return $device_id;
+	
+}
+
+function getDeviceName($device_id) {
+
+	include 'configPDO.php';
+
+	$stmt = $db->prepare("SELECT id, name FROM devices");
+	$stmt->execute();
+
+	$device_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+	foreach ($device_list as $device) {
+		if ($device['id'] == $device_id) {
+			return $device['name'];
+		}
+	}
+}
+
+function insertIntoRequestedDevices($request_id, $device_id, $table_id, $customer_id) {
+
+	include 'configPDO.php';
+
+	$stmt = $db->prepare("  INSERT INTO requested_devices (device_id, {$request_id}, customer_id)
+							VALUES (:device_id, :table_id, :customer_id)");
+
+	$stmt->bindParam(':device_id', $device_id);
+	$stmt->bindParam(':table_id', $table_id);
+	$stmt->bindParam(':customer_id', $customer_id);
+	$stmt->execute();
+
 }
 
 ?>

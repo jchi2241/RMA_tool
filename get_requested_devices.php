@@ -5,47 +5,42 @@
 	$request_id = $_POST['request_id'];
 	$table = $_POST['table'];
 	$array = [];
+	$arr = [];
 
 	if ($table == 'samples') {
 
-		$stmt = $db->prepare('	SELECT r.qty, d.name
-							  	FROM requested_devices r
-							  	JOIN devices d ON r.device_id = d.id
-							  	WHERE r.sample_id = :request_id
-							  	ORDER BY r.id');
-
-		$stmt->bindParam(':request_id', $request_id);
-		$stmt->execute();
+		$request_id_col = "sample_id";
 
 	} elseif ($table == 'replacements') {
 
-		$stmt = $db->prepare('	SELECT r.qty, d.name
-							  	FROM requested_devices r
-							  	JOIN devices d ON r.device_id = d.id
-							  	WHERE r.replacement_id = :request_id
-							  	ORDER BY r.id');
-
-		$stmt->bindParam(':request_id', $request_id);
-		$stmt->execute();
+		$request_id_col = "replacement_id";
 
 	} elseif ($table == 'returns') {
-		
-		$stmt = $db->prepare('	SELECT r.qty, d.name
-							  	FROM requested_devices r
-							  	JOIN devices d ON r.device_id = d.id
-							  	WHERE r.return_id = :request_id
-							  	ORDER BY r.id');
 
-		$stmt->bindParam(':request_id', $request_id);
-		$stmt->execute();
+		$request_id_col = "return_id";
 
 	} else {
 		print_r('check table var');
 	}
 
+	$stmt = $db->prepare('	SELECT COUNT(*), d.name  
+						  	FROM requested_devices r
+						  	JOIN devices d ON r.device_id = d.id
+						  	WHERE r.'.$request_id_col.' = :request_id AND r.deleted = 0
+						  	GROUP BY d.name');
+
+	$stmt->bindParam(':request_id', $request_id);
+	$stmt->execute();
+
 	while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-		array_push($array, $row);
+
+		$arr['qty'] = (int) $row['COUNT(*)'];
+		$arr['name'] = $row['name'];
+
+		array_push($array, $arr);
+		
 	}
 
-	print_r(json_encode($array, JSON_FORCE_OBJECT));
+	print_r(json_encode($array));
+
 ?>
