@@ -25,6 +25,15 @@ function DatabaseGrid(table)
 	this.fetchGrid(table); 
 }
 
+DatabaseGrid.prototype.printForm = function(id) {
+
+	console.log('id: ', id);
+	console.log('editableGrid: ', this.editableGrid);
+
+    window.open($('#printForm').prop('href'));
+
+}
+
 DatabaseGrid.prototype.deleteRow = function(id) 
 {
   var self = this;

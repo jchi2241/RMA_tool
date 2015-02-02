@@ -40,9 +40,16 @@
 		margin-right: auto;
 		width: 342px;
 	}
+
+	#printForm {
+		display: none;
+	}
+
 </style>
 
 <body>
+
+	<a id="printForm" href="https://www.google.com" target="_tab"></a>
 
 	<div class="modal fade" id="editDevicesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	  <div class="modal-dialog">

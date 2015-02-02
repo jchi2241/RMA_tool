@@ -71,7 +71,7 @@
 			$request_result->bindParam(':reference_id', $reference_id);
 			$request_result->execute();
 
-			$table_id = $db->lastInsertId();
+			$request_id = $db->lastInsertId();
 
 		} elseif ($table == "returns") {
 
@@ -84,7 +84,7 @@
 			$stmt->bindParam(':reference_id', $reference_id);
 			$stmt->execute();
 
-			$table_id = $db->lastInsertId();
+			$request_id = $db->lastInsertId();
 
 		} else {
 
@@ -101,10 +101,10 @@
 			while ($count < $qty) {
 
 				$devices_result = $db->prepare("INSERT INTO requested_devices (device_id, {$request_id_col}, customer_id)
-												VALUES (:device_id, :table_id, :customer_id)");
+												VALUES (:device_id, :request_id, :customer_id)");
 
 				$devices_result->bindParam(':device_id', $device_id);
-				$devices_result->bindParam(':table_id', $table_id);
+				$devices_result->bindParam(':request_id', $request_id);
 				$devices_result->bindParam(':customer_id', $customer_id);
 				$devices_result->execute();
 
@@ -113,12 +113,45 @@
 			} 
 		}
 
+		//retrieve newly updated set of devices from requested_devices
+		$sql = "SELECT COUNT(*), d.name
+				FROM requested_devices r
+				JOIN devices d ON r.device_id = d.id
+				WHERE {$request_id_col} = :request_id AND r.deleted = 0
+				GROUP BY d.name
+				ORDER BY d.id";
+
+		$retreived_devices_result = $db->prepare($sql);
+		$retreived_devices_result->bindParam(':request_id', $request_id);
+		$retreived_devices_result->execute();
+
+		$array = [];
+
+		while ($row = $retreived_devices_result->fetch(PDO::FETCH_ASSOC)) {
+			array_push($array, $row['COUNT(*)'] . ' ' . $row['name']);
+		}
+
+		$devices = implode(", ", $array);
+
+		echo "array: \n";
+		print_r($array);
+		echo "\n";
+
+		$sql = "UPDATE {$table}
+				SET devices = :devices
+				WHERE id = :request_id AND deleted = 0";
+
+		$stmt = $db->prepare($sql);
+		$stmt->bindParam(':devices', $devices);
+		$stmt->bindParam(':request_id', $request_id);
+		$stmt->execute();
+
 		//temporary hack to display devices in table
 		// $retreived_devices_result = $db->prepare("	SELECT d.name
 		// 											FROM requested_devices r
 		// 											JOIN devices d ON r.device_id = d.id
-		// 											WHERE {$request_id_col} = :table_id");
-		// $retreived_devices_result->bindParam(':table_id', $table_id);
+		// 											WHERE {$request_id_col} = :request_id");
+		// $retreived_devices_result->bindParam(':request_id', $request_id);
 		// $retreived_devices_result->execute();
 
 		// $retreived_devices = $retreived_devices_result->fetchAll(PDO::FETCH_ASSOC);
@@ -135,19 +168,19 @@
 		
 		// $sample_devices_result = $db->prepare("	UPDATE {$table} 
 		// 										SET devices = :devices
-		// 										WHERE id = :table_id");
+		// 										WHERE id = :request_id");
 		// $sample_devices_result->bindParam(':devices', $devices);
-		// $sample_devices_result->bindParam(':table_id', $table_id);
+		// $sample_devices_result->bindParam(':request_id', $request_id);
 		// $sample_devices_result->execute();
 
 		if(isset($_POST["earlyShip"]) && $_POST["earlyShip"] == 'checked') {
 			
 			$stmt = $db->prepare("	INSERT INTO early_ships (customer_id, sample_id, shipping_carrier, tracking_number, created_at, updated_at) 
-									VALUES (:customer_id, :table_id, :shipping_carrier, :tracking_number, NULL, NULL)");
+									VALUES (:customer_id, :request_id, :shipping_carrier, :tracking_number, NULL, NULL)");
 			$stmt->bindParam(':customer_id', $customer_id);
 			$stmt->bindParam(':tracking_number', $tracking_number);
 			$stmt->bindParam(':shipping_carrier', $shipping_carrier);
-			$stmt->bindParam(':table_id', $table_id);
+			$stmt->bindParam(':request_id', $request_id);
 
 			$stmt->execute();
 		}

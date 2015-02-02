@@ -36,6 +36,11 @@ $('#samples').on('click', function(e){
 				i.className = 'fa fa-trash-o';
 				i.onclick = self.deleteRow.bind(self, id);
 				cell.appendChild(i);
+
+				var p = document.createElement('i');
+				p.className = 'fa fa-print';
+				p.onclick = self.printForm.bind(self, id);
+				cell.appendChild(p);
 			}
 		}));
 
