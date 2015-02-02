@@ -37,10 +37,10 @@ $('#samples').on('click', function(e){
 				i.onclick = self.deleteRow.bind(self, id);
 				cell.appendChild(i);
 
-				var p = document.createElement('i');
-				p.className = 'fa fa-print';
-				p.onclick = self.printForm.bind(self, id);
-				cell.appendChild(p);
+				var print = document.createElement('i');
+				print.className = 'fa fa-print';
+				print.onclick = self.printForm.bind(self, id);
+				cell.appendChild(print);
 			}
 		}));
 
