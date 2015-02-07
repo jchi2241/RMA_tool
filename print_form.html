@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<head>
+<title>
+</title>
+
+<style>
+</style>
+
+</head>
+<body>
+
+<div id="test"></div>
+
+<script src="js/jquery-1.11.1.min.js" ></script>
+<script>
+
+$(function () {
+
+	$.ajax({
+		type: 'GET',
+		url: 'print_form.php',
+		data: {
+			request_id: localStorage.request_id,
+			table: localStorage.table
+		},
+		success: function (response) {
+			var form_data = JSON.parse(response);
+
+			console.log(form_data);
+
+			$('#test').html(form_data.full_name);
+			
+		},
+
+		error: function () {
+			alert('AJAX failed for print_form');
+		}
+	})
+
+});
+
+</script>
+
+</body>

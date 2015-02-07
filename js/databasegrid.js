@@ -30,6 +30,9 @@ DatabaseGrid.prototype.printForm = function(id) {
 	console.log('id: ', id);
 	console.log('editableGrid: ', this.editableGrid);
 
+	var request_id = localStorage.request_id = id;
+	var table = localStorage.table = this.editableGrid.name;
+
     window.open($('#printForm').prop('href'));
 
 }

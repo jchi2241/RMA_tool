@@ -56,8 +56,11 @@ $grid = new EditableGrid();
 
 $grid->addColumn('full_name', 'Name', 'string');  
 $grid->addColumn('email', 'Email', 'email'); 
-$grid->addColumn('shipping_address', 'Shipping Address', 'string');   
-$grid->addColumn('phone_number', 'Phone Number', 'string');                                     
+$grid->addColumn('shipping_address', 'Address', 'string');
+$grid->addColumn('city', 'City', 'string');
+$grid->addColumn('state', 'State', 'string');
+$grid->addColumn('zip_postal', 'Zip/Postal', 'string');
+$grid->addColumn('country', 'Country', 'string');                                     
                                                                        
 $result = $mysqli->query('	SELECT * 
 							FROM customers c
