@@ -17,6 +17,12 @@
 			margin: 0.4in;
 		}
 
+		@media print {
+			.panel-heading {
+				-webkit-print-color-adjust: exact;
+			}
+		}
+
 		ul {
 			list-style: none;
 			padding-left: 0;
@@ -34,7 +40,7 @@
 
 		#request {
 			text-align: left;
-			margin-top: 26px;
+			margin-top: 16px;
 		}
 
 		#request_numbers {
@@ -54,7 +60,7 @@
 		}
 
 		#company_panel {
-			margin-top: 30px;
+			margin-top: 20px;
 		}
 
 		#customer_panel {
@@ -81,6 +87,29 @@
 			margin: 0;
 		}
 
+		#signatures_section_1 {
+			margin-top: 10px;
+			margin-bottom: 25px;
+		}
+
+		.signature_label {
+			padding-right: 10px;
+		}
+
+		#company_logo {
+			width: 150px;
+			margin-top:11px;
+			margin-bottom: 7px;
+		}
+
+		.panel-title {
+			font-size: 14px;
+		}
+
+		.underscore {
+			color: #DDDDDD;
+		}
+
 /*		* {
 		  border-radius: 0 !important;
 		}*/
@@ -95,7 +124,7 @@
 
 		<div id="header" class="row">
 			<div id="company_panel" class="col-xs-6">
-				<h4>iSmart Alarm, Inc</h4>
+				<img id="company_logo" src="css/images/company_name.png" alt="iSmart Alarm, Inc.">
 				<div>1290 Kifer Rd Ste 306</div>
 				<div>Sunnyvale, CA 94086</div>
 				<div>(408) 245-2551</div>
@@ -105,11 +134,11 @@
 				<h3 id="request_title">Replacement Request</h3>
 				<table id="request_numbers">
 					<tr>
-						<td>Ref: </td>
+						<td>Ref : </td>
 						<td id="reference_id" class="request_id"></td>
 					</tr>
 					<tr>
-						<td>RMA: </td>
+						<td>RMA : </td>
 						<td id="rma_id" class="request_id"></td>
 					</tr>
 				</table>
@@ -174,10 +203,10 @@
 						<tr><th>Carrier</th><th>Tracking #</th><th>Date Shipped</th></tr>
 						<tr>
 							<td id="tracking_carrier">
-								__&nbsp&nbspUPS&nbsp&nbsp&nbsp&nbsp
-								__&nbsp&nbspFedEx&nbsp&nbsp&nbsp&nbsp
-								__&nbsp&nbspUSPS&nbsp&nbsp&nbsp&nbsp
-								__&nbsp&nbspOther
+								<span class="underscore">__</span>&nbsp&nbspUPS&nbsp&nbsp&nbsp&nbsp
+								<span class="underscore">__</span>&nbsp&nbspFedEx&nbsp&nbsp&nbsp&nbsp
+								<span class="underscore">__</span>&nbsp&nbspUSPS&nbsp&nbsp&nbsp&nbsp
+								<span class="underscore">__</span>&nbsp&nbspOther
 							</td>
 							<td id="tracking_number"></td>
 							<td></td>
@@ -185,6 +214,17 @@
 					</table>
 				</div>
 			</div>
+		</div>
+
+		<div id="signatures_section_1" class="row">
+			<div class="col-xs-3">Requested By</div>
+			<div class="col-xs-6"><span class="signature_label">Approved By</span><span class="underscore">________________________________</span></div>
+			<div class="col-xs-3"><span class="signature_label">Date</span><span class="underscore">_______________</span></div>
+		</div>
+		<div id="signatures_section_2" class="row">
+			<div class="col-xs-3"><span class="underscore">___________________</span></div>
+			<div class="col-xs-6"><span class="signature_label">Approved By</span><span class="underscore">________________________________</span></div>
+			<div class="col-xs-3"><span class="signature_label">Date</span><span class="underscore">_______________</span></div>
 		</div>
 	</div>
 
@@ -225,6 +265,7 @@
 					$('#email').html(requested_info.email);
 					$('#reference_id').html(requested_info.reference_id);
 					$('#rma_id').html(requested_info.rma_id);
+					$('#reason_body').html(requested_info.reason);
 
 					for (var i = 0; i < requested_devices.length; i++) {
 						qty = requested_devices[i]['qty'];
