@@ -1,44 +1,249 @@
 <!DOCTYPE html>
 <head>
-<title>
-</title>
+	<meta charset="utf-8">
+	<title>
+	</title>
 
-<style>
-</style>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/font-awesome-4.1.0/css/font-awesome.min.css" type="text/css" media="screen">
+
+	<style>
+
+		* {
+			font-size: 12px;
+		}
+
+		@page {
+			margin: 0.4in;
+		}
+
+		ul {
+			list-style: none;
+			padding-left: 0;
+			margin-bottom: 0;
+		}
+
+		td {
+			margin-right: 50px;
+		}
+
+		h1, h2, h3, h4, h5 {
+			margin-top: 0;
+			padding-top: 0;
+		}
+
+		#request {
+			text-align: left;
+			margin-top: 26px;
+		}
+
+		#request_numbers {
+			float: right;
+			text-align: right;
+		}
+
+		#request_title {
+			text-align: right;
+			margin-bottom: 28px;
+		}
+		
+		.request_id {
+			text-align: left;
+			padding-left: 20px;
+			font-weight: bold
+		}
+
+		#company_panel {
+			margin-top: 30px;
+		}
+
+		#customer_panel {
+			margin-top: 10px;
+		}
+
+		#header {
+			height: 120px;
+		}
+
+		#products_section {
+			height: 450px;
+		}
+
+		#tracking_carrier {
+			width: 280px;
+		}
+
+		#tracking_number {
+			width: 250px;
+		}
+
+		#checkbox {
+			margin: 0;
+		}
+
+/*		* {
+		  border-radius: 0 !important;
+		}*/
+
+	</style>
 
 </head>
 <body>
 
-<div id="test"></div>
 
-<script src="js/jquery-1.11.1.min.js" ></script>
-<script>
+	<div class="container">
 
-$(function () {
+		<div id="header" class="row">
+			<div id="company_panel" class="col-xs-6">
+				<h4>iSmart Alarm, Inc</h4>
+				<div>1290 Kifer Rd Ste 306</div>
+				<div>Sunnyvale, CA 94086</div>
+				<div>(408) 245-2551</div>
+			</div>
 
-	$.ajax({
-		type: 'GET',
-		url: 'print_form.php',
-		data: {
-			request_id: localStorage.request_id,
-			table: localStorage.table
-		},
-		success: function (response) {
-			var form_data = JSON.parse(response);
+			<div id="request" class="col-xs-6">
+				<h3 id="request_title">Replacement Request</h3>
+				<table id="request_numbers">
+					<tr>
+						<td>Ref: </td>
+						<td id="reference_id" class="request_id"></td>
+					</tr>
+					<tr>
+						<td>RMA: </td>
+						<td id="rma_id" class="request_id"></td>
+					</tr>
+				</table>
+			</div>
+		</div>
 
-			console.log(form_data);
+		<div id="customer_section" class="row">
+			<div id="customer_panel" class="col-xs-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Customer Information</h3>
+					</div>
+					<table class="table">
+						<tr><th>Address</th><th>Phone</th><th>Email</th></tr>
+						<tr>
+							<td>
+								<ul>
+									<li id="full_name"></li>
+									<li id="address"></li>
+									<li>
+										<span id="city"></span><span>, </span>
+										<span id="state"></span><span> </span>
+										<span id="zip_postal"></span>
+									</li>
+									<li id="country"></li>
+								</ul>
+							</td>
+							<td id="phone_number"></td>
+							<td id="email"></td>
+						</tr>	
+					</table>
+				</div>
+			</div>
+		</div>
 
-			$('#test').html(form_data.full_name);
+		<div id="products_section" class="row">
+			<div class="col-xs-6">
+				<div id="products_panel" class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Products</h3>
+					</div>
+					<table id="products" class="table">
+						<tr><th>Qty</th><th>Item</th></tr>
+					</table>
+				</div>
+			</div>
+
+			<div class="col-xs-6">
+				<div id="reason_panel" class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Reason</h3>
+					</div>
+					<div id="reason_body" class="panel-body"></div>
+				</div>
+			</div>
+		</div>
+
+		<div id="tracking_section" class="row">
+			<div class="col-xs-12">
+				<div id="tracking_panel" class="panel panel-default">
+					<table id="tracking" class="table">
+						<tr><th>Carrier</th><th>Tracking #</th><th>Date Shipped</th></tr>
+						<tr>
+							<td id="tracking_carrier">
+								__&nbsp&nbspUPS&nbsp&nbsp&nbsp&nbsp
+								__&nbsp&nbspFedEx&nbsp&nbsp&nbsp&nbsp
+								__&nbsp&nbspUSPS&nbsp&nbsp&nbsp&nbsp
+								__&nbsp&nbspOther
+							</td>
+							<td id="tracking_number"></td>
+							<td></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+		
+
+		<script src="js/jquery-1.11.1.min.js" ></script>
+
+		<script>
+
+		$(function () {
+
+			$.ajax({
+				type: 'GET',
+				url: 'print_form.php',
+				data: {
+					request_id: localStorage.request_id,
+					table: localStorage.table
+				},
+				success: function (response) {
+
+					// console.log(response);
+					var form_data = JSON.parse(response);
+					var requested_info = form_data.requested_info;
+					var requested_devices = form_data.requested_devices;
+					var qty, name;
+
+					console.log(form_data);
+					console.log(form_data.requested_devices);
+
+					$('#full_name').html(requested_info.full_name);
+					$('#address').html(requested_info.address);
+					$('#city').html(requested_info.city);
+					$('#state').html(requested_info.state);
+					$('#zip_postal').html(requested_info.zip_postal);
+					$('#country').html(requested_info.country);
+					$('#phone_number').html(requested_info.phone_number);
+					$('#email').html(requested_info.email);
+					$('#reference_id').html(requested_info.reference_id);
+					$('#rma_id').html(requested_info.rma_id);
+
+					for (var i = 0; i < requested_devices.length; i++) {
+						qty = requested_devices[i]['qty'];
+						name = requested_devices[i]['name'];
+
+						$('#products').append('<tr><td>'+qty+'</td><td>'+name+'</td></tr>');
+					}	
+
+					//make the reasons panel height match the products panel height
+					$('#reason_panel').height($('#products_panel').height());
 			
-		},
+				},
+				error: function () {
+					alert('AJAX failed for print_form');
+				}
+			});
 
-		error: function () {
-			alert('AJAX failed for print_form');
-		}
-	})
+		});
 
-});
-
-</script>
+		</script>
 
 </body>

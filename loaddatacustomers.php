@@ -56,7 +56,7 @@ $grid = new EditableGrid();
 
 $grid->addColumn('full_name', 'Name', 'string');  
 $grid->addColumn('email', 'Email', 'email'); 
-$grid->addColumn('shipping_address', 'Address', 'string');
+$grid->addColumn('address', 'Address', 'string');
 $grid->addColumn('city', 'City', 'string');
 $grid->addColumn('state', 'State', 'string');
 $grid->addColumn('zip_postal', 'Zip/Postal', 'string');
