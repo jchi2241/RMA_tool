@@ -49,6 +49,15 @@
 		margin-left: 20px;
 	}
 
+	#product_list_form_group {
+		margin: 0;
+	}
+
+	#submitForm {
+		width: 100%;
+		height: 50px;
+	}
+
 </style>
 
 <body>
@@ -197,7 +206,7 @@
 					</div>
 
 					<!-- selected products list -->
-					<div class="form-group">
+					<div id="product_list_form_group" class="form-group">
 						<label class="col-md-2 control-label"></label>
 						<div class="col-md-6">
 							<ul id="product_list" class="list-group"></ul>
@@ -236,7 +245,7 @@
 					<!-- Button -->
 					<div class="form-group">
 					  <label class="col-md-2 control-label" for="submit"></label>
-					  <div class="col-md-4">
+					  <div class="col-md-6">
 					    <button type="submit" id="submitForm" name="submit" class="btn btn-primary">Submit</button>
 					  </div>
 					</div>
