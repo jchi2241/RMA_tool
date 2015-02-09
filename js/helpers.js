@@ -1,11 +1,12 @@
 
 //change button's text value to selected value from dropdown menu
-function changeDropdownValue(parentElement, button) {
-	$(parentElement).on('click', 'a', function(e) {
-		$(parentElement).find('a').show();
-		$(button).html($(this).html() + ' <span class="caret"></span>');
-		$(this).hide();
-		e.preventDefault();
+function changeDropdownValue(parentElement) {
+	$(parentElement).on('click', 'a', function(e){
+
+		$(".dropdown-menu li a").parents(parentElement).find('.btn').text($(this).text());
+	  	$(".dropdown-menu li a").parents(parentElement).find('.btn').val($(this).text());
+
+	  	e.preventDefault();
 	});
 };
 

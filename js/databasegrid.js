@@ -148,30 +148,32 @@ EditableGrid.prototype.mouseClicked = function(e) {
         //if column 'Devices' is clicked, get devices for specific sample request from DB
         if (this.getColumnName(columnIndex) == 'devices') {
 
-        	//unbind all events
-			$('#editDevicesModal *').off();
-
         	var self = this;
         	var editProductList;
         	var tableName = this.name;
         	var request_id = this.getRowId(rowIndex);
 
+        	//unbind events
+			$('#editDevicesModal *').off();
+
         	$('#edit_product_list').empty();
+
+        	changeDropdownValue("#btn_group_edit_product_type");
 
         	//fill up edit_product_type with devices from devices table in DB
         	$.get('get_devices.php', function (data) {
 				var devices = $.parseJSON(data);
+				var edit_product_group_list = "";
 			
 				$('#edit_product_type').text(devices[0]);
 
-				var edit_product_group_list = '<li><a href="#" style="display:none;">' + devices[0] + '</a></li>';
-
 				for (var index in devices) {
-					if (index !== '0' && devices.hasOwnProperty(index)) {
+					if (devices.hasOwnProperty(index)) {
 						edit_product_group_list += '<li><a href="#">' + devices[index] + '</a></li>';
-						$('#edit_product_group_list').html(edit_product_group_list);
 					}
 				}
+
+				$('#edit_product_group_list').html(edit_product_group_list);
 			});
 
         	$.ajax({
@@ -255,6 +257,10 @@ EditableGrid.prototype.mouseClicked = function(e) {
 						console.log(editProductList);
 						e.preventDefault();
 					});
+				},
+
+				error: function () {
+					alert('could not load devices for this row. check DB connection');
 				}
 			});
 
@@ -290,6 +296,7 @@ EditableGrid.prototype.mouseClicked = function(e) {
 
         	$('#editDevicesModal_Label').html("Devices for " 	+ getValueAt(rowIndex, getColumnID('full_name')) 
         											+ "<h5>(" + getValueAt(rowIndex, getColumnID('reference_id')) + ")</h5>");
+
         }
 
         if (column) {

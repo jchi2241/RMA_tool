@@ -73,7 +73,7 @@
 	      <div class="modal-body">
         	<div id='edit_product_container' class='row'>
         		<div class="input-group">
-					<div class="input-group-btn">
+					<div id="btn_group_edit_product_type" class="input-group-btn">
 						<button id="edit_product_type" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 							<span class="caret"></span>
 						</button>
@@ -151,9 +151,9 @@
 				<div class="col-md-7">
 					<div class="page-header"><h3>Step 2: <small>Fill out the form</small></h3></div>
 					<div class="form-group">
-					  <label class="col-md-2 control-label" for="full_name">Name</label>  
+					  <label class="col-md-2 control-label" for="full_name">Full Name</label>  
 					  <div class="col-md-6">
-					  <input name="full_name" type="text" placeholder="Full name" class="form-control input-md" required="">
+					  <input name="full_name" type="text" class="form-control input-md" required="">
 					    
 					  </div>
 					</div>
@@ -161,15 +161,47 @@
 					<div class="form-group">
 					  <label class="col-md-2 control-label" for="email">Email</label>  
 					  <div class="col-md-6">
-					  <input name="email" type="text" placeholder="example@example.com" class="form-control input-md" required="">
-					    
+						<input name="email" type="text" placeholder="example@example.com" class="form-control input-md" required="">
 					  </div>
 					</div>
 
 					<div class="form-group">
-					  <label class="col-md-2 control-label" for="shipping_address">Address</label>
+					  <label class="col-md-2 control-label" for="address">Address</label>
 					  <div class="col-md-6">                     
-					    <textarea class="form-control" name="shipping_address" rows="3" placeholder="123 Example Rd.&#10;City, AB 98765"></textarea>
+					    <input name="address" type="text" placeholder="Street Address, Apt/Suite/Unit/Blding/Floor" class="form-control input-md" required="">
+					  </div>
+					</div>
+
+					<div class="form-group">
+					  <label class="col-md-2 control-label" for="city">City</label>
+					  <div class="col-md-6">                     
+					    <input name="city" type="text" class="form-control input-md" required="">
+					  </div>
+					</div>
+
+					<div class="form-group">
+					  <label class="col-md-2 control-label" for="zip_postal">State</label>
+					  <div class="col-md-6">                     
+					    <input name="state" type="text" class="form-control input-md" required="">
+					  </div>
+					</div>
+
+					<div class="form-group">
+					  <label class="col-md-2 control-label" for="zip_postal">ZIP/Postal</label>
+					  <div class="col-md-6">                     
+					    <input name="zip_postal" type="text" class="form-control input-md" required="">
+					  </div>
+					</div>
+
+					<div id="country_group" class="form-group">
+					  <label class="col-md-2 control-label" for="country">Country</label>
+					  <div class="col-md-6">                     
+					    <div id="btn_group_country" class="btn-group dropdown">
+						  <button class="btn btn-default dropdown-toggle" type="button" id="country" data-toggle="dropdown" aria-expanded="true">
+						    <span class="caret"></span>
+						  </button>
+						  <ul id="country_list" class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1"></ul>
+						</div>
 					  </div>
 					</div>
 
@@ -177,14 +209,13 @@
 					  <label class="col-md-2 control-label" for="phone_number">Phone</label>  
 					  <div class="col-md-6">
 					  <input name="phone_number" type="text" class="form-control input-md">
-					    
 					  </div>
 					</div>
 
 					<div class="form-group">
 					  <label class="col-md-2 control-label" for="reason">Reason</label>
 					  <div class="col-md-6">                     
-					    <textarea class="form-control" name="reason" placeholder="Enter reason for RMA here..."></textarea>
+					    <textarea class="form-control" name="reason" placeholder="The reason for this request"></textarea>
 					  </div>
 					</div>
 
@@ -192,7 +223,7 @@
 						<label class="col-md-2 control-label">Product</label>
 					  	<div class="col-md-6">
 						    <div class="input-group">
-						        <div class="input-group-btn">
+						        <div id="btn_group_product_type" class="input-group-btn">
 							        <button id="product_type" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
 							        <ul id="product_group_list" class="dropdown-menu" role="menu"></ul>
 						        </div>
@@ -228,7 +259,7 @@
 					  	<div class="col-md-6">
 					  		<div class="input-group">
 							  	<input name="tracking_number" type="text" placeholder="Enter tracking number here..." class="form-control input-md"> 
-							  	<div class="input-group-btn">
+							  	<div id="btn_group_shipping_carrier" class="input-group-btn">
 									<button id="shipping_carrier" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 										FedEx <span class="caret"></span>
 									</button>
@@ -303,10 +334,6 @@
 	      	$("#filter").keyup(function() {
 	          customersGrid.editableGrid.filter( $(this).val());
 	        });
-
-			changeDropdownValue('#tracking_number_group', '#shipping_carrier');
-			changeDropdownValue('#product_group', '#product_type');
-			changeDropdownValue('#editDevicesModal', '#edit_product_type');
 
 			//adding products into for #product_list
 			var productList = {};
@@ -413,22 +440,43 @@
 			});
 		}; 
 
-		//fill up #product_group_list with devices from table 'devices'
+		//fill up products dropdown menu from DB
 		$.get('get_devices.php', function (data) {
 			var devices = $.parseJSON(data);
+			var product_group_list = "";
 		
 			$('#product_type').text(devices[0]);
 
-			var product_group_list = '<li><a href="#" style="display:none;">' + devices[0] + '</a></li>';
-
 			for (var index in devices) {
-				if (index !== '0' && devices.hasOwnProperty(index)) {
+				if (devices.hasOwnProperty(index)) {
 					product_group_list += '<li><a href="#">' + devices[index] + '</a></li>';
-					$('#product_group_list').html(product_group_list);
 				}
 			}
+
+			$('#product_group_list').html(product_group_list);
 		});
 
+		//fill up country dropdown menu from DB
+		$.get('get_countries.php', function (data) {
+			var countries = $.parseJSON(data);
+			var country_list = "";
+		
+			$('#country').text(countries[0]);
+
+			for (var index in countries) {
+				if (countries.hasOwnProperty(index)) {
+					country_list += '<li><a href="#">' + countries[index] + '</a></li>';
+				}
+			}
+
+			$('#country_list').html(country_list);
+		});
+
+		//change dropdown menu button to selected for the following buttons
+		changeDropdownValue("#btn_group_shipping_carrier");
+		changeDropdownValue("#btn_group_country");
+		changeDropdownValue("#btn_group_product_type");
+		
 	</script>
 </body>
 
