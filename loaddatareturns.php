@@ -58,7 +58,7 @@ $grid = new EditableGrid();
 $grid->addColumn('created_at', 'Date', 'date', NULL, false); 
 $grid->addColumn('full_name', 'Name', 'string', NULL, false);
 $grid->addColumn('devices', 'Devices', 'string', NULL, false);  
-$grid->addColumn('refund_amount', 'Refund Total', 'string');
+$grid->addColumn('refund_amount', 'Refund $', 'string');
 $grid->addColumn('rma_id', 'RMA #', 'string');
 $grid->addColumn('reference_id', 'Reference #', 'string');  
 $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');                                    

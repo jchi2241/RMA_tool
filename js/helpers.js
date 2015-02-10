@@ -5,7 +5,8 @@ function changeDropdownValue(parentElement) {
 
 		$(".dropdown-menu li a").parents(parentElement).find('.btn').text($(this).text());
 	  	$(".dropdown-menu li a").parents(parentElement).find('.btn').val($(this).text());
-
+	  	$(".dropdown-menu li a").parents(parentElement).find('.btn').append('<span class="caret"></span>');
+	  	
 	  	e.preventDefault();
 	});
 };

@@ -72,6 +72,11 @@ $('#replacements').on('click', function(e){
 				i.className = 'fa fa-trash-o';
 				i.onclick = self.deleteRow.bind(self, id);
 				cell.appendChild(i);
+
+				var print = document.createElement('i');
+				print.className = 'fa fa-print';
+				print.onclick = self.printForm.bind(self, id);
+				cell.appendChild(print);
 			}
 		}));
 
@@ -135,6 +140,11 @@ $('#returns').on('click', function(e){
 				i.className = 'fa fa-trash-o';
 				i.onclick = self.deleteRow.bind(self, id);
 				cell.appendChild(i);
+
+				var print = document.createElement('i');
+				print.className = 'fa fa-print';
+				print.onclick = self.printForm.bind(self, id);
+				cell.appendChild(print);
 			}
 		}));
 

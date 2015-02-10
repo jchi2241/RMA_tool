@@ -46,7 +46,7 @@
 	}
 
 	.fa-print {
-		margin-left: 20px;
+		margin-left: 10px;
 	}
 
 	#product_list_form_group {
@@ -114,24 +114,24 @@
 					<div class="form-group">
 					  <label class="col-md-2 control-label" for="formType"></label>
 					  <div class="col-md-4">
-					  <div class="radio">
-					    <label for="formType-0">
-					      <input id="sample_btn" type="radio" name="formType" value="Sample" checked="checked">
-					      Sample
-					    </label>
-						</div>
-					  <div class="radio">
-					    <label for="formType-1">
-					      <input id="replacement_btn" type="radio" name="formType" value="Replacement">
-					      Replacement
-					    </label>
-						</div>
-						<div class="radio">
-					    <label for="formType-1">
-					      <input id="return_btn" type="radio" name="formType" value="Return">
-					      Return
-					    </label>
-						</div>
+						  <div class="radio">
+						    <label for="formType-0">
+						      <input id="sample_btn" type="radio" name="formType" value="Sample" checked="checked">
+						      Sample
+						    </label>
+							</div>
+						  <div class="radio">
+						    <label for="formType-1">
+						      <input id="replacement_btn" type="radio" name="formType" value="Replacement">
+						      Replacement
+						    </label>
+							</div>
+							<div class="radio">
+						    <label for="formType-1">
+						      <input id="return_btn" type="radio" name="formType" value="Return">
+						      Return
+						    </label>
+							</div>
 					  </div>
 					</div>
 
@@ -150,6 +150,19 @@
 
 				<div class="col-md-7">
 					<div class="page-header"><h3>Step 2: <small>Fill out the form</small></h3></div>
+
+					<div id="sample_purpose_group" class="form-group">
+					  <label class="col-md-2 control-label" for="full_name">Purpose</label>  
+					  <div class="col-md-6">
+						<div id="btn_group_purpose" class="btn-group dropdown">
+							<button class="btn btn-default dropdown-toggle" type="button" id="purpose" data-toggle="dropdown" aria-expanded="true">
+								<span class="caret"></span>
+							</button>
+							<ul id="purpose_list" class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1"></ul>
+						</div>
+					  </div>
+					</div>
+
 					<div class="form-group">
 					  <label class="col-md-2 control-label" for="full_name">Full Name</label>  
 					  <div class="col-md-6">
@@ -198,7 +211,7 @@
 					  <div class="col-md-6">                     
 					    <div id="btn_group_country" class="btn-group dropdown">
 						  <button class="btn btn-default dropdown-toggle" type="button" id="country" data-toggle="dropdown" aria-expanded="true">
-						    <span class="caret"></span>
+						    <!-- <span class="caret"></span> -->
 						  </button>
 						  <ul id="country_list" class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1"></ul>
 						</div>
@@ -217,31 +230,6 @@
 					  <div class="col-md-6">                     
 					    <textarea class="form-control" name="reason" placeholder="The reason for this request"></textarea>
 					  </div>
-					</div>
-
-					<div id="product_group" class="form-group">
-						<label class="col-md-2 control-label">Product</label>
-					  	<div class="col-md-6">
-						    <div class="input-group">
-						        <div id="btn_group_product_type" class="input-group-btn">
-							        <button id="product_type" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
-							        <ul id="product_group_list" class="dropdown-menu" role="menu"></ul>
-						        </div>
-						        <input id="product_qty" type="number" min="1" value="1" class="form-control" required>
-						        <div class="input-group-btn">
-							  		<button id="product_add_btn" class="btn btn-primary" type="button">Add</button>
-							  	</div>
-						    </div>
-					  	</div>
-					  	
-					</div>
-
-					<!-- selected products list -->
-					<div id="product_list_form_group" class="form-group">
-						<label class="col-md-2 control-label"></label>
-						<div class="col-md-6">
-							<ul id="product_list" class="list-group"></ul>
-						</div>
 					</div>
 
 					<div id="refund_amount_group" class="form-group">
@@ -273,6 +261,31 @@
 					  	</div>
 					</div>
 
+					<div id="product_group" class="form-group">
+						<label class="col-md-2 control-label">Product</label>
+					  	<div class="col-md-6">
+						    <div class="input-group">
+						        <div id="btn_group_product_type" class="input-group-btn">
+							        <button id="product_type" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+							        <ul id="product_group_list" class="dropdown-menu" role="menu"></ul>
+						        </div>
+						        <input id="product_qty" type="number" min="1" value="1" class="form-control" required>
+						        <div class="input-group-btn">
+							  		<button id="product_add_btn" class="btn btn-primary" type="button">Add</button>
+							  	</div>
+						    </div>
+					  	</div>
+					  	
+					</div>
+
+					<!-- selected products list -->
+					<div id="product_list_form_group" class="form-group">
+						<label class="col-md-2 control-label"></label>
+						<div class="col-md-6">
+							<ul id="product_list" class="list-group"></ul>
+						</div>
+					</div>
+
 					<!-- Button -->
 					<div class="form-group">
 					  <label class="col-md-2 control-label" for="submit"></label>
@@ -286,15 +299,14 @@
 		</div>
 
 		<div class="row">
-			<div class="panel panel-primary">
-				<div class="panel-heading"><h3>Tables</h3></div>
+			<div class="panel panel-default">
 				<div class="panel-body">
 					<ul id="tables" class="nav nav-tabs">
-						<li id="customers" role="presentation" class="active"><a href="#">Customers</a></li>
 						<li id="samples" role="presentation"><a href="#">Samples</a></li>
 						<li id="replacements" role="presentation"><a href="#">Replacements</a></li>
-						<li id="early_ships" role="presentation"><a href="#">Early-Ships</a></li>
 						<li id="returns" role="presentation"><a href="#">Returns</a></li>
+						<li id="early_ships" role="presentation"><a href="#">Early-Ships</a></li>
+						<li id="customers" role="presentation" class="active"><a href="#">Customers</a></li>
 					</ul>
 				
 					<br/>
@@ -387,14 +399,24 @@
 
 			//show appropriate inputs based on what formType is selected
 			$('input[name=formType]').on('click', function() {
-				
 				var formType = $('input:checked').val();
 
-				if(formType === "Sample" || formType === "Replacement"){
+				if (formType === "Sample" || formType === "Replacement") {
+
+					if (formType === "Sample") {
+						$('#sample_purpose_group').show();	
+					} else {
+						$('#sample_purpose_group').hide();
+					}
+
 					$('#refund_amount_group').hide();
+
 				} else {
+
 					$('#refund_amount_group').show();
+
 				}
+
 			});
 
 			$('#earlyShip_btn').on('click', function() {
@@ -415,9 +437,14 @@
 					data: {
 						formType: $('input[name=formType]:checked').val(),
 						earlyShip: $('input[name=earlyShip]:checked').val(),
+						purpose: $('#purpose').text().trim(),
 						full_name: $('input[name=full_name]').val().trim(),
 						email: $('input[name=email]').val().trim(),
-						shipping_address: $('textarea[name=shipping_address]').val().trim(),
+						address: $('input[name=address]').val().trim(),
+						city: $('input[name=city]').val().trim(),
+						state: $('input[name=state]').val().trim(),
+						zip_postal: $('input[name=zip_postal]').val().trim(),
+						country: $('#country').text().trim(),
 						phone_number: $('input[name=phone_number]').val().trim(),
 						reason: $('textarea[name=reason]').val().trim(),
 						refund_amount: $('input[name=refund_amount]').val().trim(),
@@ -445,7 +472,7 @@
 			var devices = $.parseJSON(data);
 			var product_group_list = "";
 		
-			$('#product_type').text(devices[0]);
+			$('#product_type').text(devices[0]).append('<span class="caret"></span>');
 
 			for (var index in devices) {
 				if (devices.hasOwnProperty(index)) {
@@ -461,7 +488,7 @@
 			var countries = $.parseJSON(data);
 			var country_list = "";
 		
-			$('#country').text(countries[0]);
+			$('#country').text(countries[0]).append('<span class="caret"></span>');
 
 			for (var index in countries) {
 				if (countries.hasOwnProperty(index)) {
@@ -472,11 +499,28 @@
 			$('#country_list').html(country_list);
 		});
 
+		//fill up purpose dropdown menu from DB
+		$.get('get_purposes.php', function (data) {
+			var purposes = $.parseJSON(data);
+			var purpose_list = "";
+		
+			$('#purpose').text(purposes[0]).append('<span class="caret"></span>');
+
+			for (var index in purposes) {
+				if (purposes.hasOwnProperty(index)) {
+					purpose_list += '<li><a href="#">' + purposes[index] + '</a></li>';
+				}
+			}
+
+			$('#purpose_list').html(purpose_list);
+		});
+
 		//change dropdown menu button to selected for the following buttons
 		changeDropdownValue("#btn_group_shipping_carrier");
 		changeDropdownValue("#btn_group_country");
 		changeDropdownValue("#btn_group_product_type");
-		
+		changeDropdownValue("#btn_group_purpose");
+
 	</script>
 </body>
 

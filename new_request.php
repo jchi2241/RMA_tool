@@ -2,13 +2,20 @@
 	include 'configPDO.php';
 	include 'helpers.php';
 
-	if (isset($_POST["full_name"]) && isset($_POST["email"]) && isset($_POST["shipping_address"]) && 
+	if (isset($_POST["full_name"]) && isset($_POST["email"]) && isset($_POST["address"]) && 
+		isset($_POST["city"]) && isset($_POST["state"]) && isset($_POST["zip_postal"]) &&
 		isset($_POST["phone_number"]) && isset($_POST["reason"]) && isset($_POST["shipping_carrier"]) &&
-		isset($_POST["tracking_number"]) && isset($_POST["reason"]) && isset($_POST["devices"])) {
+		isset($_POST["tracking_number"]) && isset($_POST["reason"]) && isset($_POST["devices"]) && 
+		isset($_POST["country"]) && isset($_POST["purpose"])) {
 
+		$purpose = $_POST["purpose"];
 		$full_name = $_POST["full_name"];
 		$email = $_POST["email"];
-		$shipping_address = $_POST["shipping_address"];
+		$address = $_POST["address"];
+		$city = $_POST["city"];
+		$state = $_POST["state"];
+		$zip_postal = $_POST["zip_postal"];
+		$country = $_POST["country"];
 		$phone_number = $_POST["phone_number"];
 		$reason = $_POST["reason"];
 		$refund_amount = $_POST["refund_amount"];
@@ -48,14 +55,20 @@
 
 		}
 
+		echo "country: ";
+		print_r($country);
 
 		//insert into customers table
-		$customer_result = $db->prepare("	INSERT INTO customers (full_name, email, shipping_address, phone_number, created_at, updated_at) 
-											VALUES (:full_name, :email, :shipping_address, :phone_number, NULL, NULL)");
+		$customer_result = $db->prepare("	INSERT INTO customers (full_name, email, address, city, state, zip_postal, country, phone_number, created_at, updated_at) 
+											VALUES (:full_name, :email, :address, :city, :state, :zip_postal, :country, :phone_number, NULL, NULL)");
 
 		$customer_result->bindParam(':full_name', $full_name);
 		$customer_result->bindParam(':email', $email);
-		$customer_result->bindParam(':shipping_address', $shipping_address);
+		$customer_result->bindParam(':address', $address);
+		$customer_result->bindParam(':city', $city);
+		$customer_result->bindParam(':state', $state);
+		$customer_result->bindParam(':zip_postal', $zip_postal);
+		$customer_result->bindParam(':country', $country);
 		$customer_result->bindParam(':phone_number', $phone_number);
 		$customer_result->execute();
 
@@ -72,6 +85,37 @@
 			$request_result->execute();
 
 			$request_id = $db->lastInsertId();
+
+			if ($table == "samples") {
+
+				//get associated id for purpose
+				$sql = "SELECT id, purpose 
+						FROM sample_request_purposes";
+
+				$stmt = $db->prepare($sql);
+				$stmt->execute();
+
+				$array = $stmt->fetchAll();
+
+				foreach ($array as $value) {
+
+					if ( $value['purpose'] == $purpose ) {
+						$purpose_id = $value['id'];
+						break;	
+					}
+						
+				}
+
+				$sql = "UPDATE samples
+						SET purpose_id = :purpose_id
+						WHERE id = :request_id";
+
+				$stmt = $db->prepare($sql);
+				$stmt->bindParam(':purpose_id', $purpose_id);
+				$stmt->bindParam(':request_id', $request_id);
+				$stmt->execute();
+
+			}
 
 		} elseif ($table == "returns") {
 

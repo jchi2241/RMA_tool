@@ -61,8 +61,6 @@ $grid->addColumn('devices', 'Devices', 'string', NULL, false);
 $grid->addColumn('reason', 'Reason', 'string');
 $grid->addColumn('rma_id', 'RMA #', 'string');
 $grid->addColumn('reference_id', 'Reference #', 'string');  
-$grid->addColumn('action', 'Action', 'html', NULL, false, 'id'); 
-
 $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');                                    
                                                                        
 $result = $mysqli->query(  'SELECT r.id, r.created_at, c.full_name, r.devices, r.reason, r.rma_id, r.reference_id
