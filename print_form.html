@@ -120,6 +120,10 @@
 			font-weight: bold;
 		}
 
+		#purpose_row {
+			display: none;
+		}
+
 /*		* {
 		  border-radius: 0 !important;
 		}*/
@@ -147,11 +151,11 @@
 						<td>Ref : </td>
 						<td id="reference_id" class="request_id"></td>
 					</tr>
-					<tr>
+					<tr id="purpose_row">
 						<td>Purpose : </td>
 						<td id="purpose" class="request_id"></td>
 					</tr>
-					<tr>
+					<tr id="rma_id_row">
 						<td>RMA : </td>
 						<td id="rma_id" class="request_id"></td>
 					</tr>
@@ -266,6 +270,8 @@
 			if ( localStorage.table === "samples" ) {
 
 				$('#request_title').text('Sample Request');
+				$('#purpose_row').show();
+				$('#rma_id_row').hide();
 
 			} else if ( localStorage.table === "replacements" ) {
 
@@ -312,7 +318,17 @@
 					$('#rma_id').html(requested_info.rma_id);
 					$('#reason_body').html(requested_info.reason);
 					$('#special_req_body').html(requested_info.special_req);
-					$('#purpose').html(form_data.purpose.purpose);
+
+					if ( localStorage.table === "samples" ) {
+
+						$('#purpose').html(form_data.purpose.purpose);
+
+						if ( form_data.purpose.purpose === 'Internal Use' ) {
+
+							$('#customer_panel_header').text('To be received by: ');
+
+						} 
+					}
 
 					for (var i = 0; i < requested_devices.length; i++) {
 						qty = requested_devices[i]['qty'];
@@ -323,12 +339,6 @@
 
 					//make the reasons panel height match the products panel height
 					// $('#reason_panel').height($('#products_panel').height());
-			
-					if ( form_data.purpose.purpose === 'Internal Use' ) {
-
-						$('#customer_panel_header').text('To be received by: ');
-
-					}
 				},
 				error: function () {
 					alert('AJAX failed for print_form');

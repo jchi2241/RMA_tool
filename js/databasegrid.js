@@ -14,7 +14,7 @@ function DatabaseGrid(table)
 	this.editableGrid = new EditableGrid(table, {
 		enableSort: true,
 	    // define the number of row visible by page
-      	pageSize: 10,
+      	pageSize: 20,
       // Once the table is displayed, we update the paginator state
         tableRendered:  function() {  updatePaginator(this); },
    	    tableLoaded: function() { self.initializeGrid(this); },
@@ -294,7 +294,7 @@ EditableGrid.prototype.mouseClicked = function(e) {
 				e.preventDefault();
 			});
 
-        	$('#editDevicesModal_Label').html("Devices for " 	+ getValueAt(rowIndex, getColumnID('full_name')) 
+        	$('#editDevicesModal_Label').html("Edit devices for " 	+ getValueAt(rowIndex, getColumnID('full_name')) 
         											+ "<h5>(" + getValueAt(rowIndex, getColumnID('reference_id')) + ")</h5>");
 
         }
