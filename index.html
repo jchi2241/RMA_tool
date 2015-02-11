@@ -112,8 +112,8 @@
 					<div class="page-header"><h3>Step 1: <small>Choose a form</small></h3></div>
 					
 					<div class="form-group">
-					  <label class="col-md-2 control-label" for="formType"></label>
-					  <div class="col-md-4">
+					  <label class="col-md-3 control-label" for="formType"></label>
+					  <div class="col-md-9">
 						  <div class="radio">
 						    <label for="formType-0">
 						      <input id="sample_btn" type="radio" name="formType" value="Sample" checked="checked">
@@ -136,8 +136,8 @@
 					</div>
 
 					<div class="form-group">
-					  <label class="col-md-2 control-label" for="earlyShip"></label>
-					  <div class="col-md-10">
+					  <label class="col-md-3 control-label" for="earlyShip"></label>
+					  <div class="col-md-9">
 					  <div class="checkbox">
 					    <label for="earlyShip-0">
 					      <input id="earlyShip_btn" type="checkbox" name="earlyShip" value="checked">
@@ -146,10 +146,50 @@
 						</div>
 					  </div>
 					</div>
+
+					<div class="page-header"><h3>Step 2: <small>Select the product</small></h3></div>
+
+					<div id="product_group" class="form-group">
+						<label class="col-md-3 control-label">Product</label>
+					  	<div class="col-md-9">
+						    <div class="input-group">
+						        <div id="btn_group_product_type" class="input-group-btn">
+							        <button id="product_type" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+							        <ul id="product_group_list" class="dropdown-menu" role="menu"></ul>
+						        </div>
+						        <input id="product_qty" type="number" min="1" value="1" class="form-control" required>
+						        <div class="input-group-btn">
+							  		<button id="product_add_btn" class="btn btn-primary" type="button">Add</button>
+							  	</div>
+						    </div>
+					  	</div>
+					</div>
+
+					<!-- selected products list -->
+					<div id="product_list_form_group" class="form-group">
+						<label class="col-md-3 control-label"></label>
+						<div class="col-md-9">
+							<ul id="product_list" class="list-group"></ul>
+						</div>
+					</div>
+
+					<div class="form-group">
+					  <label class="col-md-3 control-label" for="reason">Reason</label>
+					  <div class="col-md-9">                     
+					    <textarea class="form-control" name="reason" placeholder="The reason for this request"></textarea>
+					  </div>
+					</div>
+
+					<div class="form-group">
+					  <label class="col-md-3 control-label" for="special_req">Any special requirements?</label>
+					  <div class="col-md-9">                     
+					    <textarea class="form-control" name="special_req" placeholder=""></textarea>
+					  </div>
+					</div>
 				</div>
 
 				<div class="col-md-7">
-					<div class="page-header"><h3>Step 2: <small>Fill out the form</small></h3></div>
+					<div class="page-header"><h3>Step 3: <small>Fill out the form</small></h3></div>
 
 					<div id="sample_purpose_group" class="form-group">
 					  <label class="col-md-2 control-label" for="full_name">Purpose</label>  
@@ -163,6 +203,15 @@
 					  </div>
 					</div>
 
+					<div id="business_name_group" class="form-group">
+					  <label class="col-md-2 control-label" for="full_name">Business</label>  
+					  <div class="col-md-6">
+					  <input name="business_name" type="text" class="form-control input-md">
+					    
+					  </div>
+					</div>
+
+
 					<div class="form-group">
 					  <label class="col-md-2 control-label" for="full_name">Full Name</label>  
 					  <div class="col-md-6">
@@ -174,35 +223,35 @@
 					<div class="form-group">
 					  <label class="col-md-2 control-label" for="email">Email</label>  
 					  <div class="col-md-6">
-						<input name="email" type="text" placeholder="example@example.com" class="form-control input-md" required="">
+						<input name="email" type="text" placeholder="example@example.com" class="form-control input-md">
 					  </div>
 					</div>
 
 					<div class="form-group">
 					  <label class="col-md-2 control-label" for="address">Address</label>
 					  <div class="col-md-6">                     
-					    <input name="address" type="text" placeholder="Street Address, Apt/Suite/Unit/Blding/Floor" class="form-control input-md" required="">
+					    <input name="address" type="text" placeholder="Street Address, Apt/Suite/Unit/Blding/Floor" class="form-control input-md">
 					  </div>
 					</div>
 
 					<div class="form-group">
 					  <label class="col-md-2 control-label" for="city">City</label>
 					  <div class="col-md-6">                     
-					    <input name="city" type="text" class="form-control input-md" required="">
+					    <input name="city" type="text" class="form-control input-md">
 					  </div>
 					</div>
 
 					<div class="form-group">
 					  <label class="col-md-2 control-label" for="zip_postal">State</label>
 					  <div class="col-md-6">                     
-					    <input name="state" type="text" class="form-control input-md" required="">
+					    <input name="state" type="text" class="form-control input-md">
 					  </div>
 					</div>
 
 					<div class="form-group">
 					  <label class="col-md-2 control-label" for="zip_postal">ZIP/Postal</label>
 					  <div class="col-md-6">                     
-					    <input name="zip_postal" type="text" class="form-control input-md" required="">
+					    <input name="zip_postal" type="text" class="form-control input-md">
 					  </div>
 					</div>
 
@@ -225,13 +274,6 @@
 					  </div>
 					</div>
 
-					<div class="form-group">
-					  <label class="col-md-2 control-label" for="reason">Reason</label>
-					  <div class="col-md-6">                     
-					    <textarea class="form-control" name="reason" placeholder="The reason for this request"></textarea>
-					  </div>
-					</div>
-
 					<div id="refund_amount_group" class="form-group">
 						<label class="col-md-2 control-label" for="refund_amount">Refund Total</label>
 						<div class="col-md-4">
@@ -243,7 +285,7 @@
 					</div>
 
 					<div id="tracking_number_group" class="form-group">
-					  	<label class="col-md-2 control-label" for="tracking_number">Tracking #</label>  
+					  	<label class="col-md-2 control-label" for="tracking_number">Tracking</label>  
 					  	<div class="col-md-6">
 					  		<div class="input-group">
 							  	<input name="tracking_number" type="text" placeholder="Enter tracking number here..." class="form-control input-md"> 
@@ -261,31 +303,6 @@
 					  	</div>
 					</div>
 
-					<div id="product_group" class="form-group">
-						<label class="col-md-2 control-label">Product</label>
-					  	<div class="col-md-6">
-						    <div class="input-group">
-						        <div id="btn_group_product_type" class="input-group-btn">
-							        <button id="product_type" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
-							        <ul id="product_group_list" class="dropdown-menu" role="menu"></ul>
-						        </div>
-						        <input id="product_qty" type="number" min="1" value="1" class="form-control" required>
-						        <div class="input-group-btn">
-							  		<button id="product_add_btn" class="btn btn-primary" type="button">Add</button>
-							  	</div>
-						    </div>
-					  	</div>
-					  	
-					</div>
-
-					<!-- selected products list -->
-					<div id="product_list_form_group" class="form-group">
-						<label class="col-md-2 control-label"></label>
-						<div class="col-md-6">
-							<ul id="product_list" class="list-group"></ul>
-						</div>
-					</div>
-
 					<!-- Button -->
 					<div class="form-group">
 					  <label class="col-md-2 control-label" for="submit"></label>
@@ -297,15 +314,16 @@
 				</fieldset>
 			</form>
 		</div>
+	</div>
 
-		<div class="row">
+	<!-- 		<div class="row">
 			<div class="panel panel-default">
-				<div class="panel-body">
+				<div class="panel-body"> -->
 					<ul id="tables" class="nav nav-tabs">
 						<li id="samples" role="presentation"><a href="#">Samples</a></li>
 						<li id="replacements" role="presentation"><a href="#">Replacements</a></li>
 						<li id="returns" role="presentation"><a href="#">Returns</a></li>
-						<li id="early_ships" role="presentation"><a href="#">Early-Ships</a></li>
+						<li id="early_ships" role="presentation"><a href="#">Waiting for Defective Package</a></li>
 						<li id="customers" role="presentation" class="active"><a href="#">Customers</a></li>
 					</ul>
 				
@@ -320,10 +338,9 @@
 					<!-- Paginator control -->
 					<div id="paginator"></div>
 
-				</div>
+<!-- 				</div>
 			</div>
-		</div>
-	</div>
+		</div> -->
 	
 	<script src="js/editablegrid.js"></script>  
 	<script src="js/jquery-1.11.1.min.js" ></script>
@@ -403,21 +420,52 @@
 
 				if (formType === "Sample" || formType === "Replacement") {
 
-					if (formType === "Sample") {
-						$('#sample_purpose_group').show();	
-					} else {
-						$('#sample_purpose_group').hide();
-					}
-
 					$('#refund_amount_group').hide();
+
+					if (formType === "Sample") {
+
+						$('#sample_purpose_group').show();
+
+						if ($('#purpose').text() === "Customer/Media") {
+
+							$('#business_name_group').show();
+
+						} else {
+
+							$('#business_name_group').hide();
+
+						}
+
+					} else {
+
+						$('#sample_purpose_group').hide();
+						$('#business_name_group').hide();
+
+					}
 
 				} else {
 
 					$('#refund_amount_group').show();
+					$('#business_name_group').hide();
 
 				}
 
 			});
+
+			$('#sample_purpose_group').on('click', 'a', function(e) {
+
+				if ($(this).text() === "Customer/Media") {
+
+					$('#business_name_group').show();
+
+				} else {
+
+					$('#business_name_group').hide();
+
+				}
+
+			});
+
 
 			$('#earlyShip_btn').on('click', function() {
 
@@ -438,6 +486,7 @@
 						formType: $('input[name=formType]:checked').val(),
 						earlyShip: $('input[name=earlyShip]:checked').val(),
 						purpose: $('#purpose').text().trim(),
+						business_name: $('input[name=business_name]').val().trim(),
 						full_name: $('input[name=full_name]').val().trim(),
 						email: $('input[name=email]').val().trim(),
 						address: $('input[name=address]').val().trim(),
@@ -447,6 +496,7 @@
 						country: $('#country').text().trim(),
 						phone_number: $('input[name=phone_number]').val().trim(),
 						reason: $('textarea[name=reason]').val().trim(),
+						special_req: $('textarea[name=special_req]').val().trim(),
 						refund_amount: $('input[name=refund_amount]').val().trim(),
 						tracking_number: $('input[name=tracking_number]').val().trim(),
 						shipping_carrier: $('#shipping_carrier').text().trim(),

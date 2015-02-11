@@ -59,12 +59,13 @@ $grid->addColumn('created_at', 'Date', 'date', NULL, false);
 $grid->addColumn('full_name', 'Name', 'string', NULL, false);
 $grid->addColumn('devices', 'Devices', 'string', NULL, false);
 $grid->addColumn('reason', 'Reason', 'string');
+$grid->addColumn('special_req', 'Special Req', 'string');
 $grid->addColumn('rma_id', 'RMA #', 'string');
 $grid->addColumn('reference_id', 'Reference #', 'string');
 $grid->addColumn('purpose', 'Purpose', 'string');  
 $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');                                    
                                                                        
-$result = $mysqli->query(  'SELECT s.id, s.created_at, c.full_name, s.devices, s.reason, s.rma_id, s.reference_id, p.purpose
+$result = $mysqli->query(  'SELECT s.id, s.created_at, c.full_name, s.devices, s.reason, s.special_req, s.rma_id, s.reference_id, p.purpose
 							FROM samples s 
 							LEFT JOIN customers c ON c.id = s.customer_id
 							LEFT JOIN sample_request_purposes p ON p.id = s.purpose_id

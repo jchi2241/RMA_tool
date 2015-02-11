@@ -110,6 +110,16 @@
 			color: #DDDDDD;
 		}
 
+		#reason_panel {
+/*			height: 173px;*/
+		}
+
+		#special_req_body {
+			font-size: 14px;
+			color: red;
+			font-weight: bold;
+		}
+
 /*		* {
 		  border-radius: 0 !important;
 		}*/
@@ -138,6 +148,10 @@
 						<td id="reference_id" class="request_id"></td>
 					</tr>
 					<tr>
+						<td>Purpose : </td>
+						<td id="purpose" class="request_id"></td>
+					</tr>
+					<tr>
 						<td>RMA : </td>
 						<td id="rma_id" class="request_id"></td>
 					</tr>
@@ -149,13 +163,14 @@
 			<div id="customer_panel" class="col-xs-12">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Customer Information</h3>
+						<h3 id="customer_panel_header" class="panel-title">Customer Information</h3>
 					</div>
 					<table class="table">
 						<tr><th>Address</th><th>Phone</th><th>Email</th></tr>
 						<tr>
 							<td>
 								<ul>
+									<li id="business_name"></li>
 									<li id="full_name"></li>
 									<li id="address"></li>
 									<li>
@@ -175,7 +190,7 @@
 		</div>
 
 		<div id="products_section" class="row">
-			<div class="col-xs-6">
+			<div class="col-xs-5">
 				<div id="products_panel" class="panel panel-default">
 					<div class="panel-heading">
 						<h3 class="panel-title">Products</h3>
@@ -186,10 +201,18 @@
 				</div>
 			</div>
 
-			<div class="col-xs-6">
+			<div class="col-xs-7">
+
 				<div id="reason_panel" class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Reason</h3>
+						<h3 id="special_req" class="panel-title">Special Requirements</h3>
+					</div>
+					<div id="special_req_body" class="panel-body"></div>
+				</div>
+
+				<div id="reason_panel" class="panel panel-default">
+					<div class="panel-heading">
+						<h3 id="reason" class="panel-title">Reason</h3>
 					</div>
 					<div id="reason_body" class="panel-body"></div>
 				</div>
@@ -237,6 +260,27 @@
 
 		$(function () {
 
+			//generate form based on selected table
+			console.log('localStorage.table: ', localStorage.table);
+
+			if ( localStorage.table === "samples" ) {
+
+				$('#request_title').text('Sample Request');
+
+			} else if ( localStorage.table === "replacements" ) {
+
+				$('#request_title').text('Replacement Request');
+
+			} else if ( localStorage.table === "returns" ) {
+
+				$('#request_title').text('Return Request');
+
+			} else {
+
+				console.log('table does not exist');
+
+			}
+
 			$.ajax({
 				type: 'GET',
 				url: 'print_form.php',
@@ -246,15 +290,16 @@
 				},
 				success: function (response) {
 
-					// console.log(response);
+					console.log(response);
 					var form_data = JSON.parse(response);
 					var requested_info = form_data.requested_info;
 					var requested_devices = form_data.requested_devices;
 					var qty, name;
 
-					console.log(form_data);
-					console.log(form_data.requested_devices);
+					// console.log(form_data);
+					// console.log(form_data.requested_devices);
 
+					$('#business_name').html(requested_info.business_name);
 					$('#full_name').html(requested_info.full_name);
 					$('#address').html(requested_info.address);
 					$('#city').html(requested_info.city);
@@ -266,6 +311,8 @@
 					$('#reference_id').html(requested_info.reference_id);
 					$('#rma_id').html(requested_info.rma_id);
 					$('#reason_body').html(requested_info.reason);
+					$('#special_req_body').html(requested_info.special_req);
+					$('#purpose').html(form_data.purpose.purpose);
 
 					for (var i = 0; i < requested_devices.length; i++) {
 						qty = requested_devices[i]['qty'];
@@ -275,8 +322,13 @@
 					}	
 
 					//make the reasons panel height match the products panel height
-					$('#reason_panel').height($('#products_panel').height());
+					// $('#reason_panel').height($('#products_panel').height());
 			
+					if ( form_data.purpose.purpose === 'Internal Use' ) {
+
+						$('#customer_panel_header').text('To be received by: ');
+
+					}
 				},
 				error: function () {
 					alert('AJAX failed for print_form');

@@ -8,6 +8,7 @@ include 'configPDO.php';
 
 $table = $_GET['table'];
 $request_id = $_GET['request_id'];
+$return =  [];
 
 if ($table == 'samples') {
 
@@ -25,9 +26,9 @@ if ($table == 'samples') {
 	print_r('check table var');
 }
 
-$sql = "SELECT t.reason, t.rma_id, t.reference_id, t.updated_at, c.full_name, c.email, c.address, c.city, c.state, c.zip_postal, c.country, c.phone_number 
-		FROM customers c RIGHT JOIN samples t ON c.id = t.customer_id
-		JOIN requested_devices r ON t.id = r.sample_id
+$sql = "SELECT t.reason, t.special_req, t.rma_id, t.reference_id, t.updated_at, c.business_name, c.full_name, c.email, c.address, c.city, c.state, c.zip_postal, c.country, c.phone_number 
+		FROM customers c RIGHT JOIN {$table} t ON c.id = t.customer_id
+		JOIN requested_devices r ON t.id = r.{$request_id_col}
 		WHERE t.id = :request_id AND t.deleted = 0
 		LIMIT 1";
 
@@ -35,9 +36,21 @@ $stmt = $db->prepare($sql);
 $stmt->bindParam(':request_id', $request_id);
 $stmt->execute();
 
-$return =  [];
-
 $return['requested_info'] = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if ($table == 'samples') {
+
+	$sql = "SELECT p.purpose
+			FROM samples s, sample_request_purposes p
+			WHERE p.id = s.purpose_id AND s.id = :request_id
+			LIMIT 1";
+
+	$stmt = $db->prepare($sql);
+	$stmt->bindParam(':request_id', $request_id);
+	$stmt->execute();
+
+	$return['purpose'] = $stmt->fetch(PDO::FETCH_ASSOC);
+}
 
 $sql = "SELECT COUNT(*), d.name  
 	  	FROM requested_devices r

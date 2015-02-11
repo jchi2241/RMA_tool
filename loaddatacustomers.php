@@ -54,6 +54,7 @@ $grid = new EditableGrid();
 *  The second argument is the label that will be displayed in the header
 */
 
+$grid->addColumn('business_name', 'Business', 'string');
 $grid->addColumn('full_name', 'Name', 'string');  
 $grid->addColumn('email', 'Email', 'email'); 
 $grid->addColumn('address', 'Address', 'string');

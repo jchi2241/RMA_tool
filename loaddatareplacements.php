@@ -59,11 +59,12 @@ $grid->addColumn('created_at', 'Date', 'date', NULL, false);
 $grid->addColumn('full_name', 'Name', 'string', NULL, false);
 $grid->addColumn('devices', 'Devices', 'string', NULL, false);
 $grid->addColumn('reason', 'Reason', 'string');
+$grid->addColumn('special_req', 'Special Req', 'string');  
 $grid->addColumn('rma_id', 'RMA #', 'string');
 $grid->addColumn('reference_id', 'Reference #', 'string');  
 $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');                                    
                                                                        
-$result = $mysqli->query(  'SELECT r.id, r.created_at, c.full_name, r.devices, r.reason, r.rma_id, r.reference_id
+$result = $mysqli->query(  'SELECT r.id, r.created_at, c.full_name, r.devices, r.reason, r.special_req, r.rma_id, r.reference_id
 							FROM replacements r
 							LEFT JOIN customers c ON c.id = r.customer_id
 							WHERE r.deleted = 0
