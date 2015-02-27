@@ -26,6 +26,8 @@
 - ~~figure how to allow update devices. maybe use modal and existing javascript product CRUD build?~~
 - ~~grab devices from requested_devices table by sample_id~~
 - prevent modal from popping up for early_ship table
+- if sample formType is not selected, hide early_ship option
+- if sample is not for an RMA, 
 
 ####Nice to have
 
