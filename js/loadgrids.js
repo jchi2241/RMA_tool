@@ -20,41 +20,41 @@ $('#customers').on('click', function(e){
     e.preventDefault();
 });
 
-$('#samples').on('click', function(e){
+// $('#samples').on('click', function(e){
 
-	/*$('#tablecontent').html('<h1>Loading...</h1>');*/
-	$('#tables').find('.active').toggleClass('active');
-	$(this).toggleClass('active');
+// 	/*$('#tablecontent').html('<h1>Loading...</h1>');*/
+// 	$('#tables').find('.active').toggleClass('active');
+// 	$(this).toggleClass('active');
 
-	DatabaseGrid.prototype.initializeGrid = function(grid) {
+// 	DatabaseGrid.prototype.initializeGrid = function(grid) {
 
-		var self = this;
-		// render for the action column
-		grid.setCellRenderer("action", new CellRenderer({ 
-			render: function(cell, id) {                 
-			    var i = document.createElement('i');
-				i.className = 'fa fa-trash-o';
-				i.onclick = self.deleteRow.bind(self, id);
-				cell.appendChild(i);
+// 		var self = this;
+// 		// render for the action column
+// 		grid.setCellRenderer("action", new CellRenderer({ 
+// 			render: function(cell, id) {                 
+// 			    var i = document.createElement('i');
+// 				i.className = 'fa fa-trash-o';
+// 				i.onclick = self.deleteRow.bind(self, id);
+// 				cell.appendChild(i);
 
-				var print = document.createElement('i');
-				print.className = 'fa fa-print';
-				print.onclick = self.printForm.bind(self, id);
-				cell.appendChild(print);
-			}
-		}));
+// 				var print = document.createElement('i');
+// 				print.className = 'fa fa-print';
+// 				print.onclick = self.printForm.bind(self, id);
+// 				cell.appendChild(print);
+// 			}
+// 		}));
 
-		grid.renderGrid("tablecontent", "testgrid");
-	};    
+// 		grid.renderGrid("tablecontent", "testgrid");
+// 	};    
 
-	var samplesGrid = new DatabaseGrid('samples');
+// 	var samplesGrid = new DatabaseGrid('samples');
 
-	$("#filter").keyup(function() {
-      samplesGrid.editableGrid.filter( $(this).val());
-    });
+// 	$("#filter").keyup(function() {
+//       samplesGrid.editableGrid.filter( $(this).val());
+//     });
 
-    e.preventDefault();
-});
+//     e.preventDefault();
+// });
 
 $('#replacements').on('click', function(e){
 
@@ -92,70 +92,70 @@ $('#replacements').on('click', function(e){
     e.preventDefault();
 });
 
-$('#early_ships').on('click', function(e){
+// $('#early_ships').on('click', function(e){
 
-	/*$('#tablecontent').html('<h1>Loading...</h1>');*/
-	$('#tables').find('.active').toggleClass('active');
-	$(this).toggleClass('active');
+// 	/*$('#tablecontent').html('<h1>Loading...</h1>');*/
+// 	$('#tables').find('.active').toggleClass('active');
+// 	$(this).toggleClass('active');
 
-	DatabaseGrid.prototype.initializeGrid = function(grid) {
+// 	DatabaseGrid.prototype.initializeGrid = function(grid) {
 
-		var self = this;
-		// render for the action column
-		grid.setCellRenderer("action", new CellRenderer({ 
-			render: function(cell, id) {                 
-			    var i = document.createElement('i');
-				i.className = 'fa fa-trash-o';
-				i.onclick = self.deleteRow.bind(self, id);
-				cell.appendChild(i);
-			}
-		}));
+// 		var self = this;
+// 		// render for the action column
+// 		grid.setCellRenderer("action", new CellRenderer({ 
+// 			render: function(cell, id) {                 
+// 			    var i = document.createElement('i');
+// 				i.className = 'fa fa-trash-o';
+// 				i.onclick = self.deleteRow.bind(self, id);
+// 				cell.appendChild(i);
+// 			}
+// 		}));
 
-		grid.renderGrid("tablecontent", "testgrid");
-	};    
+// 		grid.renderGrid("tablecontent", "testgrid");
+// 	};    
     
 
-	var earlyShipGrid = new DatabaseGrid('early_ships');
+// 	var earlyShipGrid = new DatabaseGrid('early_ships');
 
-	$("#filter").keyup(function() {
-      earlyShipGrid.editableGrid.filter( $(this).val());
-    });
+// 	$("#filter").keyup(function() {
+//       earlyShipGrid.editableGrid.filter( $(this).val());
+//     });
 
-    e.preventDefault();
-});
+//     e.preventDefault();
+// });
 
-$('#returns').on('click', function(e){
+// $('#returns').on('click', function(e){
 
-	/*$('#tablecontent').html('<h1>Loading...</h1>');*/
-	$('#tables').find('.active').toggleClass('active');
-	$(this).toggleClass('active');
+// 	/*$('#tablecontent').html('<h1>Loading...</h1>');*/
+// 	$('#tables').find('.active').toggleClass('active');
+// 	$(this).toggleClass('active');
 
-	DatabaseGrid.prototype.initializeGrid = function(grid) {
+// 	DatabaseGrid.prototype.initializeGrid = function(grid) {
 
-		var self = this;
-		// render for the action column
-		grid.setCellRenderer("action", new CellRenderer({ 
-			render: function(cell, id) {                 
-			    var i = document.createElement('i');
-				i.className = 'fa fa-trash-o';
-				i.onclick = self.deleteRow.bind(self, id);
-				cell.appendChild(i);
+// 		var self = this;
+// 		// render for the action column
+// 		grid.setCellRenderer("action", new CellRenderer({ 
+// 			render: function(cell, id) {                 
+// 			    var i = document.createElement('i');
+// 				i.className = 'fa fa-trash-o';
+// 				i.onclick = self.deleteRow.bind(self, id);
+// 				cell.appendChild(i);
 
-				var print = document.createElement('i');
-				print.className = 'fa fa-print';
-				print.onclick = self.printForm.bind(self, id);
-				cell.appendChild(print);
-			}
-		}));
+// 				var print = document.createElement('i');
+// 				print.className = 'fa fa-print';
+// 				print.onclick = self.printForm.bind(self, id);
+// 				cell.appendChild(print);
+// 			}
+// 		}));
 
-		grid.renderGrid("tablecontent", "testgrid");
-	};        
+// 		grid.renderGrid("tablecontent", "testgrid");
+// 	};        
 
-	var returnsGrid = new DatabaseGrid('returns');
+// 	var returnsGrid = new DatabaseGrid('returns');
 
-	$("#filter").keyup(function() {
-      returnsGrid.editableGrid.filter( $(this).val());
-    });
+// 	$("#filter").keyup(function() {
+//       returnsGrid.editableGrid.filter( $(this).val());
+//     });
 
-    e.preventDefault();
-});
+//     e.preventDefault();
+// });

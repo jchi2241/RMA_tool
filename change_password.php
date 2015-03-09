@@ -69,7 +69,7 @@
 
 	} else {
 
-	echo "No session exists";
+		echo "No session exists";
 
 	}
 

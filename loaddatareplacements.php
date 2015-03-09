@@ -55,7 +55,9 @@ $grid = new EditableGrid();
 *  The second argument is the label that will be displayed in the header
 */
 
-$grid->addColumn('created_at', 'Date', 'date', NULL, false);  
+$grid->addColumn('created_at', 'Date Requested', 'date', NULL, false);
+$grid->addColumn('user_id', 'Requested By', 'string', NULL, false);  
+$grid->addColumn('ticket_id', 'Ticket', 'string');   
 $grid->addColumn('full_name', 'Name', 'string', NULL, false);
 $grid->addColumn('devices', 'Devices', 'string', NULL, false);
 $grid->addColumn('reason', 'Reason', 'string');

@@ -99,7 +99,7 @@
 	</div>
 
 	<div class="container">
-		<div class="page-header"><h1>Create a Request Form</h1></div>
+		<div class="page-header"><h1>Product Replacement Sheet</h1></div>
 
 		<div id="message"></div>
 
@@ -109,7 +109,7 @@
 				<fieldset>
 
 				<div class="col-md-5">
-					<div class="page-header"><h3>Step 1: <small>Choose a form</small></h3></div>
+					<!-- <div class="page-header"><h3>Step 1: <small>Choose a form</small></h3></div>
 					
 					<div class="form-group">
 					  <label class="col-md-3 control-label" for="formType"></label>
@@ -133,9 +133,9 @@
 						    </label>
 							</div>
 					  </div>
-					</div>
+					</div> -->
 
-					<div class="form-group">
+					<!-- <div class="form-group">
 					  <label class="col-md-3 control-label" for="earlyShip"></label>
 					  <div class="col-md-9">
 					  <div class="checkbox">
@@ -145,9 +145,25 @@
 					    </label>
 						</div>
 					  </div>
+					</div> -->
+
+					<div class="page-header"><h3>Step 1: <small>Enter Ticket Info</small></h3></div>
+
+					<div class="form-group">
+					  <label class="col-md-3 control-label" for="ticket_id">ZD Ticket #</label>
+					  <div class="col-md-4">                     
+					    <input type="text" class="form-control" name="ticket_id" placeholder="" required/>
+					  </div>
 					</div>
 
-					<div class="page-header"><h3>Step 2: <small>Select the product</small></h3></div>
+					<div class="form-group">
+					  <label class="col-md-3 control-label" for="ticket_id">Purchased at</label>
+					  <div class="col-md-4">                     
+					    <input type="text" class="form-control" name="ticket_id" placeholder="" required/>
+					  </div>
+					</div>
+
+					<div class="page-header"><h3>Step 2: <small>Choose product(s) to replace</small></h3></div>
 
 					<div id="product_group" class="form-group">
 						<label class="col-md-3 control-label">Product</label>
@@ -174,24 +190,24 @@
 					</div>
 
 					<div class="form-group">
-					  <label class="col-md-3 control-label" for="reason">Reason</label>
+					  <label class="col-md-3 control-label" for="reason">Reason for Replacement</label>
 					  <div class="col-md-9">                     
 					    <textarea class="form-control" name="reason" placeholder="The reason for this request"></textarea>
 					  </div>
 					</div>
 
-					<div class="form-group">
+					<!-- <div class="form-group">
 					  <label class="col-md-3 control-label" for="special_req">Any special requirements?</label>
 					  <div class="col-md-9">                     
 					    <textarea class="form-control" name="special_req" placeholder=""></textarea>
 					  </div>
-					</div>
+					</div> -->
 				</div>
 
 				<div class="col-md-7">
-					<div class="page-header"><h3>Step 3: <small>Fill out the form</small></h3></div>
+					<div class="page-header"><h3>Step 3: <small>Enter Customer Info</small></h3></div>
 
-					<div id="sample_purpose_group" class="form-group">
+					<!-- <div id="sample_purpose_group" class="form-group">
 					  <label class="col-md-2 control-label" for="full_name">Purpose</label>  
 					  <div class="col-md-6">
 						<div id="btn_group_purpose" class="btn-group dropdown">
@@ -201,15 +217,15 @@
 							<ul id="purpose_list" class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1"></ul>
 						</div>
 					  </div>
-					</div>
+					</div> -->
 
-					<div id="business_name_group" class="form-group">
+					<!-- <div id="business_name_group" class="form-group">
 					  <label class="col-md-2 control-label" for="full_name">Business</label>  
 					  <div class="col-md-6">
 					  <input name="business_name" type="text" class="form-control input-md">
 					    
 					  </div>
-					</div>
+					</div> -->
 
 
 					<div class="form-group">
@@ -274,7 +290,7 @@
 					  </div>
 					</div>
 
-					<div id="refund_amount_group" class="form-group">
+					<!-- <div id="refund_amount_group" class="form-group">
 						<label class="col-md-2 control-label" for="refund_amount">Refund Total</label>
 						<div class="col-md-4">
 							<div class="input-group">
@@ -282,9 +298,9 @@
 							  <input name="refund_amount" type="text" class="form-control" >
 							</div>
 						</div>
-					</div>
+					</div> -->
 
-					<div id="tracking_number_group" class="form-group">
+					<!-- <div id="tracking_number_group" class="form-group">
 					  	<label class="col-md-2 control-label" for="tracking_number">Tracking</label>  
 					  	<div class="col-md-6">
 					  		<div class="input-group">
@@ -301,7 +317,7 @@
 								</div>
 							</div>
 					  	</div>
-					</div>
+					</div> -->
 
 					<!-- Button -->
 					<div class="form-group">
@@ -320,11 +336,8 @@
 			<div class="panel panel-default">
 				<div class="panel-body"> -->
 					<ul id="tables" class="nav nav-tabs">
-						<li id="samples" role="presentation"><a href="#">Samples</a></li>
-						<li id="replacements" role="presentation"><a href="#">Replacements</a></li>
-						<li id="returns" role="presentation"><a href="#">Returns</a></li>
-						<li id="early_ships" role="presentation"><a href="#">Waiting for Defective Package</a></li>
-						<li id="customers" role="presentation" class="active"><a href="#">Customers</a></li>
+						<li id="replacements" role="presentation" class="active"><a href="#">Replacements</a></li>
+						<li id="customers" role="presentation"><a href="#">Customers</a></li>
 					</ul>
 				
 					<br/>
@@ -352,13 +365,30 @@
 
 	<script type="text/javascript">
 
-		var customersGrid = new DatabaseGrid('customers');
-
-		$("#filter").keyup(function() {
-	      customersGrid.editableGrid.filter( $(this).val());
-	    });
-
 		window.onload = function() { 
+
+			var replacementsGrid = new DatabaseGrid('replacements');
+
+			DatabaseGrid.prototype.initializeGrid = function(grid) {
+
+				var self = this;
+				// render for the action column
+				grid.setCellRenderer("action", new CellRenderer({ 
+					render: function(cell, id) {                 
+					    var i = document.createElement('i');
+						i.className = 'fa fa-trash-o';
+						i.onclick = self.deleteRow.bind(self, id);
+						cell.appendChild(i);
+
+						var print = document.createElement('i');
+						print.className = 'fa fa-print';
+						print.onclick = self.printForm.bind(self, id);
+						cell.appendChild(print);
+					}
+				}));
+
+				grid.renderGrid("tablecontent", "testgrid");
+			}; 
 			
 	      	$("#filter").keyup(function() {
 	          customersGrid.editableGrid.filter( $(this).val());
@@ -483,10 +513,10 @@
 					type: 'POST',
 					url: 'new_request.php',
 					data: {
-						formType: $('input[name=formType]:checked').val(),
-						earlyShip: $('input[name=earlyShip]:checked').val(),
-						purpose: $('#purpose').text().trim(),
-						business_name: $('input[name=business_name]').val().trim(),
+						formType: 'Replacement',
+						// earlyShip: $('input[name=earlyShip]:checked').val(),
+						// purpose: $('#purpose').text().trim(),
+						// business_name: $('input[name=business_name]').val().trim(),
 						full_name: $('input[name=full_name]').val().trim(),
 						email: $('input[name=email]').val().trim(),
 						address: $('input[name=address]').val().trim(),
@@ -496,10 +526,10 @@
 						country: $('#country').text().trim(),
 						phone_number: $('input[name=phone_number]').val().trim(),
 						reason: $('textarea[name=reason]').val().trim(),
-						special_req: $('textarea[name=special_req]').val().trim(),
-						refund_amount: $('input[name=refund_amount]').val().trim(),
-						tracking_number: $('input[name=tracking_number]').val().trim(),
-						shipping_carrier: $('#shipping_carrier').text().trim(),
+						// special_req: $('textarea[name=special_req]').val().trim(),
+						// refund_amount: $('input[name=refund_amount]').val().trim(),
+						// tracking_number: $('input[name=tracking_number]').val().trim(),
+						// shipping_carrier: $('#shipping_carrier').text().trim(),
 						devices: JSON.stringify(productList)
 					},
 					success: function(data) {

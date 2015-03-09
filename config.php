@@ -4,7 +4,7 @@
 	    "db_host" => "localhost",
 	    "db_user" => "root",
 	    "db_password" => "mii3Binn",
-	    "db_name" => "rma"
+	    "db_name" => "replacement_sheet"
 	];
 
     $mysqli = new mysqli($config['db_host'], $config['db_user'], $config['db_password'], $config['db_name']);
