@@ -365,9 +365,9 @@
 
 	<script type="text/javascript">
 
-		window.onload = function() { 
+		var replacementsGrid = new DatabaseGrid('replacements');
 
-			var replacementsGrid = new DatabaseGrid('replacements');
+		window.onload = function() { 
 
 			DatabaseGrid.prototype.initializeGrid = function(grid) {
 
@@ -391,7 +391,7 @@
 			}; 
 			
 	      	$("#filter").keyup(function() {
-	          customersGrid.editableGrid.filter( $(this).val());
+	          replacementsGrid.editableGrid.filter( $(this).val());
 	        });
 
 			//adding products into for #product_list
