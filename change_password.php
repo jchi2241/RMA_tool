@@ -2,7 +2,7 @@
 
 	//possible security hole: password getting passed to server in plain text. 
 	//improve session management security
-	//solution? use https connection
+	//solution? use https connection?
 
 	$current_password = $_POST['current_password'];
 	$new_password = $_POST['new_password'];
