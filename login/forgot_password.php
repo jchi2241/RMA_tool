@@ -10,7 +10,7 @@
 
 			include '../configPDO.php';
 
-			$sql = "SELECT email
+			$sql = "SELECT firstname, lastname
 					FROM users
 					WHERE email = :email";
 			$stmt = $db->prepare($sql);
@@ -20,20 +20,30 @@
 
 			if ( $result ) {
 
-				echo "1 result found";
+				echo "A new temporary password has been sent to you";
 
 				//generate new password. email new password to $result["email"];
-				$to = $result['email'];
+				$to = $email;
+				$name = $result["firstname"]." ".$result["lastname"];
 				$subject = "iSmart Alarm [Product Replacement] - Temporary Password";
 				$message = "Line 1\r\nLine 2\r\nLine 3";
 				// In case any of our lines are larger than 70 characters, we should use wordwrap()
 				$message = wordwrap($message, 70, "\r\n");
+
+				$headers   = array();
+				$headers[] = "MIME-Version: 1.0";
+				$headers[] = "Content-type: text/plain; charset=iso-8859-1";
+				$headers[] = "From: iSmart Alarm Internal <ismartalarminternal@gmail.com>";
+				$headers[] = "Reply-To: {$name} <{$to}>";
+				$headers[] = "Subject: {$subject}";
+				$headers[] = "X-Mailer: PHP/".phpversion();
+
+				mail($to, $subject, $message, implode("\r\n", $headers));
 				// Send
-				mail($to, $subject, $message);
 
 			} else {
 
-				echo "No email address found. Try again.";
+				echo "No matching email address found. Try again.";
 
 			}
 
