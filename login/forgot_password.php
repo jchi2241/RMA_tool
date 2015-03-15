@@ -2,6 +2,8 @@
 
 <?php
 
+	ini_set('display_errors', 1); error_reporting(-1);
+
 	if ( isset($_POST['email']) ) {
 
 		$email = $_POST['email'];
