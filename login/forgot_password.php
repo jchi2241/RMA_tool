@@ -25,7 +25,6 @@
 				echo "A new temporary password has been sent to you";
 
 				//generate new password. email new password to $result["email"];
-				$to = $email;
 				$name = $result["firstname"]." ".$result["lastname"];
 				$subject = "iSmart Alarm [Product Replacement Login] - Temporary Password";
 
@@ -37,6 +36,19 @@
 				}
 
 				$temp_password = random_password(8);
+
+				//bcrypt, salted, work => 2^10
+				$hashed_password = password_hash($temp_password, PASSWORD_DEFAULT);
+
+				//set new temporary password
+				$sql = "UPDATE users
+						SET password = :hashed_password
+						WHERE email = :email";
+				$stmt = $db->prepare($sql);
+				$stmt->bindParam(':hashed_password', $hashed_password);
+				$stmt->bindParam(':email', $email);
+				$stmt->execute();
+
 				$message = "Hi {$name},\r\n\r\nYour temporary password is: {$temp_password}\r\n\r\nAfter logging in, your password can be changed at http://104.236.106.186/rma_1/login/change_password.php";
 				
 				// In case any of our lines are larger than 70 characters, we should use wordwrap()
@@ -51,7 +63,7 @@
 				$headers[] = "X-Mailer: PHP/".phpversion();
 
 				// Send
-				mail($to, $subject, $message, implode("\r\n", $headers));
+				mail($email, $subject, $message, implode("\r\n", $headers));
 				
 
 			} else {
