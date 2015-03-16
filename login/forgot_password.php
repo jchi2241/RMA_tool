@@ -37,7 +37,7 @@
 				}
 
 				$temp_password = random_password(8);
-				$message = "Hi {$name},\r\n\r\nYour temporary password is: {$temp_password}.\r\n\r\nAfter logging in, your password can be changed at http://104.236.106.186/rma_1/login/change_password.php";
+				$message = "Hi {$name},\r\n\r\nYour temporary password is: {$temp_password}\r\n\r\nAfter logging in, your password can be changed at http://104.236.106.186/rma_1/login/change_password.php";
 				
 				// In case any of our lines are larger than 70 characters, we should use wordwrap()
 				$message = wordwrap($message, 70, "\r\n");
