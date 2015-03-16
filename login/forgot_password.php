@@ -28,7 +28,6 @@
 				$name = $result["firstname"]." ".$result["lastname"];
 				$subject = "iSmart Alarm [Product Replacement Login] - Temporary Password";
 
-
 				function random_password( $length = 8 ) {
 				    $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!?@#$";
 				    $password = substr( str_shuffle( $chars ), 0, $length );
@@ -58,7 +57,7 @@
 				$headers[] = "MIME-Version: 1.0";
 				$headers[] = "Content-type: text/plain; charset=iso-8859-1";
 				$headers[] = "From: iSmart Alarm Internal <ismartalarminternal@gmail.com>";
-				$headers[] = "Reply-To: {$name} <{$to}>";
+				$headers[] = "Reply-To: {$name} <{$email}>";
 				$headers[] = "Subject: {$subject}";
 				$headers[] = "X-Mailer: PHP/".phpversion();
 
