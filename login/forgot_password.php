@@ -27,8 +27,17 @@
 				//generate new password. email new password to $result["email"];
 				$to = $email;
 				$name = $result["firstname"]." ".$result["lastname"];
-				$subject = "iSmart Alarm [Product Replacement] - Temporary Password";
-				$message = "Line 1\r\nLine 2\r\nLine 3";
+				$subject = "iSmart Alarm [Product Replacement Login] - Temporary Password";
+
+
+				function random_password( $length = 8 ) {
+				    $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";
+				    $password = substr( str_shuffle( $chars ), 0, $length );
+				    return $password;
+				}
+
+				$temp_password = random_password(8);
+				$message = "Hi {$name},\r\n\r\nYour temporary password is: {$temp_password}.\r\n\r\nAfter logging in, your password can be changed at http://104.236.106.186/rma_1/login/change_password.php";
 				
 				// In case any of our lines are larger than 70 characters, we should use wordwrap()
 				$message = wordwrap($message, 70, "\r\n");
