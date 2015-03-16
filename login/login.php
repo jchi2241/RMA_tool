@@ -42,6 +42,7 @@
 
 				if ( password_verify($password, $hash) ) {
 
+					//redirect to the main page
 					echo 'Your in!<br />';
 					echo "<a href='change_password.php'>Change password</a>";
 

@@ -24,7 +24,7 @@
 
 	if ( !isset($_SESSION['email']) ) {
 
-		echo "Logged out!<br />";
+		echo "Successfully logged out!<br />";
 		echo "<a href='login.php'>Log in</a>";
 
 	} else {
