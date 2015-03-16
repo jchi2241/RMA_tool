@@ -22,7 +22,7 @@
 	// Finally, destroy the session.
 	session_destroy();
 
-	if ( !isset($_SESSION['username']) ) {
+	if ( !isset($_SESSION['email']) ) {
 
 		echo "Logged out!<br />";
 		echo "<a href='login.php'>Log in</a>";

@@ -6,20 +6,20 @@
 	//improve session management security
 	//solution? use https connection
  		
-	if ( isset($_POST['username']) && isset($_POST['password']) ) {
+	if ( isset($_POST['email']) && isset($_POST['password']) ) {
 
 		include '../configPDO.php';
 
-		$username = $_POST['username'];
+		$email = $_POST['email'];
 		$password = $_POST['password'];
 
-		if ( $username && $password ) {
+		if ( $email && $password ) {
 
 			$sql = "SELECT password
 					FROM users
-					WHERE username = :username OR email = :username";
+					WHERE email = :email";
 			$stmt = $db->prepare($sql);
-			$stmt->bindParam(':username', $username);
+			$stmt->bindParam(':email', $email);
 			$stmt->execute();
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -31,30 +31,30 @@
 				if ( password_verify($password, $hash) ) {
 
 					echo 'Your in!<br />';
-					echo "<a href='change_password_page.php'>Change password</a>";
+					echo "<a href='change_password.php'>Change password</a>";
 
 					session_start();
-					$_SESSION['username'] = $username;
+					$_SESSION['email'] = $email;
 
 				} else {
 
-					echo 'Username and password do not match<br />';
+					echo 'Email and password do not match<br />';
 
 				}
 
 			} elseif ( count($result) > 1 ) {
 
-				echo "what is going on, more than one username/email match found";
+				echo "what is going on, more than one email match found";
 
 			} else {
 
-				echo "no username/email found";
+				echo "no email found";
 
 			}
 
 		} else {
 
-			echo "Fill in both username and password fields<br />";
+			echo "Fill in both email and password fields<br />";
 
 		}	
 
@@ -70,7 +70,7 @@
 <body>
 	<h1>Log in</h1>
 	<form action="" method="POST">
-		Username or Email: <input type="text" name="username"/><br />
+		Email: <input type="text" name="email"/><br />
 		Password: <input type="password" name="password" /><br />
 		<input type="submit" value="Log in" />
 	</form>

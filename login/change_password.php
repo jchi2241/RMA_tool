@@ -8,10 +8,10 @@
 
 	session_start();
 
-	if ( !isset($_SESSION['username']) ) {
+	if ( !isset($_SESSION['email']) ) {
 
 		echo "no session exists<br />";
-		echo "<a href='login.html'>Log in</a>";
+		echo "<a href='login.php'>Log in</a>";
 		die();
 
 	}
@@ -26,21 +26,19 @@
 		$new_password = $_POST['new_password'];
 		$confirm_new_password = $_POST['confirm_new_password'];
 
-		session_start();
+		if ( isset($_SESSION['email']) ) {
 
-		if ( isset($_SESSION['username']) ) {
-
-			$username = $_SESSION['username'];
+			$email = $_SESSION['email'];
 
 			if ( $current_password && $new_password && $confirm_new_password ) {
 
-				include 'configPDO.php';
+				include '../configPDO.php';
 
 				$sql = "SELECT password
 						FROM users
-						WHERE username = :username";
+						WHERE email = :email";
 				$stmt = $db->prepare($sql);
-				$stmt->bindParam(':username', $username);
+				$stmt->bindParam(':email', $email);
 				$stmt->execute();
 				$result = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -55,33 +53,29 @@
 
 						$sql = "UPDATE users
 								SET password = :hashed_password
-								WHERE username = :username";
+								WHERE email = :email";
 						$stmt = $db->prepare($sql);
 						$stmt->bindParam(':hashed_password', $hashed_password);
-						$stmt->bindParam(':username', $username);
+						$stmt->bindParam(':email', $email);
 						$stmt->execute();
 
-						echo "{$username}'s password change successful<br />";
-						echo "<a href='change_password_page.php'>go back</a>";
+						echo "password change successful<br />";
 
 					} else {
 
 						echo "new passwords do not match<br />";
-						echo "<a href='change_password_page.php'>go back</a>";
 
 					}
 
 				} else {
 
-					echo "incorrect password<br />";
-					echo "<a href='change_password_page.php'>go back</a>";
+					echo "incorrect current password<br />";
 
 				}
 				
 			} else {
 
 				echo "fill in all fields<br />";
-				echo "<a href='change_password_page.php'>go back</a>";
 
 			}
 
@@ -110,7 +104,7 @@
 
 	<?php
 
-		if ( isset($_SESSION['username']) ) {
+		if ( isset($_SESSION['email']) ) {
 
 			echo "<a href='logout.php'>Log out</a>";
 
