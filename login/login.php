@@ -5,6 +5,18 @@
 	//possible security holes: password getting passed to server in plain text. 
 	//improve session management security
 	//solution? use https connection
+
+
+	//if already logged in
+	session_start();
+
+	if ( isset($_SESSION['email']) ) {
+
+		echo "You're already logged in<br />";
+		echo "<a href='logout.php'>Log out</a>";
+		die();
+
+	}
  		
 	if ( isset($_POST['email']) && isset($_POST['password']) ) {
 
