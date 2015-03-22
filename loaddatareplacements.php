@@ -55,20 +55,21 @@ $grid = new EditableGrid();
 *  The second argument is the label that will be displayed in the header
 */
 
-$grid->addColumn('created_at', 'Date Requested', 'date', NULL, false);
-$grid->addColumn('user_id', 'Requested By', 'string', NULL, false);  
+$grid->addColumn('created_at', 'Date', 'date', NULL, false);
+$grid->addColumn('lastname', 'Assignee', 'string', NULL, false);  
 $grid->addColumn('ticket_id', 'Ticket', 'string');   
 $grid->addColumn('full_name', 'Name', 'string', NULL, false);
 $grid->addColumn('devices', 'Devices', 'string', NULL, false);
 $grid->addColumn('reason', 'Reason', 'string');
 // $grid->addColumn('special_req', 'Special Req', 'string');  
-$grid->addColumn('rma_id', 'RMA #', 'string');
+$grid->addColumn('rma_id', 'RMA #', 'string', NULL, false);
 // $grid->addColumn('reference_id', 'Reference #', 'string');  
 $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');                                    
                                                                        
-$result = $mysqli->query(  'SELECT r.id, r.created_at, c.full_name, r.devices, r.reason, r.special_req, r.rma_id, r.reference_id
+$result = $mysqli->query(  'SELECT r.id, u.lastname, r.created_at, c.full_name, r.devices, r.reason, r.special_req, r.rma_id, r.reference_id
 							FROM replacements r
 							LEFT JOIN customers c ON c.id = r.customer_id
+							LEFT JOIN users u ON u.id = r.user_id
 							WHERE r.deleted = 0
 							ORDER BY r.id DESC');
 $mysqli->close();

@@ -1,3 +1,17 @@
+<?php
+
+	session_start();
+
+	//If not logged in, redirect to log-in page
+	if ( !isset($_SESSION['email']) ) {
+
+		header("Location: ./login/login.php");
+		die();
+
+	}
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>

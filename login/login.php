@@ -7,13 +7,12 @@
 	//solution? use https connection
 
 
-	//if already logged in
+	//if already logged in, redirect to index
 	session_start();
 
 	if ( isset($_SESSION['email']) ) {
 
-		echo "You're already logged in<br />";
-		echo "<a href='logout.php'>Log out</a>";
+		header("location: ../index.php");
 		die();
 
 	}
@@ -27,13 +26,16 @@
 
 		if ( $email && $password ) {
 
-			$sql = "SELECT password
+			$sql = "SELECT password, firstname, lastname
 					FROM users
 					WHERE email = :email";
 			$stmt = $db->prepare($sql);
 			$stmt->bindParam(':email', $email);
 			$stmt->execute();
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+			$name = substr($result[0]['firstname'], 0, 1). ". " . $result[0]['lastname'];
+			print_r($name);
 
 			//check if username/email exists
 			if ( count($result) == 1 ) {
@@ -43,11 +45,11 @@
 				if ( password_verify($password, $hash) ) {
 
 					//redirect to the main page
-					echo 'Your in!<br />';
-					echo "<a href='change_password.php'>Change password</a>";
+					header("Location: ../index.php");
 
 					session_start();
 					$_SESSION['email'] = $email;
+					$_SESSION['name'] = $name;
 
 				} else {
 

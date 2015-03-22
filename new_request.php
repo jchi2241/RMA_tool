@@ -2,15 +2,33 @@
 	include 'configPDO.php';
 	include 'helpers.php';
 
-	if (isset($_POST["full_name"]) && isset($_POST["email"]) && isset($_POST["address"]) && 
-		isset($_POST["city"]) && isset($_POST["state"]) && isset($_POST["zip_postal"]) &&
-		isset($_POST["phone_number"]) && isset($_POST["reason"]) && isset($_POST["shipping_carrier"]) &&
-		isset($_POST["tracking_number"]) && isset($_POST["reason"]) && isset($_POST["devices"]) && 
-		isset($_POST["country"]) && isset($_POST["purpose"]) && isset($_POST["business_name"]) &&
-		isset($_POST["special_req"])) {
+	session_start();
 
-		$purpose = $_POST["purpose"];
-		$business_name = $_POST["business_name"];
+	if ( isset($_SESSION["email"]) ) {
+
+		$sql = "SELECT id
+				FROM users
+				WHERE email = :email";
+		$stmt = $db->prepare($sql);
+		$stmt->bindParam(':email', $_SESSION['email']);
+		$stmt->execute();
+		$result = $stmt->fetch(PDO::FETCH_ASSOC);
+		$user_id = $result['id'];
+
+	} else {
+
+		echo "no session exists";
+		die();
+
+	}
+
+	if ( isset($_POST["full_name"]) && isset($_POST["email"]) && isset($_POST["address"]) && 
+		isset($_POST["city"]) && isset($_POST["state"]) && isset($_POST["zip_postal"]) &&
+		isset($_POST["phone_number"]) && isset($_POST["reason"]) && isset($_POST["devices"]) && 
+		isset($_POST["country"]) ) {
+
+		// $purpose = $_POST["purpose"];
+		// $business_name = $_POST["business_name"];
 		$full_name = $_POST["full_name"];
 		$email = $_POST["email"];
 		$address = $_POST["address"];
@@ -20,10 +38,10 @@
 		$country = $_POST["country"];
 		$phone_number = $_POST["phone_number"];
 		$reason = $_POST["reason"];
-		$special_req = $_POST["special_req"];
-		$refund_amount = $_POST["refund_amount"];
-		$tracking_number = $_POST["tracking_number"];
-		$shipping_carrier = $_POST["shipping_carrier"];
+		// $special_req = $_POST["special_req"];
+		// $refund_amount = $_POST["refund_amount"];
+		// $tracking_number = $_POST["tracking_number"];
+		// $shipping_carrier = $_POST["shipping_carrier"];
 
 		$devices_data = json_decode($_POST["devices"], true);
 
@@ -58,14 +76,13 @@
 
 		}
 
-		echo "country: ";
-		print_r($country);
+		// echo "country: ";
+		// print_r($country);
 
 		//insert into customers table
-		$customer_result = $db->prepare("	INSERT INTO customers (business_name, full_name, email, address, city, state, zip_postal, country, phone_number, created_at, updated_at) 
-											VALUES (:business_name, :full_name, :email, :address, :city, :state, :zip_postal, :country, :phone_number, NULL, NULL)");
+		$customer_result = $db->prepare("	INSERT INTO customers (full_name, email, address, city, state, zip_postal, country, phone_number, created_at, updated_at) 
+											VALUES (:full_name, :email, :address, :city, :state, :zip_postal, :country, :phone_number, NULL, NULL)");
 
-		$customer_result->bindParam(':business_name', $business_name);
 		$customer_result->bindParam(':full_name', $full_name);
 		$customer_result->bindParam(':email', $email);
 		$customer_result->bindParam(':address', $address);
@@ -80,47 +97,47 @@
 
 		if ($table == "samples" || $table == "replacements") {
 
-			$request_result = $db->prepare("	INSERT INTO {$table} (customer_id, reason, special_req, rma_id, reference_id, created_at, updated_at) 
-												VALUES (:customer_id, :reason, :special_req, :rma_id, :reference_id, NULL, NULL)");
+			$request_result = $db->prepare("	INSERT INTO {$table} (user_id, customer_id, reason, rma_id, reference_id, created_at, updated_at) 
+												VALUES (:user_id, :customer_id, :reason, :rma_id, :reference_id, NULL, NULL)");
+			$request_result->bindParam(':user_id', $user_id);
 			$request_result->bindParam(':customer_id', $customer_id);
 			$request_result->bindParam(':reason', $reason);
-			$request_result->bindParam(':special_req', $special_req);
 			$request_result->bindParam(':rma_id', $rma_id);
 			$request_result->bindParam(':reference_id', $reference_id);
 			$request_result->execute();
 
 			$request_id = $db->lastInsertId();
 
-			if ($table == "samples") {
+			// if ($table == "samples") {
 
-				//get associated id for purpose
-				$sql = "SELECT id, purpose 
-						FROM sample_request_purposes";
+			// 	//get associated id for purpose
+			// 	$sql = "SELECT id, purpose 
+			// 			FROM sample_request_purposes";
 
-				$stmt = $db->prepare($sql);
-				$stmt->execute();
+			// 	$stmt = $db->prepare($sql);
+			// 	$stmt->execute();
 
-				$array = $stmt->fetchAll();
+			// 	$array = $stmt->fetchAll();
 
-				foreach ($array as $value) {
+			// 	foreach ($array as $value) {
 
-					if ( $value['purpose'] == $purpose ) {
-						$purpose_id = $value['id'];
-						break;	
-					}
+			// 		if ( $value['purpose'] == $purpose ) {
+			// 			$purpose_id = $value['id'];
+			// 			break;	
+			// 		}
 						
-				}
+			// 	}
 
-				$sql = "UPDATE samples
-						SET purpose_id = :purpose_id
-						WHERE id = :request_id";
+			// 	$sql = "UPDATE samples
+			// 			SET purpose_id = :purpose_id
+			// 			WHERE id = :request_id";
 
-				$stmt = $db->prepare($sql);
-				$stmt->bindParam(':purpose_id', $purpose_id);
-				$stmt->bindParam(':request_id', $request_id);
-				$stmt->execute();
+			// 	$stmt = $db->prepare($sql);
+			// 	$stmt->bindParam(':purpose_id', $purpose_id);
+			// 	$stmt->bindParam(':request_id', $request_id);
+			// 	$stmt->execute();
 
-			}
+			// }
 
 		} elseif ($table == "returns") {
 

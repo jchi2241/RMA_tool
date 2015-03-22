@@ -66,8 +66,8 @@ $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');
                                                                        
 $result = $mysqli->query(  'SELECT e.id, s.rma_id, s.devices, e.created_at, c.full_name, e.shipping_carrier, e.tracking_number, e.date_received
 							FROM customers c 
-							RIGHT JOIN early_ships e ON c.id = e.customer_id
-							JOIN samples s ON e.sample_id = s.id
+							LEFT JOIN early_ships e ON c.id = e.customer_id
+							LEFT JOIN samples s ON e.sample_id = s.id
 							WHERE e.deleted = 0
 							ORDER BY e.id DESC');
 $mysqli->close();
