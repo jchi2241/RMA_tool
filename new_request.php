@@ -81,8 +81,8 @@
 		// print_r($country);
 
 		//insert into customers table
-		$customer_result = $db->prepare("	INSERT INTO customers (full_name, email, address, city, state, zip_postal, country, phone_number, created_at, updated_at) 
-											VALUES (:full_name, :email, :address, :city, :state, :zip_postal, :country, :phone_number, NULL, NULL)");
+		$customer_result = $db->prepare("	INSERT INTO customers (full_name, email, address, city, state, zip_postal, country, phone_number) 
+											VALUES (:full_name, :email, :address, :city, :state, :zip_postal, :country, :phone_number)");
 
 		$customer_result->bindParam(':full_name', $full_name);
 		$customer_result->bindParam(':email', $email);
@@ -98,8 +98,8 @@
 
 		if ($table == "samples" || $table == "replacements") {
 
-			$request_result = $db->prepare("	INSERT INTO {$table} (ticket_id, user_id, customer_id, reason, rma_id, reference_id, created_at, updated_at) 
-												VALUES (:ticket_id, :user_id, :customer_id, :reason, :rma_id, :reference_id, NULL, NULL)");
+			$request_result = $db->prepare("	INSERT INTO {$table} (ticket_id, user_id, customer_id, reason, rma_id, reference_id) 
+												VALUES (:ticket_id, :user_id, :customer_id, :reason, :rma_id, :reference_id)");
 			$request_result->bindParam(':ticket_id', $ticket_id);
 			$request_result->bindParam(':user_id', $user_id);
 			$request_result->bindParam(':customer_id', $customer_id);
@@ -112,8 +112,8 @@
 
 		} elseif ($table == "returns") {
 
-			$stmt = $db->prepare("	INSERT INTO returns (customer_id, reason, special_req, refund_amount, rma_id, reference_id, created_at, updated_at) 
-									VALUES (:customer_id, :reason, :special_req, :refund_amount, :rma_id, :reference_id, NULL, NULL)");
+			$stmt = $db->prepare("	INSERT INTO returns (customer_id, reason, special_req, refund_amount, rma_id, reference_id) 
+									VALUES (:customer_id, :reason, :special_req, :refund_amount, :rma_id, :reference_id)");
 			$stmt->bindParam(':customer_id', $customer_id);
 			$stmt->bindParam(':reason', $reason);
 			$stmt->bindParam(':special_req', $special_req);
