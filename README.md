@@ -1,6 +1,7 @@
 # Things to Do
 
 ####Priority
+- check if customer email exists, pre-fill fields if it's is already in DB.
 - convert everything from mysqli to PDO
 - ~~add RMA # function~~
 - ~~add reference # function~~
