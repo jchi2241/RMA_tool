@@ -22,10 +22,10 @@
 
 	}
 
-	if ( isset($_POST["full_name"]) && isset($_POST["email"]) && isset($_POST["address"]) && 
-		isset($_POST["city"]) && isset($_POST["state"]) && isset($_POST["zip_postal"]) &&
-		isset($_POST["phone_number"]) && isset($_POST["reason"]) && isset($_POST["devices"]) && 
-		isset($_POST["country"]) ) {
+	// if ( isset($_POST["full_name"]) && isset($_POST["email"]) && isset($_POST["address"]) && 
+	// 	isset($_POST["city"]) && isset($_POST["state"]) && isset($_POST["zip_postal"]) &&
+	// 	isset($_POST["phone_number"]) && isset($_POST["reason"]) && isset($_POST["devices"]) && 
+	// 	isset($_POST["country"]) && isset($_POST["ticket_id"])) {
 
 		// $purpose = $_POST["purpose"];
 		// $business_name = $_POST["business_name"];
@@ -38,6 +38,7 @@
 		$country = $_POST["country"];
 		$phone_number = $_POST["phone_number"];
 		$reason = $_POST["reason"];
+		$ticket_id = $_POST["ticket_id"];
 		// $special_req = $_POST["special_req"];
 		// $refund_amount = $_POST["refund_amount"];
 		// $tracking_number = $_POST["tracking_number"];
@@ -45,7 +46,7 @@
 
 		$devices_data = json_decode($_POST["devices"], true);
 
-	}
+	// }
 
 	if (!empty($_POST["formType"])) {
 
@@ -97,8 +98,9 @@
 
 		if ($table == "samples" || $table == "replacements") {
 
-			$request_result = $db->prepare("	INSERT INTO {$table} (user_id, customer_id, reason, rma_id, reference_id, created_at, updated_at) 
-												VALUES (:user_id, :customer_id, :reason, :rma_id, :reference_id, NULL, NULL)");
+			$request_result = $db->prepare("	INSERT INTO {$table} (ticket_id, user_id, customer_id, reason, rma_id, reference_id, created_at, updated_at) 
+												VALUES (:ticket_id, :user_id, :customer_id, :reason, :rma_id, :reference_id, NULL, NULL)");
+			$request_result->bindParam(':ticket_id', $ticket_id);
 			$request_result->bindParam(':user_id', $user_id);
 			$request_result->bindParam(':customer_id', $customer_id);
 			$request_result->bindParam(':reason', $reason);

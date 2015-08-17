@@ -5,7 +5,7 @@
 	//If not logged in, redirect to log-in page
 	if ( !isset($_SESSION['email']) ) {
 
-		header("Location: ./login/login.php");
+		header("Location: ./login/");
 		die();
 
 	}
@@ -172,9 +172,9 @@
 					</div>
 
 					<div class="form-group">
-					  <label class="col-md-3 control-label" for="ticket_id">Purchased at</label>
+					  <label class="col-md-3 control-label" for="purchased_at">Purchased at</label>
 					  <div class="col-md-4">                     
-					    <input type="text" class="form-control" name="ticket_id" placeholder="" required/>
+					    <input type="text" class="form-control" name="purchased_at" placeholder="" required/>
 					  </div>
 					</div>
 
@@ -541,6 +541,7 @@
 						country: $('#country').text().trim(),
 						phone_number: $('input[name=phone_number]').val().trim(),
 						reason: $('textarea[name=reason]').val().trim(),
+						ticket_id: $('input[name=ticket_id]').val().trim(),
 						// special_req: $('textarea[name=special_req]').val().trim(),
 						// refund_amount: $('input[name=refund_amount]').val().trim(),
 						// tracking_number: $('input[name=tracking_number]').val().trim(),

@@ -37,13 +37,16 @@
 
 				} else {
 
-					$sql = "INSERT INTO users (password, email, firstname, lastname)
-							VALUES (:hashed_password, :email, :firstname, :lastname)";
+					$abbreviation = substr($firstname, 0, 1). ". " . $lastname;
+
+					$sql = "INSERT INTO users (password, email, firstname, lastname, abbreviation)
+							VALUES (:hashed_password, :email, :firstname, :lastname, :abbreviation)";
 					$stmt = $db->prepare($sql);
 					$stmt->bindParam(':hashed_password', $hashed_password);
 					$stmt->bindParam(':email', $email);
 					$stmt->bindParam(':firstname', $firstname);
 					$stmt->bindParam(':lastname', $lastname);
+					$stmt->bindParam(':abbreviation', $abbreviation);
 					$stmt->execute();
 
 					echo "{$email} has successfully been created<br />";

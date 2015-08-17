@@ -56,7 +56,7 @@ $grid = new EditableGrid();
 */
 
 $grid->addColumn('created_at', 'Date', 'date', NULL, false);
-$grid->addColumn('lastname', 'Assignee', 'string', NULL, false);  
+$grid->addColumn('abbreviation', 'Assignee', 'string', NULL, false);  
 $grid->addColumn('ticket_id', 'Ticket', 'string');   
 $grid->addColumn('full_name', 'Name', 'string', NULL, false);
 $grid->addColumn('devices', 'Devices', 'string', NULL, false);
@@ -66,7 +66,7 @@ $grid->addColumn('rma_id', 'RMA #', 'string', NULL, false);
 // $grid->addColumn('reference_id', 'Reference #', 'string');  
 $grid->addColumn('action', 'Action', 'html', NULL, false, 'id');                                    
                                                                        
-$result = $mysqli->query(  'SELECT r.id, u.lastname, r.created_at, c.full_name, r.devices, r.reason, r.special_req, r.rma_id, r.reference_id
+$result = $mysqli->query(  'SELECT r.ticket_id, r.id, u.abbreviation, r.created_at, c.full_name, r.devices, r.reason, r.special_req, r.rma_id, r.reference_id
 							FROM replacements r
 							LEFT JOIN customers c ON c.id = r.customer_id
 							LEFT JOIN users u ON u.id = r.user_id

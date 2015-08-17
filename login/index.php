@@ -35,7 +35,6 @@
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 			$name = substr($result[0]['firstname'], 0, 1). ". " . $result[0]['lastname'];
-			print_r($name);
 
 			//check if username/email exists
 			if ( count($result) == 1 ) {
@@ -53,7 +52,7 @@
 
 				} else {
 
-					echo 'Email and password do not match<br />';
+					echo 'Email and Password do not match<br />';
 
 				}
 
