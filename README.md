@@ -1,6 +1,7 @@
 # Things to Do
 
 ####Priority
+- convert everything from mysqli to PDO
 - ~~add RMA # function~~
 - ~~add reference # function~~
 - ~~allow RMA and references #'s to be posted~~

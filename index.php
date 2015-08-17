@@ -554,9 +554,11 @@
 						//alert('successfully added, maybe popup a new window to print page');
 						location.reload();
 					},
-					error: function() {
-						alert('post FAILED');
-					}
+					error: function(xhr, textStatus, error){
+				        console.log(xhr.statusText);
+				        console.log(textStatus);
+				        console.log(error);
+				    }
 				});
 
 				e.preventDefault();

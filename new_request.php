@@ -110,37 +110,6 @@
 
 			$request_id = $db->lastInsertId();
 
-			// if ($table == "samples") {
-
-			// 	//get associated id for purpose
-			// 	$sql = "SELECT id, purpose 
-			// 			FROM sample_request_purposes";
-
-			// 	$stmt = $db->prepare($sql);
-			// 	$stmt->execute();
-
-			// 	$array = $stmt->fetchAll();
-
-			// 	foreach ($array as $value) {
-
-			// 		if ( $value['purpose'] == $purpose ) {
-			// 			$purpose_id = $value['id'];
-			// 			break;	
-			// 		}
-						
-			// 	}
-
-			// 	$sql = "UPDATE samples
-			// 			SET purpose_id = :purpose_id
-			// 			WHERE id = :request_id";
-
-			// 	$stmt = $db->prepare($sql);
-			// 	$stmt->bindParam(':purpose_id', $purpose_id);
-			// 	$stmt->bindParam(':request_id', $request_id);
-			// 	$stmt->execute();
-
-			// }
-
 		} elseif ($table == "returns") {
 
 			$stmt = $db->prepare("	INSERT INTO returns (customer_id, reason, special_req, refund_amount, rma_id, reference_id, created_at, updated_at) 
@@ -215,33 +184,6 @@
 		$stmt->bindParam(':request_id', $request_id);
 		$stmt->execute();
 
-		//temporary hack to display devices in table
-		// $retreived_devices_result = $db->prepare("	SELECT d.name
-		// 											FROM requested_devices r
-		// 											JOIN devices d ON r.device_id = d.id
-		// 											WHERE {$request_id_col} = :request_id");
-		// $retreived_devices_result->bindParam(':request_id', $request_id);
-		// $retreived_devices_result->execute();
-
-		// $retreived_devices = $retreived_devices_result->fetchAll(PDO::FETCH_ASSOC);
-
-		// print_r($retreived_devices);
-
-		// $device_arr = array();
-		// foreach ($retreived_devices as $device) {
-		// 	$device_arr[] = $device['qty'] . ' ' . $device['name'];
-		// }
-
-		// $devices = implode(", ", $device_arr);
-		// print_r($devices);
-		
-		// $sample_devices_result = $db->prepare("	UPDATE {$table} 
-		// 										SET devices = :devices
-		// 										WHERE id = :request_id");
-		// $sample_devices_result->bindParam(':devices', $devices);
-		// $sample_devices_result->bindParam(':request_id', $request_id);
-		// $sample_devices_result->execute();
-
 		if(isset($_POST["earlyShip"]) && $_POST["earlyShip"] == 'checked') {
 			
 			$stmt = $db->prepare("	INSERT INTO early_ships (customer_id, sample_id, shipping_carrier, tracking_number, created_at, updated_at) 
@@ -284,33 +226,4 @@
 			// 		$count++;
 			// 	}
 			// }
-
-	//retrieve devices from requested_devices 
-	// $retreived_devices_result = $db->prepare("	SELECT r.qty, d.name
-	// 											FROM requested_devices r
-	// 											JOIN devices d ON r.device_id = d.id
-	// 											WHERE sample_id = :sample_id");
-	// $retreived_devices_result->bindParam(':sample_id', $sample_id);
-	// $retreived_devices_result->execute();
-
-	// //display retrieved devices
-	// $retreived_devices = $retreived_devices_result->fetchAll(PDO::FETCH_ASSOC);
-
-	// $device_arr = array();
-	// foreach ($retreived_devices as $device) {
-	// 	$device_arr[] = $device['qty'] . ' ' . $device['name'];
-	// }
-
-	// $devices = implode(", ", $device_arr);
-
-	// print_r($devices);
-	
-	// $sample_devices_result = $db->prepare("	UPDATE samples 
-	// 										SET devices = :devices
-	// 										WHERE id = :sample_id");
-	// $sample_devices_result->bindParam(':devices', $devices);
-	// $sample_devices_result->bindParam(':sample_id', $sample_id);
-	// $sample_devices_result->execute();
-
-	
 ?>
