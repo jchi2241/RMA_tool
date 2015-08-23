@@ -48,7 +48,7 @@
 				$stmt->bindParam(':email', $email);
 				$stmt->execute();
 
-				$message = "Hi {$name},\r\n\r\nYour temporary password is: {$temp_password}\r\n\r\nYou can change your password at http://104.236.106.186/rma_1/login/change_password.php";
+				$message = "Hi {$name},\r\n\r\nYour new password is: {$temp_password}\r\n\r\nYou can change your password at http://104.236.106.186/rma_1/login/change_password.php";
 				
 				// In case any of our lines are larger than 70 characters, we should use wordwrap()
 				$message = wordwrap($message, 70, "\r\n");
