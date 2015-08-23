@@ -1,0 +1,45 @@
+.close {
+    color: red;
+    float: left;
+    margin-right: 15px;
+}
+
+#tracking_number_group {
+    display: none;
+}
+
+#refund_amount_group {
+    display: none;
+}
+
+#product_list_header {
+    display: none;
+}
+
+#editDevicesModal .modal-dialog {
+    width: 375px;
+}
+
+#editDevicesModal .modal-body {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 342px;
+}
+
+#printForm {
+    display: none;
+}
+
+.fa-print {
+    margin-left: 10px;
+}
+
+#product_list_form_group {
+    margin: 0;
+}
+
+#submitForm {
+    width: 100%;
+    height: 50px;
+}

@@ -48,7 +48,7 @@
 				$stmt->bindParam(':email', $email);
 				$stmt->execute();
 
-				$message = "Hi {$name},\r\n\r\nYour temporary password is: {$temp_password}\r\n\r\nAfter logging in, your password can be changed at http://104.236.106.186/rma_1/login/change_password.php";
+				$message = "Hi {$name},\r\n\r\nYour temporary password is: {$temp_password}\r\n\r\nYou can change your password at http://104.236.106.186/rma_1/login/change_password.php";
 				
 				// In case any of our lines are larger than 70 characters, we should use wordwrap()
 				$message = wordwrap($message, 70, "\r\n");
@@ -83,7 +83,7 @@
 </head>
 <body>
 	<h1>Forgot Password</h1>
-	<p>A new temporary password will be emailed to you</p>
+	<p>A new password will be sent to your email account</p>
 	<form action="" method="POST">
 		Email: <input type="email" name="email"/>
 		<input type="submit" value="submit" />

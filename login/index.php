@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-
 <?php	
 
 	//possible security holes: password getting passed to server in plain text. 
 	//improve session management security
 	//solution? use https connection
-
 
 	//if already logged in, redirect to index
 	session_start();
@@ -76,6 +73,7 @@
 
 ?>
 
+<!DOCTYPE html>
 <head>
 	<meta charset="utf-8">
 	<title>RMA - Login</title>
@@ -88,5 +86,5 @@
 		Password: <input type="password" name="password" /><br />
 		<input type="submit" value="Log in" />
 	</form>
-
+	<a href="forgot_password.php">Forgot password?</a>
 </body>

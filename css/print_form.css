@@ -1,0 +1,121 @@
+* {
+    font-size: 12px;
+}
+
+@page {
+    margin: 0.4in;
+}
+
+@media print {
+    .panel-heading {
+        -webkit-print-color-adjust: exact;
+    }
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+td {
+    margin-right: 50px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+#request {
+    text-align: left;
+    margin-top: 16px;
+}
+
+#request_numbers {
+    float: right;
+    text-align: right;
+}
+
+#request_title {
+    text-align: right;
+    margin-bottom: 28px;
+}
+
+.request_id {
+    text-align: left;
+    padding-left: 20px;
+    font-weight: bold
+}
+
+#company_panel {
+    margin-top: 20px;
+}
+
+#customer_panel {
+    margin-top: 10px;
+}
+
+#header {
+    height: 120px;
+}
+
+#products_section {
+    height: 450px;
+}
+
+#tracking_carrier {
+    width: 280px;
+}
+
+#tracking_number {
+    width: 250px;
+}
+
+#checkbox {
+    margin: 0;
+}
+
+#signatures_section_1 {
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
+
+.signature_label {
+    padding-right: 10px;
+}
+
+#company_logo {
+    width: 150px;
+    margin-top: 11px;
+    margin-bottom: 7px;
+}
+
+.panel-title {
+    font-size: 14px;
+}
+
+.underscore {
+    color: #DDDDDD;
+}
+
+#reason_panel {
+    /*			height: 173px;*/
+}
+
+#special_req_body {
+    font-size: 14px;
+    color: red;
+    font-weight: bold;
+}
+
+#purpose_row {
+    display: none;
+}
+/*		* {
+  border-radius: 0 !important;
+}*/
