@@ -1,6 +1,8 @@
 # Things to Do
 
 ####Priority
+- make customer email as the first thing to fill out on page
+- check if customer email exists, pre-fill fields if it's is already in DB.
 - convert everything from mysqli to PDO
 - ~~add RMA # function~~
 - ~~add reference # function~~
