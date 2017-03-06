@@ -30,8 +30,13 @@ This tool is to help decrease the pain point of processing a replacement merchan
 - validating form information before it reaches the warehouse - preventing significant delay
 - simplifying RMA-filing process
 
-Libraries used: [EditableGrid](http://www.editablegrid.net/en/), Bootstrap
-Languages: Javascript, HTML, CSS, MySQL, PHP
+<br>
+
+__Libraries__: [EditableGrid](http://www.editablegrid.net/en/), Bootstrap
+
+__Languages__: Javascript, HTML, CSS, MySQL, PHP
+
+<br><br>
 
 ### Things to Do
 
