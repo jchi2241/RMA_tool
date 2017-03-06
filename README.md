@@ -5,10 +5,10 @@ This tool is to help decrease the pain point of processing a replacement merchan
 #####The existing 6-step process:
 
 1. Ask for required replacement information (full name, shipping address, phone number, where product was purchased, product to replace, quantity, zendesk ticket #, reason for replacement)
-2. In the internal RMA shared Google Sheets, enter the information as 1 row, and create a new RMA ID #, which is follows the format: USARP{date}-{number}. For example, USARP03032017-237.
+2. In the internal RMA shared Excel, enter the information as 1 row, and create a new RMA ID #
 3. Send customer an RMA sheet to include in return package. This sheet contains the unique RMA ID #
-4. Create and print an internal Sample or Replacement sheet, containing replacement info, hand-signed by CEO/COO and customer service manager.
-5. File this sheet as a "sample" or "replacement" in either the "Sample" or "Replacement" sheet. Assign unique Sample or Replacement ID.
+4. Create and print an internal Sample or Replacement sheet, containing replacement info, hand-signed by CEO/COO
+5. File this sheet as a "sample" or "replacement" in either shared Excel file. Assign unique Sample/Replacement ID
 6. Send this signed sheet to warehouse to ship replacement product.
 
 #####The problems with this process:
@@ -16,7 +16,7 @@ This tool is to help decrease the pain point of processing a replacement merchan
 - Tedious, complex process for customer service representative. Prone to errors.
 - No form validation, resulting in inaccurate/nonexistent shipping addresses
 - Manual implementation of RMA ID #'s or Sample/Replacement ID #'s results in duplicate/wrong ID formats
-- Same replacement information needs to be re-entered at multiple points across multiple excel files - prone to mismatched information for the same RMA.
+- Same information needs to be re-entered multiple times across multiple files - prone to mismatched information for the same RMA.
 - Tedious, error-prone process results in decrease in both employee happiness and customer satisfaction. 
 
 #####This tool helps by reducing process down to just ***3 steps***:
@@ -25,10 +25,10 @@ This tool is to help decrease the pain point of processing a replacement merchan
 2. Generate external RMA sheet, and internal Sample/Replacement sheet with 1-click. CEO/COO digitally verifies and checks off RMA request.
 3. Print and send sheet for warehouse to ship replacement product.
 
-#####This tool solves all of the original problems above by 
+#####This tool solves all of the original problems above by:
 - submitting replacement information into a centralized relational database (MySQL)
 - validating form information before it reaches the warehouse - preventing significant delay
-- introducing simplcity to filing an RMA
+- simplifying RMA-filing process
 
 ### Things to Do
 
