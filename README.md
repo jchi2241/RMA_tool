@@ -25,9 +25,10 @@ This tool helps reduce the pain of processing a replacement merchandise authoriz
 2. Generate external RMA sheet, and internal Sample/Replacement sheet with 1-click. CEO/COO digitally verifies and checks off RMA request.
 3. Print and send sheet for warehouse to ship replacement product.
 
-#####This tool solves all of the original problems above by:
-- submitting replacement information into a centralized relational database (MySQL)
+#####This tool solves the mentioned problems by:
+- submitting replacement information one time into a centralized relational database (MySQL)
 - validating form information before it reaches the warehouse - preventing significant delay
+- auto-generating unique ID's and replacement sheets to print out
 - simplifying RMA-filing process
 
 <br>
