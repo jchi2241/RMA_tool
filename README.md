@@ -1,6 +1,6 @@
 # Replacement Merchandise Authorization Tool
 
-This tool helps reduce the pain of processing a replacement merchandise authorization for a customer service representative at iSmartAlarm. This tool's goal is to increase employee happiness and maintain customer satisfaction.
+This tool helps reduce the pain of processing a replacement merchandise authorization for a customer service representative at iSmartAlarm
 
 ##### The existing 6-step process:
 
